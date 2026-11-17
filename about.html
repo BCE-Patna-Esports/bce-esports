@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About BCE Esports — the story, mission, values, and team behind the official esports organisation of Bakhtiyarpur College of Engineering, Bihar.">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>About Us — BCE Esports</title>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23e10600'/%3E%3Ctext x='50%25' y='54%25' font-family='Arial Black,sans-serif' font-size='40' font-weight='900' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================================================
+           1. DESIGN TOKENS (same as homepage)
+           ================================================== */
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --bg-card: #171717;
+            --bg-card-hover: #1f1f1f;
+            --red: #e10600;
+            --red-bright: #ff2020;
+            --red-glow: rgba(225, 6, 0, 0.35);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #6b6b6b;
+            --border: #232323;
+            --border-bright: #333333;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==================================================
+           2. RESET & BASE
+           ================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: inherit; text-decoration: none; transition: color var(--transition); }
+        img { max-width: 100%; display: block; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ==================================================
+           3. LAYOUT UTILITIES
+           ================================================== */
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 80px 0; position: relative; }
+        .section-header { text-align: center; margin-bottom: 56px; }
+        .section-label {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--red);
+            background: rgba(225, 6, 0, 0.1);
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(225, 6, 0, 0.25);
+            margin-bottom: 18px;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1.1;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+        }
+        .section-title .accent { color: var(--red); }
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        /* ==================================================
+           4. BUTTONS
+           ================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 0 24px var(--red-glow);
+        }
+        .btn-primary:hover {
+            background: var(--red-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px var(--red-glow), 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-bright);
+        }
+        .btn-outline:hover {
+            border-color: var(--red);
+            color: var(--red);
+            transform: translateY(-2px);
+        }
+        .btn-sm { padding: 10px 18px; font-size: 11px; letter-spacing: 1px; }
+
+        /* ==================================================
+           5. PREVIEW NOTICE
+           ================================================== */
+        .preview-notice {
+            background: linear-gradient(90deg, #4a0a0a, #2a0808);
+            border-bottom: 1px solid rgba(225, 6, 0, 0.3);
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffb3b3;
+            position: relative;
+            z-index: 100;
+        }
+        .preview-notice strong { color: #fff; font-weight: 700; }
+
+        /* ==================================================
+           6. NAVIGATION
+           ================================================== */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform var(--transition);
+        }
+        .logo:hover { transform: scale(1.02); }
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            background: var(--red);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            color: #fff;
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .logo-text { display: flex; flex-direction: column; line-height: 1; }
+        .logo-main {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+        .logo-sub {
+            font-family: var(--font-display);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--red);
+            margin-top: 2px;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red);
+            transition: width var(--transition);
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #fff; }
+        .nav-link.active::after { width: 100%; }
+        .nav-cta { margin-left: 8px; }
+        .nav-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid var(--border-bright);
+            color: #fff;
+        }
+        .nav-toggle:hover { border-color: var(--red); color: var(--red); }
+        .nav-toggle svg { width: 22px; height: 22px; }
+
+        /* ==================================================
+           7. PAGE HERO (smaller than homepage)
+           ================================================== */
+        .page-hero {
+            position: relative;
+            padding: 100px 24px 80px;
+            text-align: center;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(225, 6, 0, 0.18) 0%, transparent 60%),
+                var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            pointer-events: none;
+        }
+        .page-hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+        .page-hero-label {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 20px;
+        }
+        .page-hero-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(36px, 7vw, 68px);
+            line-height: 1;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .page-hero-title .accent {
+            color: var(--red);
+            text-shadow: 0 0 40px var(--red-glow);
+        }
+        .page-hero-desc {
+            color: var(--text-secondary);
+            font-size: 17px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ==================================================
+           8. STORY SECTION
+           ================================================== */
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .story-content h2 {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(26px, 4vw, 38px);
+            line-height: 1.15;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+        .story-content h2 .accent { color: var(--red); }
+        .story-content p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.75;
+            margin-bottom: 18px;
+        }
+        .story-visual {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at top right, rgba(225, 6, 0, 0.35), transparent 60%),
+                linear-gradient(135deg, #1a1a1a, #0a0a0a);
+            padding: 48px 36px;
+            border: 1px solid var(--border-bright);
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .story-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0 1px, transparent 1px 20px);
+            pointer-events: none;
+        }
+        .story-badge {
+            display: inline-block;
+            align-self: flex-start;
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--red);
+            background: rgba(225, 6, 0, 0.12);
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(225, 6, 0, 0.3);
+        }
+        .story-big {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(48px, 8vw, 96px);
+            line-height: 0.9;
+            letter-spacing: -2px;
+        }
+        .story-big .accent {
+            display: block;
+            color: var(--red);
+            font-size: 0.55em;
+            letter-spacing: 6px;
+            margin-top: 8px;
+        }
+        .story-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            border-top: 1px solid var(--border-bright);
+            padding-top: 24px;
+            margin-top: 24px;
+        }
+        .story-stat-value {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            color: var(--red);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .story-stat-label {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* ==================================================
+           9. MISSION & VISION
+           ================================================== */
+        .mv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+        .mv-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 40px 36px;
+            position: relative;
+            overflow: hidden;
+            transition: all var(--transition);
+        }
+        .mv-card:hover {
+            border-color: var(--red);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .mv-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--red);
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .mv-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            background: rgba(225, 6, 0, 0.12);
+            border: 1px solid rgba(225, 6, 0, 0.3);
+            font-size: 28px;
+            margin-bottom: 24px;
+        }
+        .mv-card h3 {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .mv-card p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.75;
+        }
+
+        /* ==================================================
+           10. WHAT WE DO
+           ================================================== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            transition: all var(--transition);
+            text-align: center;
+        }
+        .feature-card:hover {
+            border-color: var(--border-bright);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+        }
+        .feature-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(225, 6, 0, 0.25), rgba(225, 6, 0, 0.05));
+            border: 1px solid rgba(225, 6, 0, 0.3);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .feature-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .feature-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ==================================================
+           11. VALUES
+           ================================================== */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .value-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .value-card:hover {
+            border-color: var(--red);
+            transform: translateY(-4px);
+        }
+        .value-number {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 44px;
+            color: var(--border-bright);
+            line-height: 1;
+            margin-bottom: 16px;
+            transition: color var(--transition);
+        }
+        .value-card:hover .value-number { color: var(--red); }
+        .value-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .value-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        /* ==================================================
+           12. TEAM MEMBERS
+           ================================================== */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .member-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            text-align: center;
+            transition: all var(--transition);
+        }
+        .member-card:hover {
+            border-color: var(--border-bright);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+        }
+        .member-avatar {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 34px;
+            color: #fff;
+            background: var(--member-gradient, linear-gradient(135deg, #e10600, #7a0400));
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            border: 2px solid var(--border-bright);
+            transition: transform var(--transition);
+        }
+        .member-card:hover .member-avatar {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px var(--red-glow);
+        }
+        .member-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .member-role {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--red);
+            background: rgba(225, 6, 0, 0.1);
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(225, 6, 0, 0.25);
+            margin-bottom: 14px;
+        }
+        .member-bio {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ==================================================
+           13. TIMELINE
+           ================================================== */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-left: 40px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 12px;
+            bottom: 12px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--red), var(--border-bright));
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 40px;
+        }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-dot {
+            position: absolute;
+            left: -33px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--red);
+            border: 3px solid var(--bg-primary);
+            box-shadow: 0 0 0 3px var(--red), 0 0 20px var(--red-glow);
+        }
+        .timeline-year {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: var(--red);
+            margin-bottom: 8px;
+        }
+        .timeline-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .timeline-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 640px;
+        }
+
+        /* ==================================================
+           14. CTA
+           ================================================== */
+        .cta-section {
+            text-align: center;
+            background:
+                radial-gradient(ellipse at 50% 50%, rgba(225, 6, 0, 0.15), transparent 60%),
+                var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .cta-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(28px, 5vw, 46px);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        .cta-title .accent { color: var(--red); }
+        .cta-desc {
+            color: var(--text-secondary);
+            font-size: 17px;
+            max-width: 560px;
+            margin: 0 auto 36px;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ==================================================
+           15. FOOTER
+           ================================================== */
+        .footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            padding: 64px 0 32px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        .footer-brand .logo { margin-bottom: 20px; }
+        .footer-tagline {
+            color: var(--text-secondary);
+            font-size: 14px;
+            max-width: 320px;
+            margin-bottom: 24px;
+        }
+        .footer-heading {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .footer-links { display: flex; flex-direction: column; gap: 12px; }
+        .footer-link {
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: color var(--transition);
+        }
+        .footer-link:hover { color: var(--red); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy { font-size: 13px; color: var(--text-muted); }
+        .footer-copy strong { color: var(--red); font-weight: 600; }
+        .footer-note { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+        /* ==================================================
+           16. SCROLL REVEAL
+           ================================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ==================================================
+           17. RESPONSIVE
+           ================================================== */
+        @media (max-width: 1024px) {
+            .story-grid { grid-template-columns: 1fr; gap: 40px; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .values-grid { grid-template-columns: repeat(2, 1fr); }
+            .members-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 60px 0; }
+            .section-header { margin-bottom: 40px; }
+            .page-hero { padding: 70px 20px 60px; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: var(--bg-secondary);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 16px;
+            }
+            .nav-links.active { display: flex; }
+            .nav-link {
+                padding: 14px 16px;
+                border-bottom: 1px solid var(--border);
+            }
+            .nav-link::after { display: none; }
+            .nav-cta { margin-left: 0; margin-top: 8px; }
+            .nav-cta .btn { width: 100%; }
+            .nav-toggle { display: flex; }
+            .mv-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .values-grid { grid-template-columns: 1fr 1fr; }
+            .members-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .cta-buttons { flex-direction: column; align-items: stretch; }
+            .cta-buttons .btn { width: 100%; }
+            .timeline { padding-left: 32px; }
+            .timeline-dot { left: -25px; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .values-grid { grid-template-columns: 1fr; }
+            .story-visual { padding: 32px 24px; min-height: 320px; }
+            .mv-card { padding: 32px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         PREVIEW NOTICE
+         ============================================================ -->
+    <div class="preview-notice">
+        ⚠️ <strong>Design Preview</strong> — This is a frontend demo. Sample team members and milestones shown are placeholder content.
+    </div>
+
+    <!-- ============================================================
+         NAVIGATION
+         ============================================================ -->
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="index.html" class="logo" aria-label="BCE Esports Home">
+                <div class="logo-mark">B</div>
+                <div class="logo-text">
+                    <span class="logo-main">BCE</span>
+                    <span class="logo-sub">ESPORTS</span>
+                </div>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link active">About</a>
+                <a href="index.html#tournaments" class="nav-link">Tournaments</a>
+                <a href="index.html#teams" class="nav-link">Teams</a>
+                <a href="index.html#results" class="nav-link">Results</a>
+                <a href="index.html#announcements" class="nav-link">News</a>
+                <a href="index.html#community" class="nav-link">Contact</a>
+                <a href="index.html#tournaments" class="nav-cta btn btn-primary btn-sm">Register</a>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                    <path d="M3 6h18M3 12h18M3 18h18"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+         PAGE HERO
+         ============================================================ -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <span class="page-hero-label">About Us</span>
+            <h1 class="page-hero-title">Built By Gamers,<br><span class="accent">For Gamers</span></h1>
+            <p class="page-hero-desc">
+                The official esports organisation of Bakhtiyarpur College of Engineering — where passion for competitive gaming meets structure, discipline, and community.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         OUR STORY
+         ============================================================ -->
+    <section class="section">
+        <div class="container">
+            <div class="story-grid">
+                <div class="story-content reveal">
+                    <span class="section-label">Our Story</span>
+                    <h2>From Campus LANs to <span class="accent">Championship Stages</span></h2>
+                    <p>
+                        BCE Esports started with a simple idea — students who love gaming deserve a platform as serious and professional as any sport on campus. What began as informal LAN sessions between hostel rooms has grown into an organised competitive ecosystem.
+                    </p>
+                    <p>
+                        Today, BCE Esports brings together players, teams, and fans under a single identity. We organise tournaments across multiple titles — from battle royale giants like BGMI and Free Fire to tactical shooters like Valorant and COD Mobile, and even strategy titles like Chess.
+                    </p>
+                    <p>
+                        Our goal is bigger than winning matches. We are building a lasting esports culture at BCE Bihar — one that respects competitive integrity, celebrates teamwork, and gives every student a place to grow as a player, organiser, or fan.
+                    </p>
+                </div>
+
+                <div class="story-visual reveal">
+                    <span class="story-badge">EST. 2024</span>
+                    <div class="story-big">
+                        BCE
+                        <span class="accent">ESPORTS</span>
+                    </div>
+                    <div class="story-stats">
+                        <div>
+                            <div class="story-stat-value">120+</div>
+                            <div class="story-stat-label">Players</div>
+                        </div>
+                        <div>
+                            <div class="story-stat-value">12+</div>
+                            <div class="story-stat-label">Events</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         MISSION & VISION
+         ============================================================ -->
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Purpose</span>
+                <h2 class="section-title">Our Mission & <span class="accent">Vision</span></h2>
+            </div>
+
+            <div class="mv-grid reveal">
+                <div class="mv-card">
+                    <div class="mv-icon">🎯</div>
+                    <h3>Our Mission</h3>
+                    <p>
+                        To create a professional, fair, and inclusive competitive gaming environment for every BCE student — one where talent is discovered, skills are sharpened, and every match is played with integrity and passion.
+                    </p>
+                </div>
+
+                <div class="mv-card">
+                    <div class="mv-icon">🚀</div>
+                    <h3>Our Vision</h3>
+                    <p>
+                        To establish BCE Esports as the leading college esports organisation in Bihar — recognised for its tournaments, its players, and its commitment to building a strong, sustainable gaming community across the state.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         WHAT WE DO
+         ============================================================ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">What We Do</span>
+                <h2 class="section-title">Building the <span class="accent">Esports Ecosystem</span></h2>
+                <p class="section-desc">Four pillars that define how BCE Esports operates and grows.</p>
+            </div>
+
+            <div class="features-grid reveal">
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <div class="feature-title">Tournaments</div>
+                    <p class="feature-desc">
+                        Organised competitive events across multiple games with proper rules, brackets, and prize pools.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <div class="feature-title">Teams & Players</div>
+                    <p class="feature-desc">
+                        A structured platform for teams to register, compete, and be recognised within the BCE community.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">Leaderboards</div>
+                    <p class="feature-desc">
+                        Transparent rankings, live standings, and match results so everyone can track performance.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <div class="feature-title">Community</div>
+                    <p class="feature-desc">
+                        A growing community on Discord and social platforms — where players connect, learn, and compete.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         OUR VALUES
+         ============================================================ -->
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Our Values</span>
+                <h2 class="section-title">What <span class="accent">Drives Us</span></h2>
+                <p class="section-desc">The principles we stand by in every tournament, every match, and every decision.</p>
+            </div>
+
+            <div class="values-grid reveal">
+                <div class="value-card">
+                    <div class="value-number">01</div>
+                    <div class="value-title">Competitive Integrity</div>
+                    <p class="value-desc">
+                        Every match is played fairly. No cheating, no shortcuts, no exceptions. Respect for the game comes first.
+                    </p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-number">02</div>
+                    <div class="value-title">Teamwork</div>
+                    <p class="value-desc">
+                        No victory is won alone. We celebrate squads that communicate, support, and trust each other.
+                    </p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-number">03</div>
+                    <div class="value-title">Community First</div>
+                    <p class="value-desc">
+                        Every player matters — from first-timers to veterans. We grow together, not apart.
+                    </p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-number">04</div>
+                    <div class="value-title">Excellence</div>
+                    <p class="value-desc">
+                        From the website to the bracket schedule, we hold ourselves to a professional standard in everything.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         MEET THE TEAM (sample organisers)
+         ============================================================ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Sample Data</span>
+                <h2 class="section-title">Meet the <span class="accent">Organisers</span></h2>
+                <p class="section-desc">The team behind BCE Esports. Names below are placeholders and will be replaced with actual organisers.</p>
+            </div>
+
+            <div class="members-grid reveal">
+                <div class="member-card">
+                    <div class="member-avatar" style="--member-gradient: linear-gradient(135deg, #e10600, #7a0400);">SA</div>
+                    <div class="member-name">Super Admin</div>
+                    <span class="member-role">Founder & Head</span>
+                    <p class="member-bio">
+                        Leads overall vision, tournament strategy, and administrative oversight of BCE Esports.
+                    </p>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar" style="--member-gradient: linear-gradient(135deg, #f59e0b, #7a0400);">AM</div>
+                    <div class="member-name">Admin 1</div>
+                    <span class="member-role">Tournament Ops</span>
+                    <p class="member-bio">
+                        Manages brackets, scheduling, and match coordination for all competitive events.
+                    </p>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar" style="--member-gradient: linear-gradient(135deg, #2563eb, #1e293b);">AM</div>
+                    <div class="member-name">Admin 2</div>
+                    <span class="member-role">Content & Comms</span>
+                    <p class="member-bio">
+                        Handles announcements, social media, and community engagement across platforms.
+                    </p>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-avatar" style="--member-gradient: linear-gradient(135deg, #8b5cf6, #1e1b4b);">MD</div>
+                    <div class="member-name">Moderator</div>
+                    <span class="member-role">Community Mod</span>
+                    <p class="member-bio">
+                        Maintains healthy community spaces, enforces fair play, and supports teams.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         MILESTONES
+         ============================================================ -->
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Our Journey</span>
+                <h2 class="section-title">Key <span class="accent">Milestones</span></h2>
+                <p class="section-desc">Sample timeline of how BCE Esports has grown. Actual dates will be updated.</p>
+            </div>
+
+            <div class="timeline reveal">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2024</div>
+                    <div class="timeline-title">BCE Esports Founded</div>
+                    <p class="timeline-desc">
+                        A small group of passionate gamers came together to formalise competitive gaming at BCE Bihar.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2024</div>
+                    <div class="timeline-title">First Campus Tournament</div>
+                    <p class="timeline-desc">
+                        Hosted the first intra-college BGMI tournament, bringing together over a dozen teams in a weekend LAN-style event.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2025</div>
+                    <div class="timeline-title">Multi-Game Expansion</div>
+                    <p class="timeline-desc">
+                        Added Free Fire, Valorant, and COD Mobile tournaments. Introduced formal team registrations and rankings.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2026</div>
+                    <div class="timeline-title">Digital Platform Launch</div>
+                    <p class="timeline-desc">
+                        Building a professional online platform to manage tournaments, teams, results, and community — the website you are looking at now.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         CALL TO ACTION
+         ============================================================ -->
+    <section class="section cta-section">
+        <div class="container">
+            <div class="reveal">
+                <h2 class="cta-title">Want to be part of <span class="accent">BCE Esports?</span></h2>
+                <p class="cta-desc">
+                    Register your team for upcoming tournaments, or join our community and stay up to date with every match.
+                </p>
+                <div class="cta-buttons">
+                    <a href="index.html#tournaments" class="btn btn-primary">Explore Tournaments</a>
+                    <a href="index.html#community" class="btn btn-outline">Join Community</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-mark">B</div>
+                        <div class="logo-text">
+                            <span class="logo-main">BCE</span>
+                            <span class="logo-sub">ESPORTS</span>
+                        </div>
+                    </a>
+                    <p class="footer-tagline">
+                        The official competitive gaming platform of Bakhtiyarpur College of Engineering, Bihar.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Platform</h4>
+                    <div class="footer-links">
+                        <a href="about.html" class="footer-link">About Us</a>
+                        <a href="index.html#tournaments" class="footer-link">Tournaments</a>
+                        <a href="index.html#teams" class="footer-link">Teams</a>
+                        <a href="index.html#results" class="footer-link">Results</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Games</h4>
+                    <div class="footer-links">
+                        <a href="index.html#games" class="footer-link">Free Fire</a>
+                        <a href="index.html#games" class="footer-link">BGMI</a>
+                        <a href="index.html#games" class="footer-link">Valorant</a>
+                        <a href="index.html#games" class="footer-link">COD Mobile</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Connect</h4>
+                    <div class="footer-links">
+                        <a href="index.html#community" class="footer-link">Discord</a>
+                        <a href="index.html#community" class="footer-link">Instagram</a>
+                        <a href="index.html#community" class="footer-link">YouTube</a>
+                        <a href="index.html#announcements" class="footer-link">News</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copy">© 2026 <strong>BCE Esports</strong> · All rights reserved.</p>
+                <p class="footer-note">Design Preview · Sample data</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // Scroll reveal
+        const revealEls = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        revealEls.forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>

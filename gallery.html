@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BCE Esports Gallery — photos and videos from our tournaments, LAN events, and community meetups.">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Gallery — BCE Esports</title>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23e10600'/%3E%3Ctext x='50%25' y='54%25' font-family='Arial Black,sans-serif' font-size='40' font-weight='900' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --bg-card: #171717;
+            --bg-card-hover: #1f1f1f;
+            --red: #e10600;
+            --red-bright: #ff2020;
+            --red-glow: rgba(225, 6, 0, 0.35);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #6b6b6b;
+            --border: #232323;
+            --border-bright: #333333;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        body.modal-open { overflow: hidden; }
+        a { color: inherit; text-decoration: none; transition: color var(--transition); }
+        img { max-width: 100%; display: block; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        ul { list-style: none; }
+        input, select { font-family: inherit; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; position: relative; }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 0 24px var(--red-glow);
+        }
+        .btn-primary:hover {
+            background: var(--red-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px var(--red-glow), 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-bright);
+        }
+        .btn-outline:hover { border-color: var(--red); color: var(--red); }
+        .btn-sm { padding: 10px 18px; font-size: 11px; letter-spacing: 1px; }
+
+        /* PREVIEW NOTICE */
+        .preview-notice {
+            background: linear-gradient(90deg, #4a0a0a, #2a0808);
+            border-bottom: 1px solid rgba(225, 6, 0, 0.3);
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffb3b3;
+            position: relative;
+            z-index: 100;
+        }
+        .preview-notice strong { color: #fff; font-weight: 700; }
+
+        /* NAV */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; transition: transform var(--transition); }
+        .logo:hover { transform: scale(1.02); }
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            background: var(--red);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            color: #fff;
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .logo-text { display: flex; flex-direction: column; line-height: 1; }
+        .logo-main {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+        .logo-sub {
+            font-family: var(--font-display);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--red);
+            margin-top: 2px;
+        }
+        .nav-links { display: flex; align-items: center; gap: 24px; }
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red);
+            transition: width var(--transition);
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #fff; }
+        .nav-link.active::after { width: 100%; }
+        .nav-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid var(--border-bright);
+            color: #fff;
+        }
+        .nav-toggle:hover { border-color: var(--red); color: var(--red); }
+        .nav-toggle svg { width: 22px; height: 22px; }
+
+        /* PAGE HERO */
+        .page-hero {
+            position: relative;
+            padding: 100px 24px 80px;
+            text-align: center;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(225, 6, 0, 0.18) 0%, transparent 60%),
+                var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            pointer-events: none;
+        }
+        .page-hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+        .page-hero-label {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 20px;
+        }
+        .page-hero-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(36px, 7vw, 68px);
+            line-height: 1;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .page-hero-title .accent {
+            color: var(--red);
+            text-shadow: 0 0 40px var(--red-glow);
+        }
+        .page-hero-desc {
+            color: var(--text-secondary);
+            font-size: 17px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* FILTER BAR */
+        .filter-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 0;
+            position: sticky;
+            top: 72px;
+            z-index: 50;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .filter-inner {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+        .filter-tabs {
+            display: flex;
+            gap: 6px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 4px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .filter-tabs::-webkit-scrollbar { display: none; }
+        .filter-tab {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            padding: 10px 16px;
+            border-radius: 4px;
+            transition: all var(--transition);
+            white-space: nowrap;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-tab:hover { color: #fff; }
+        .filter-tab.active {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 0 16px var(--red-glow);
+        }
+        .filter-tab .count {
+            display: inline-block;
+            font-size: 9px;
+            background: rgba(255,255,255,0.15);
+            padding: 2px 6px;
+            border-radius: 3px;
+            letter-spacing: 0.5px;
+        }
+        .filter-tab.active .count { background: rgba(255,255,255,0.25); }
+
+        .filter-select {
+            font-size: 14px;
+            font-weight: 600;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 40px 12px 16px;
+            color: #fff;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            transition: border-color var(--transition);
+            min-width: 200px;
+        }
+        .filter-select:focus { outline: none; border-color: var(--red); }
+
+        /* COUNT BAR */
+        .count-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .count-text {
+            font-family: var(--font-display);
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .count-text strong { color: var(--red); }
+        .count-reset {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 4px;
+            transition: all var(--transition);
+        }
+        .count-reset:hover { border-color: var(--red); color: var(--red); }
+        .count-reset.hidden { display: none; }
+
+        /* MASONRY GRID */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 220px;
+            gap: 16px;
+            grid-auto-flow: dense;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition);
+            background: var(--tile-bg, linear-gradient(135deg, #1a1a1a, #0a0a0a));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 10px;
+            letter-spacing: 3px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            border: 1px solid var(--border);
+        }
+        .gallery-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.5), 0 0 0 1px var(--red);
+        }
+        .gallery-item.tall { grid-row: span 2; }
+        .gallery-item.wide { grid-column: span 2; }
+
+        /* SAMPLE LABEL */
+        .gallery-item::after {
+            content: 'SAMPLE';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-family: var(--font-display);
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            background: rgba(0,0,0,0.6);
+            padding: 3px 7px;
+            border-radius: 3px;
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 2;
+            pointer-events: none;
+        }
+        .gallery-item.video::after { content: 'VIDEO'; color: var(--red); }
+
+        /* OVERLAY */
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.2) 40%, transparent 70%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity var(--transition);
+            z-index: 3;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+        .gallery-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            color: #fff;
+            text-transform: none;
+            margin-bottom: 4px;
+        }
+        .gallery-meta {
+            font-size: 11px;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* PLAY ICON */
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(225, 6, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px var(--red-glow);
+            transition: transform var(--transition);
+            z-index: 2;
+        }
+        .play-icon svg {
+            width: 22px;
+            height: 22px;
+            color: #fff;
+            margin-left: 3px;
+        }
+        .gallery-item.video:hover .play-icon {
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+
+        /* CENTER CONTENT LABEL (big decorative text) */
+        .gallery-center-label {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            letter-spacing: 4px;
+            text-align: center;
+            line-height: 1.2;
+            color: rgba(255,255,255,0.25);
+            padding: 20px;
+        }
+        .gallery-center-label small {
+            display: block;
+            font-size: 9px;
+            letter-spacing: 6px;
+            margin-top: 8px;
+            color: rgba(255,255,255,0.15);
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--bg-card);
+            border: 1px dashed var(--border-bright);
+            border-radius: var(--radius-lg);
+        }
+        .empty-state-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
+        .empty-state-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .empty-state-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* ============================================
+           LIGHTBOX
+           ============================================ */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            animation: fadeIn 0.3s ease;
+        }
+        .lightbox.show { display: flex; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all var(--transition);
+            z-index: 3;
+        }
+        .lightbox-close:hover {
+            background: var(--red);
+            border-color: var(--red);
+            transform: rotate(90deg);
+        }
+        .lightbox-close svg { width: 20px; height: 20px; }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all var(--transition);
+            z-index: 3;
+        }
+        .lightbox-nav:hover {
+            background: var(--red);
+            border-color: var(--red);
+        }
+        .lightbox-nav svg { width: 22px; height: 22px; }
+        .lightbox-nav.prev { left: 20px; }
+        .lightbox-nav.next { right: 20px; }
+
+        .lightbox-content {
+            max-width: 900px;
+            width: 100%;
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: zoomIn 0.3s ease;
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .lightbox-media {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: var(--lightbox-bg, linear-gradient(135deg, #1a1a1a, #0a0a0a));
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-bright);
+            color: rgba(255,255,255,0.4);
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        .lightbox-media small {
+            font-size: 10px;
+            letter-spacing: 6px;
+            margin-top: 10px;
+            color: rgba(255,255,255,0.2);
+            font-weight: 500;
+        }
+        .lightbox-media .play-icon {
+            position: relative;
+            transform: none;
+            top: auto;
+            left: auto;
+            width: 72px;
+            height: 72px;
+            margin-bottom: 20px;
+        }
+
+        .lightbox-info {
+            text-align: center;
+            margin-top: 20px;
+            max-width: 600px;
+        }
+        .lightbox-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .lightbox-meta {
+            font-size: 13px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .lightbox-counter {
+            font-family: var(--font-display);
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+        .lightbox-counter strong { color: var(--red); }
+
+        /* FOOTER */
+        .footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            padding: 64px 0 32px;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        .footer-brand .logo { margin-bottom: 20px; }
+        .footer-tagline { color: var(--text-secondary); font-size: 14px; max-width: 320px; }
+        .footer-heading {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .footer-links { display: flex; flex-direction: column; gap: 12px; }
+        .footer-link { font-size: 14px; color: var(--text-secondary); transition: color var(--transition); }
+        .footer-link:hover { color: var(--red); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy { font-size: 13px; color: var(--text-muted); }
+        .footer-copy strong { color: var(--red); font-weight: 600; }
+        .footer-note { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 200px;
+            }
+            .filter-inner { grid-template-columns: 1fr; gap: 12px; }
+            .filter-select { width: 100%; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 40px 0; }
+            .page-hero { padding: 70px 20px 60px; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: var(--bg-secondary);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 16px;
+            }
+            .nav-links.active { display: flex; }
+            .nav-link { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+            .nav-link::after { display: none; }
+            .nav-toggle { display: flex; }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 160px;
+                gap: 10px;
+            }
+            .gallery-item.wide,
+            .gallery-item.tall {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+            .gallery-center-label { font-size: 14px; letter-spacing: 2px; }
+            .play-icon { width: 44px; height: 44px; }
+            .play-icon svg { width: 18px; height: 18px; }
+            .lightbox { padding: 20px; }
+            .lightbox-nav { width: 40px; height: 40px; }
+            .lightbox-nav.prev { left: 10px; }
+            .lightbox-nav.next { right: 10px; }
+            .lightbox-close { top: 10px; right: 10px; width: 40px; height: 40px; }
+            .lightbox-media { font-size: 18px; }
+            .lightbox-title { font-size: 15px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .gallery-grid { gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preview-notice">
+        ⚠️ <strong>Design Preview</strong> — All gallery tiles are sample placeholders. Real photos and videos will be added once the backend is connected.
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="index.html" class="logo" aria-label="BCE Esports Home">
+                <div class="logo-mark">B</div>
+                <div class="logo-text">
+                    <span class="logo-main">BCE</span>
+                    <span class="logo-sub">ESPORTS</span>
+                </div>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="tournaments.html" class="nav-link">Tournaments</a>
+                <a href="teams.html" class="nav-link">Teams</a>
+                <a href="gallery.html" class="nav-link active">Gallery</a>
+                <a href="news.html" class="nav-link">News</a>
+                <a href="index.html#community" class="nav-link">Contact</a>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                    <path d="M3 6h18M3 12h18M3 18h18"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <span class="page-hero-label">Media Library</span>
+            <h1 class="page-hero-title">Event <span class="accent">Gallery</span></h1>
+            <p class="page-hero-desc">
+                Catch the moments that matter — tournament highlights, LAN events, team celebrations, and more.
+            </p>
+        </div>
+    </section>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+        <div class="container filter-inner">
+            <div class="filter-tabs" id="filterTabs">
+                <button class="filter-tab active" data-type="all">
+                    All <span class="count" id="countAll">0</span>
+                </button>
+                <button class="filter-tab" data-type="photo">
+                    Photos <span class="count" id="countPhotos">0</span>
+                </button>
+                <button class="filter-tab" data-type="video">
+                    Videos <span class="count" id="countVideos">0</span>
+                </button>
+            </div>
+            <select class="filter-select" id="tournamentSelect">
+                <option value="all">All Tournaments</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <section class="section">
+        <div class="container">
+            <div class="count-bar">
+                <div class="count-text">
+                    Showing <strong id="visibleCount">0</strong> of <strong id="totalCount">0</strong> items
+                </div>
+                <button class="count-reset hidden" id="resetFilters">Clear Filters</button>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+        <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous">
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <polyline points="15 18 9 12 15 6"/>
+            </svg>
+        </button>
+        <button class="lightbox-nav next" id="lightboxNext" aria-label="Next">
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6"/>
+            </svg>
+        </button>
+
+        <div class="lightbox-content">
+            <div class="lightbox-media" id="lightboxMedia">
+                <div class="gallery-center-label" id="lightboxLabel">SAMPLE<br><small>IMAGE</small></div>
+            </div>
+            <div class="lightbox-info">
+                <div class="lightbox-title" id="lightboxTitle">—</div>
+                <div class="lightbox-meta" id="lightboxMeta">—</div>
+                <div class="lightbox-counter" id="lightboxCounter">— of —</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-mark">B</div>
+                        <div class="logo-text">
+                            <span class="logo-main">BCE</span>
+                            <span class="logo-sub">ESPORTS</span>
+                        </div>
+                    </a>
+                    <p class="footer-tagline">
+                        The official competitive gaming platform of Bakhtiyarpur College of Engineering, Bihar.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Platform</h4>
+                    <div class="footer-links">
+                        <a href="about.html" class="footer-link">About Us</a>
+                        <a href="tournaments.html" class="footer-link">Tournaments</a>
+                        <a href="teams.html" class="footer-link">Teams</a>
+                        <a href="gallery.html" class="footer-link">Gallery</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Games</h4>
+                    <div class="footer-links">
+                        <a href="index.html#games" class="footer-link">Free Fire</a>
+                        <a href="index.html#games" class="footer-link">BGMI</a>
+                        <a href="index.html#games" class="footer-link">Valorant</a>
+                        <a href="index.html#games" class="footer-link">COD Mobile</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Connect</h4>
+                    <div class="footer-links">
+                        <a href="index.html#community" class="footer-link">Discord</a>
+                        <a href="index.html#community" class="footer-link">Instagram</a>
+                        <a href="index.html#community" class="footer-link">YouTube</a>
+                        <a href="news.html" class="footer-link">News</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy">© 2026 <strong>BCE Esports</strong> · All rights reserved.</p>
+                <p class="footer-note">Design Preview · Sample data</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ==================================================
+           MOBILE MENU
+           ================================================== */
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+
+        /* ==================================================
+           SAMPLE GALLERY DATA
+           ================================================== */
+        const gallery = [
+            {
+                id: 'G-0001',
+                type: 'photo',
+                title: 'Winter Clash 2026 Finals',
+                meta: 'BCE Winter Clash 2026',
+                tournament: 'winter-clash-2026',
+                bg: 'linear-gradient(135deg, #e10600, #2a0808)',
+                label: 'WINTER<br>CLASH',
+                size: 'wide'
+            },
+            {
+                id: 'G-0002',
+                type: 'photo',
+                title: 'Team Vipers Celebration',
+                meta: 'BCE Winter Clash 2026',
+                tournament: 'winter-clash-2026',
+                bg: 'linear-gradient(135deg, #1e3a8a, #0a0a0a)',
+                label: 'VIPERS<br>WIN',
+                size: ''
+            },
+            {
+                id: 'G-0003',
+                type: 'video',
+                title: 'Grand Final Highlights',
+                meta: 'BCE Winter Clash 2026 · 4:32',
+                tournament: 'winter-clash-2026',
+                bg: 'linear-gradient(135deg, #f59e0b, #7a0400)',
+                label: 'FINAL<br><small>HIGHLIGHTS</small>',
+                size: ''
+            },
+            {
+                id: 'G-0004',
+                type: 'photo',
+                title: 'LAN Setup — Main Stage',
+                meta: 'BCE Valorant Open',
+                tournament: 'valorant-open-2026',
+                bg: 'linear-gradient(135deg, #1a1a1a, #e10600)',
+                label: 'LAN<br>SETUP',
+                size: 'tall'
+            },
+            {
+                id: 'G-0005',
+                type: 'photo',
+                title: 'MVP Trophy Handover',
+                meta: 'BCE Winter Clash 2026',
+                tournament: 'winter-clash-2026',
+                bg: 'linear-gradient(135deg, #facc15, #713f12)',
+                label: 'MVP<br>TROPHY',
+                size: ''
+            },
+            {
+                id: 'G-0006',
+                type: 'video',
+                title: 'Behind the Scenes — Valorant Open',
+                meta: 'BCE Valorant Open · 8:15',
+                tournament: 'valorant-open-2026',
+                bg: 'linear-gradient(135deg, #8b5cf6, #1e1b4b)',
+                label: 'BTS<br><small>VALORANT</small>',
+                size: ''
+            },
+            {
+                id: 'G-0007',
+                type: 'photo',
+                title: 'Crowd at the Finals',
+                meta: 'BCE Fall Invitational 2025',
+                tournament: 'fall-invitational-2025',
+                bg: 'linear-gradient(135deg, #2563eb, #1e293b)',
+                label: 'CROWD<br>FINALS',
+                size: ''
+            },
+            {
+                id: 'G-0008',
+                type: 'photo',
+                title: 'Championship Trophy',
+                meta: 'BCE Fall Invitational 2025',
+                tournament: 'fall-invitational-2025',
+                bg: 'linear-gradient(135deg, #cd7f32, #4a1a00)',
+                label: 'TROPHY',
+                size: ''
+            },
+            {
+                id: 'G-0009',
+                type: 'video',
+                title: 'Community Montage 2025',
+                meta: 'BCE Esports · 6:48',
+                tournament: 'community',
+                bg: 'linear-gradient(135deg, #ec4899, #500724)',
+                label: 'MONTAGE<br><small>2025</small>',
+                size: 'wide'
+            },
+            {
+                id: 'G-0010',
+                type: 'photo',
+                title: 'Team Photo — Phantom Squad',
+                meta: 'BCE Winter Clash 2026',
+                tournament: 'winter-clash-2026',
+                bg: 'linear-gradient(135deg, #10b981, #064e3b)',
+                label: 'PHANTOM<br>SQUAD',
+                size: ''
+            },
+            {
+                id: 'G-0011',
+                type: 'photo',
+                title: 'Player POV Setup',
+                meta: 'BCE Valorant Open',
+                tournament: 'valorant-open-2026',
+                bg: 'linear-gradient(135deg, #06b6d4, #164e63)',
+                label: 'PLAYER<br>SETUP',
+                size: ''
+            },
+            {
+                id: 'G-0012',
+                type: 'video',
+                title: 'Grand Final Teaser',
+                meta: 'BCE Winter Clash 2026 · 1:12',
+                tournament: 'winter-clash-2026',
+                bg: 'linear-gradient(135deg, #ef4444, #7f1d1d)',
+                label: 'TEASER<br><small>FINALS</small>',
+                size: ''
+            },
+            {
+                id: 'G-0013',
+                type: 'photo',
+                title: 'Award Ceremony',
+                meta: 'BCE Fall Invitational 2025',
+                tournament: 'fall-invitational-2025',
+                bg: 'linear-gradient(135deg, #84cc16, #365314)',
+                label: 'AWARDS<br>2025',
+                size: 'tall'
+            },
+            {
+                id: 'G-0014',
+                type: 'photo',
+                title: 'Backstage Warm-up',
+                meta: 'BCE Winter Clash 2026',
+                tournament: 'winter-clash-2026',
+                bg: 'linear-gradient(135deg, #f97316, #7c2d12)',
+                label: 'WARMUP',
+                size: ''
+            }
+        ];
+
+        /* Tournament dropdown options derived from data */
+        const tournamentNames = {
+            'winter-clash-2026': 'BCE Winter Clash 2026',
+            'valorant-open-2026': 'BCE Valorant Open',
+            'fall-invitational-2025': 'BCE Fall Invitational 2025',
+            'community': 'Community Events'
+        };
+
+        /* ==================================================
+           STATE
+           ================================================== */
+        let activeType = 'all';
+        let activeTournament = 'all';
+        let filteredItems = [];
+        let currentIndex = 0;
+
+        /* ==================================================
+           DOM REFS
+           ================================================== */
+        const grid = document.getElementById('galleryGrid');
+        const visibleCountEl = document.getElementById('visibleCount');
+        const totalCountEl = document.getElementById('totalCount');
+        const countAllEl = document.getElementById('countAll');
+        const countPhotosEl = document.getElementById('countPhotos');
+        const countVideosEl = document.getElementById('countVideos');
+        const tournamentSelect = document.getElementById('tournamentSelect');
+        const resetBtn = document.getElementById('resetFilters');
+        const filterTabs = document.querySelectorAll('.filter-tab');
+
+        /* ==================================================
+           HELPERS
+           ================================================== */
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        /* ==================================================
+           POPULATE DROPDOWN
+           ================================================== */
+        function populateTournamentSelect() {
+            Object.entries(tournamentNames).forEach(([key, label]) => {
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.textContent = label;
+                tournamentSelect.appendChild(opt);
+            });
+        }
+
+        /* ==================================================
+           BUILD TILE
+           ================================================== */
+        function buildTile(item) {
+            const classes = ['gallery-item'];
+            if (item.size === 'wide') classes.push('wide');
+            if (item.size === 'tall') classes.push('tall');
+            if (item.type === 'video') classes.push('video');
+
+            const playIcon = item.type === 'video'
+                ? `<div class="play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>`
+                : '';
+
+            return `
+                <div class="${classes.join(' ')}" data-id="${item.id}" style="--tile-bg: ${item.bg}; background: ${item.bg};">
+                    ${playIcon}
+                    <div class="gallery-center-label">${item.label}</div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-title">${escapeHtml(item.title)}</div>
+                        <div class="gallery-meta">${escapeHtml(item.meta)}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* ==================================================
+           RENDER
+           ================================================== */
+        function render() {
+            filteredItems = gallery.filter(item => {
+                const matchType = activeType === 'all' || item.type === activeType;
+                const matchTournament = activeTournament === 'all' || item.tournament === activeTournament;
+                return matchType && matchTournament;
+            });
+
+            if (filteredItems.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📷</div>
+                        <div class="empty-state-title">No media found</div>
+                        <div class="empty-state-desc">Try changing your filters.</div>
+                        <button class="btn btn-primary btn-sm" onclick="clearFilters()">Clear Filters</button>
+                    </div>
+                `;
+            } else {
+                grid.innerHTML = filteredItems.map(buildTile).join('');
+                grid.querySelectorAll('.gallery-item').forEach(tile => {
+                    tile.addEventListener('click', () => openLightbox(tile.dataset.id));
+                });
+            }
+
+            visibleCountEl.textContent = filteredItems.length;
+            totalCountEl.textContent = gallery.length;
+
+            const hasFilters = activeType !== 'all' || activeTournament !== 'all';
+            resetBtn.classList.toggle('hidden', !hasFilters);
+        }
+
+        /* ==================================================
+           COUNTS
+           ================================================== */
+        function updateCounts() {
+            countAllEl.textContent = gallery.length;
+            countPhotosEl.textContent = gallery.filter(g => g.type === 'photo').length;
+            countVideosEl.textContent = gallery.filter(g => g.type === 'video').length;
+        }
+
+        /* ==================================================
+           FILTERS
+           ================================================== */
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                filterTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                activeType = tab.dataset.type;
+                render();
+            });
+        });
+
+        tournamentSelect.addEventListener('change', (e) => {
+            activeTournament = e.target.value;
+            render();
+        });
+
+        function clearFilters() {
+            activeType = 'all';
+            activeTournament = 'all';
+            filterTabs.forEach(t => t.classList.toggle('active', t.dataset.type === 'all'));
+            tournamentSelect.value = 'all';
+            render();
+        }
+
+        resetBtn.addEventListener('click', clearFilters);
+
+        /* ==================================================
+           LIGHTBOX
+           ================================================== */
+        const lightbox = document.getElementById('lightbox');
+        const lightboxMedia = document.getElementById('lightboxMedia');
+        const lightboxLabel = document.getElementById('lightboxLabel');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxMeta = document.getElementById('lightboxMeta');
+        const lightboxCounter = document.getElementById('lightboxCounter');
+
+        function openLightbox(id) {
+            const idx = filteredItems.findIndex(g => g.id === id);
+            if (idx === -1) return;
+            currentIndex = idx;
+            showLightbox();
+            lightbox.classList.add('show');
+            document.body.classList.add('modal-open');
+        }
+
+        function showLightbox() {
+            const item = filteredItems[currentIndex];
+            if (!item) return;
+
+            lightboxMedia.style.background = item.bg;
+            lightboxLabel.innerHTML = item.label;
+
+            if (item.type === 'video') {
+                lightboxLabel.innerHTML = `
+                    <div class="play-icon" style="position:relative; top:auto; left:auto; transform:none; margin:0 auto 16px;">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <div>${item.label}</div>
+                    <small>Video playback will be available after backend is connected</small>
+                `;
+            }
+
+            lightboxTitle.textContent = item.title;
+            lightboxMeta.textContent = item.meta;
+            lightboxCounter.innerHTML = `<strong>${currentIndex + 1}</strong> of ${filteredItems.length}`;
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('show');
+            document.body.classList.remove('modal-open');
+        }
+
+        function nextLightbox() {
+            currentIndex = (currentIndex + 1) % filteredItems.length;
+            showLightbox();
+        }
+
+        function prevLightbox() {
+            currentIndex = (currentIndex - 1 + filteredItems.length) % filteredItems.length;
+            showLightbox();
+        }
+
+        document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+        document.getElementById('lightboxNext').addEventListener('click', nextLightbox);
+        document.getElementById('lightboxPrev').addEventListener('click', prevLightbox);
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('show')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextLightbox();
+            if (e.key === 'ArrowLeft') prevLightbox();
+        });
+
+        /* ==================================================
+           INIT
+           ================================================== */
+        populateTournamentSelect();
+        updateCounts();
+        render();
+    </script>
+</body>
+</html>

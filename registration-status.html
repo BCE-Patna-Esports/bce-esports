@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Check the status of your BCE Esports tournament registration using your Registration ID and captain email.">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Registration Status — BCE Esports</title>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23e10600'/%3E%3Ctext x='50%25' y='54%25' font-family='Arial Black,sans-serif' font-size='40' font-weight='900' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --bg-card: #171717;
+            --bg-card-hover: #1f1f1f;
+            --red: #e10600;
+            --red-bright: #ff2020;
+            --red-glow: rgba(225, 6, 0, 0.35);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #6b6b6b;
+            --border: #232323;
+            --border-bright: #333333;
+            --green: #22c55e;
+            --green-glow: rgba(34, 197, 94, 0.3);
+            --amber: #f59e0b;
+            --amber-glow: rgba(245, 158, 11, 0.3);
+            --purple: #a855f7;
+            --purple-glow: rgba(168, 85, 247, 0.3);
+            --red-error: #ef4444;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+        a { color: inherit; text-decoration: none; transition: color var(--transition); }
+        img { max-width: 100%; display: block; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        ul { list-style: none; }
+        input { font-family: inherit; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; position: relative; }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 0 24px var(--red-glow);
+        }
+        .btn-primary:hover {
+            background: var(--red-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px var(--red-glow), 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-bright);
+        }
+        .btn-outline:hover { border-color: var(--red); color: var(--red); }
+        .btn-sm { padding: 10px 18px; font-size: 11px; letter-spacing: 1px; }
+        .btn-block { width: 100%; }
+
+        /* PREVIEW NOTICE */
+        .preview-notice {
+            background: linear-gradient(90deg, #4a0a0a, #2a0808);
+            border-bottom: 1px solid rgba(225, 6, 0, 0.3);
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffb3b3;
+            position: relative;
+            z-index: 100;
+        }
+        .preview-notice strong { color: #fff; font-weight: 700; }
+
+        /* NAV */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; transition: transform var(--transition); }
+        .logo:hover { transform: scale(1.02); }
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            background: var(--red);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            color: #fff;
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .logo-text { display: flex; flex-direction: column; line-height: 1; }
+        .logo-main {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+        .logo-sub {
+            font-family: var(--font-display);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--red);
+            margin-top: 2px;
+        }
+        .nav-links { display: flex; align-items: center; gap: 24px; }
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red);
+            transition: width var(--transition);
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid var(--border-bright);
+            color: #fff;
+        }
+        .nav-toggle:hover { border-color: var(--red); color: var(--red); }
+        .nav-toggle svg { width: 22px; height: 22px; }
+
+        /* PAGE HERO */
+        .page-hero {
+            position: relative;
+            padding: 80px 24px 60px;
+            text-align: center;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(225, 6, 0, 0.18) 0%, transparent 60%),
+                var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            pointer-events: none;
+        }
+        .page-hero-content { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+        .page-hero-label {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 20px;
+        }
+        .page-hero-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(30px, 6vw, 52px);
+            line-height: 1.05;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+        .page-hero-title .accent { color: var(--red); text-shadow: 0 0 40px var(--red-glow); }
+        .page-hero-desc {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        /* LOOKUP CARD */
+        .lookup-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin-bottom: 24px;
+        }
+        .lookup-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .lookup-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--red);
+            border-radius: 2px;
+        }
+        .lookup-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-label {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+        .form-label .req { color: var(--red); }
+        .form-input {
+            width: 100%;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-bright);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            color: #fff;
+            transition: border-color var(--transition), box-shadow var(--transition);
+        }
+        .form-input::placeholder { color: var(--text-muted); }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.15);
+        }
+        .form-input.error {
+            border-color: var(--red-error);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+        }
+        .form-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.3px;
+        }
+        .form-error {
+            font-size: 12px;
+            color: var(--red-error);
+            font-weight: 600;
+            display: none;
+        }
+        .form-error.show { display: block; }
+
+        .lookup-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        /* SAMPLE IDS BOX */
+        .sample-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(0, 0, 0, 0));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 24px;
+        }
+        .sample-title {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #60a5fa;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sample-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+        }
+        .sample-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        .sample-chip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition);
+            font-family: var(--font-body);
+            text-align: center;
+        }
+        .sample-chip:hover {
+            border-color: var(--red);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+        .sample-chip-code {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+        .sample-chip-status {
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .sample-chip-status.approved { color: var(--green); }
+        .sample-chip-status.pending { color: var(--amber); }
+        .sample-chip-status.rejected { color: var(--red-error); }
+        .sample-chip-status.waitlist { color: var(--purple); }
+
+        /* RESULT PANEL */
+        .result-panel {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 24px;
+            animation: slideIn 0.5s ease;
+        }
+        .result-panel.show { display: block; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-header {
+            padding: 28px 32px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+        .result-header.approved { background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(0, 0, 0, 0)); border-bottom-color: rgba(34, 197, 94, 0.3); }
+        .result-header.pending { background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(0, 0, 0, 0)); border-bottom-color: rgba(245, 158, 11, 0.3); }
+        .result-header.rejected { background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(0, 0, 0, 0)); border-bottom-color: rgba(239, 68, 68, 0.3); }
+        .result-header.waitlist { background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(0, 0, 0, 0)); border-bottom-color: rgba(168, 85, 247, 0.3); }
+
+        .result-header-top {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1px solid;
+        }
+        .status-pill.approved { color: var(--green); border-color: var(--green); background: rgba(34, 197, 94, 0.1); box-shadow: 0 0 20px var(--green-glow); }
+        .status-pill.pending { color: var(--amber); border-color: var(--amber); background: rgba(245, 158, 11, 0.1); box-shadow: 0 0 20px var(--amber-glow); }
+        .status-pill.rejected { color: var(--red-error); border-color: var(--red-error); background: rgba(239, 68, 68, 0.1); box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+        .status-pill.waitlist { color: var(--purple); border-color: var(--purple); background: rgba(168, 85, 247, 0.1); box-shadow: 0 0 20px var(--purple-glow); }
+        .status-pill .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .result-regid {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+        .result-tournament {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(22px, 3.5vw, 30px);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .result-team {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+        .result-team strong { color: #fff; font-weight: 700; }
+        .result-team .tag {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            background: rgba(225, 6, 0, 0.12);
+            color: var(--red);
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+
+        .result-body { padding: 32px; }
+
+        .info-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+        .info-group { display: flex; flex-direction: column; gap: 12px; }
+        .info-group-title {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 4px;
+        }
+        .info-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        .info-line:last-child { border-bottom: none; padding-bottom: 0; }
+        .info-line span:first-child { color: var(--text-secondary); }
+        .info-line span:last-child { color: #fff; font-weight: 600; text-align: right; }
+
+        .status-badge-mini {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+        .status-badge-mini.approved { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+        .status-badge-mini.pending { background: rgba(245, 158, 11, 0.15); color: var(--amber); }
+        .status-badge-mini.rejected { background: rgba(239, 68, 68, 0.15); color: var(--red-error); }
+        .status-badge-mini.waitlist { background: rgba(168, 85, 247, 0.15); color: var(--purple); }
+
+        /* MESSAGE CARD */
+        .result-message {
+            padding: 20px 24px;
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .result-message.approved { background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.3); }
+        .result-message.pending { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .result-message.rejected { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .result-message.waitlist { background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.3); }
+        .result-message-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .result-message-content h4 {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .result-message.approved .result-message-content h4 { color: var(--green); }
+        .result-message.pending .result-message-content h4 { color: var(--amber); }
+        .result-message.rejected .result-message-content h4 { color: var(--red-error); }
+        .result-message.waitlist .result-message-content h4 { color: var(--purple); }
+        .result-message-content p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* NOT FOUND */
+        .not-found-panel {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 48px 32px;
+            text-align: center;
+            animation: slideIn 0.5s ease;
+        }
+        .not-found-panel.show { display: block; }
+        .not-found-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+        .not-found-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .not-found-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            max-width: 400px;
+            margin: 0 auto 24px;
+        }
+
+        /* HELP CARD */
+        .help-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px 32px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .help-card-content { flex: 1; min-width: 200px; }
+        .help-card-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .help-card-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            padding: 64px 0 32px;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 24px;
+        }
+        .footer-brand .logo { margin-bottom: 20px; }
+        .footer-tagline { color: var(--text-secondary); font-size: 14px; max-width: 320px; }
+        .footer-heading {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .footer-links { display: flex; flex-direction: column; gap: 12px; }
+        .footer-link { font-size: 14px; color: var(--text-secondary); transition: color var(--transition); }
+        .footer-link:hover { color: var(--red); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 16px;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+        .footer-copy { font-size: 13px; color: var(--text-muted); }
+        .footer-copy strong { color: var(--red); font-weight: 600; }
+        .footer-note { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .section { padding: 40px 0; }
+            .page-hero { padding: 60px 20px 40px; }
+            .lookup-card { padding: 28px 24px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .lookup-actions { flex-direction: column; }
+            .lookup-actions .btn { width: 100%; }
+            .nav-links { display: none; }
+            .nav-toggle { display: flex; }
+            .sample-grid { grid-template-columns: repeat(2, 1fr); }
+            .result-header { padding: 24px 20px; }
+            .result-body { padding: 24px 20px; }
+            .info-block { grid-template-columns: 1fr; }
+            .result-regid { margin-left: 0; }
+            .result-actions { flex-direction: column; }
+            .result-actions .btn { width: 100%; }
+            .help-card { flex-direction: column; text-align: center; }
+            .help-card .btn { width: 100%; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preview-notice">
+        ⚠️ <strong>Design Preview</strong> — This is a UI demo. Use the sample Registration IDs shown below to test each status state.
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="logo" aria-label="BCE Esports Home">
+                <div class="logo-mark">B</div>
+                <div class="logo-text">
+                    <span class="logo-main">BCE</span>
+                    <span class="logo-sub">ESPORTS</span>
+                </div>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="tournaments.html" class="nav-link">Tournaments</a>
+                <a href="index.html#community" class="nav-link">Contact</a>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                    <path d="M3 6h18M3 12h18M3 18h18"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <span class="page-hero-label">Registration Lookup</span>
+            <h1 class="page-hero-title">Check Your <span class="accent">Registration Status</span></h1>
+            <p class="page-hero-desc">
+                Enter your Registration ID and captain email to see the current status of your team registration.
+            </p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <section class="section">
+        <div class="container">
+
+            <!-- SAMPLE IDS BOX -->
+            <div class="sample-box">
+                <div class="sample-title">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:14px;height:14px;">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4M12 8h.01"/>
+                    </svg>
+                    Preview: Try these sample IDs
+                </div>
+                <p class="sample-desc">Click any ID to auto-fill the form, then click "Check Status".</p>
+                <div class="sample-grid">
+                    <button class="sample-chip" onclick="fillSample('R-2026-00001')">
+                        <span class="sample-chip-code">R-2026-00001</span>
+                        <span class="sample-chip-status approved">Approved</span>
+                    </button>
+                    <button class="sample-chip" onclick="fillSample('R-2026-00002')">
+                        <span class="sample-chip-code">R-2026-00002</span>
+                        <span class="sample-chip-status pending">Pending</span>
+                    </button>
+                    <button class="sample-chip" onclick="fillSample('R-2026-00003')">
+                        <span class="sample-chip-code">R-2026-00003</span>
+                        <span class="sample-chip-status rejected">Rejected</span>
+                    </button>
+                    <button class="sample-chip" onclick="fillSample('R-2026-00004')">
+                        <span class="sample-chip-code">R-2026-00004</span>
+                        <span class="sample-chip-status waitlist">Waitlist</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- LOOKUP FORM -->
+            <div class="lookup-card">
+                <h2 class="lookup-title">Find Your Registration</h2>
+                <p class="lookup-desc">Both fields are required. The email must match the one used by your team captain during registration.</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="regId">Registration ID <span class="req">*</span></label>
+                        <input type="text" id="regId" class="form-input" placeholder="e.g. R-2026-00001" autocomplete="off" style="text-transform:uppercase;">
+                        <div class="form-hint">Format: R-YYYY-NNNNN</div>
+                        <div class="form-error" id="err-regId">Enter a valid registration ID.</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Captain Email <span class="req">*</span></label>
+                        <input type="email" id="email" class="form-input" placeholder="you@bcebakhtiyarpur.ac.in" autocomplete="email">
+                        <div class="form-hint">Same email used during registration.</div>
+                        <div class="form-error" id="err-email">Enter a valid email address.</div>
+                    </div>
+                </div>
+
+                <div class="lookup-actions">
+                    <button class="btn btn-outline" onclick="resetForm()">Clear</button>
+                    <button class="btn btn-primary" onclick="checkStatus()">Check Status</button>
+                </div>
+            </div>
+
+            <!-- RESULT PANEL -->
+            <div class="result-panel" id="resultPanel">
+                <div class="result-header" id="resultHeader">
+                    <div class="result-header-top">
+                        <span class="status-pill" id="statusPill">
+                            <span class="pulse-dot"></span>
+                            <span id="statusText">Status</span>
+                        </span>
+                        <span class="result-regid" id="resultRegId">—</span>
+                    </div>
+                    <h2 class="result-tournament" id="resultTournament">—</h2>
+                    <div class="result-team" id="resultTeam">—</div>
+                </div>
+
+                <div class="result-body">
+                    <div class="info-block">
+                        <div class="info-group">
+                            <div class="info-group-title">Team Details</div>
+                            <div class="info-line"><span>Team Name</span><span id="infoTeamName">—</span></div>
+                            <div class="info-line"><span>Roster Size</span><span id="infoRosterSize">—</span></div>
+                            <div class="info-line"><span>Captain</span><span id="infoCaptain">—</span></div>
+                            <div class="info-line"><span>Submitted</span><span id="infoSubmitted">—</span></div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-group-title">Registration Status</div>
+                            <div class="info-line"><span>Registration</span><span id="infoRegStatus">—</span></div>
+                            <div class="info-line"><span>Payment</span><span id="infoPaymentStatus">—</span></div>
+                            <div class="info-line"><span>Entry Fee</span><span id="infoEntryFee">—</span></div>
+                            <div class="info-line"><span>Last Updated</span><span id="infoUpdated">—</span></div>
+                        </div>
+                    </div>
+
+                    <div class="result-message" id="resultMessage">
+                        <div class="result-message-icon" id="resultMessageIcon">✓</div>
+                        <div class="result-message-content">
+                            <h4 id="resultMessageTitle">Message</h4>
+                            <p id="resultMessageText">—</p>
+                        </div>
+                    </div>
+
+                    <div class="result-actions">
+                        <a href="tournament.html?id=T-2026-0001" class="btn btn-primary">View Tournament</a>
+                        <a href="index.html#community" class="btn btn-outline">Contact Support</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOT FOUND -->
+            <div class="not-found-panel" id="notFoundPanel">
+                <div class="not-found-icon">🔍</div>
+                <h3 class="not-found-title">Registration Not Found</h3>
+                <p class="not-found-desc">
+                    We couldn't find a registration matching this ID and email. Please double-check both fields and try again.
+                </p>
+                <button class="btn btn-primary" onclick="resetForm()">Try Again</button>
+            </div>
+
+            <!-- HELP -->
+            <div class="help-card">
+                <div class="help-card-content">
+                    <h4 class="help-card-title">Can't find your registration?</h4>
+                    <p class="help-card-desc">
+                        Make sure you're using the correct email (the one from your captain). If you still have trouble, contact our team.
+                    </p>
+                </div>
+                <a href="index.html#community" class="btn btn-outline btn-sm">Contact Us</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">
+                    <div class="logo-mark">B</div>
+                    <div class="logo-text">
+                        <span class="logo-main">BCE</span>
+                        <span class="logo-sub">ESPORTS</span>
+                    </div>
+                </a>
+                <p class="footer-tagline">
+                    The official competitive gaming platform of Bakhtiyarpur College of Engineering, Bihar.
+                </p>
+            </div>
+            <div>
+                <h4 class="footer-heading">Platform</h4>
+                <div class="footer-links">
+                    <a href="about.html" class="footer-link">About Us</a>
+                    <a href="tournaments.html" class="footer-link">Tournaments</a>
+                    <a href="index.html#teams" class="footer-link">Teams</a>
+                    <a href="index.html#results" class="footer-link">Results</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-heading">Games</h4>
+                <div class="footer-links">
+                    <a href="index.html#games" class="footer-link">Free Fire</a>
+                    <a href="index.html#games" class="footer-link">BGMI</a>
+                    <a href="index.html#games" class="footer-link">Valorant</a>
+                    <a href="index.html#games" class="footer-link">COD Mobile</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-heading">Connect</h4>
+                <div class="footer-links">
+                    <a href="index.html#community" class="footer-link">Discord</a>
+                    <a href="index.html#community" class="footer-link">Instagram</a>
+                    <a href="index.html#community" class="footer-link">YouTube</a>
+                    <a href="index.html#announcements" class="footer-link">News</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">© 2026 <strong>BCE Esports</strong> · All rights reserved.</p>
+            <p class="footer-note">Design Preview · Sample data</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ==================================================
+           MOBILE MENU
+           ================================================== */
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+
+        /* ==================================================
+           SAMPLE DATA MAP
+           (backend will replace this — currently hardcoded)
+           ================================================== */
+        const SAMPLE_DATA = {
+            'R-2026-00001': {
+                status: 'approved',
+                tournament: 'BCE Winter Clash 2026',
+                teamName: 'BCE Vipers',
+                teamTag: 'BCEV',
+                rosterSize: '4 players + 1 sub',
+                captain: 'Rohit Kumar',
+                submitted: 'Feb 5, 2026 · 10:22 AM',
+                regStatus: 'Approved',
+                paymentStatus: 'Verified',
+                entryFee: '₹100',
+                updated: 'Feb 6, 2026 · 02:15 PM',
+                messageTitle: 'You are in!',
+                messageText: 'Congratulations — your team has been approved. Join the Discord server for match schedules and lobby details. Good luck!'
+            },
+            'R-2026-00002': {
+                status: 'pending',
+                tournament: 'BCE Winter Clash 2026',
+                teamName: 'Phantom Squad',
+                teamTag: 'PHNT',
+                rosterSize: '4 players',
+                captain: 'Arjun Singh',
+                submitted: 'Feb 8, 2026 · 03:45 PM',
+                regStatus: 'Pending',
+                paymentStatus: 'Pending',
+                entryFee: '₹100',
+                updated: 'Feb 8, 2026 · 03:45 PM',
+                messageTitle: 'Under Review',
+                messageText: 'Your registration is under review by our admin team. Payment verification usually takes 24–48 hours. We will notify you by email once it is complete.'
+            },
+            'R-2026-00003': {
+                status: 'rejected',
+                tournament: 'BCE Winter Clash 2026',
+                teamName: 'Night Kings',
+                teamTag: 'NGTK',
+                rosterSize: '4 players',
+                captain: 'Sahil Verma',
+                submitted: 'Feb 3, 2026 · 09:10 AM',
+                regStatus: 'Rejected',
+                paymentStatus: 'Rejected',
+                entryFee: '₹100',
+                updated: 'Feb 4, 2026 · 11:30 AM',
+                messageTitle: 'Registration Rejected',
+                messageText: 'Your registration was rejected. Reason: One or more players do not meet the eligibility criteria (BCE student verification failed). Please contact support if you believe this is an error.'
+            },
+            'R-2026-00004': {
+                status: 'waitlist',
+                tournament: 'BCE Winter Clash 2026',
+                teamName: 'Storm Elite',
+                teamTag: 'STEL',
+                rosterSize: '4 players + 1 sub',
+                captain: 'Priya Sharma',
+                submitted: 'Feb 14, 2026 · 06:30 PM',
+                regStatus: 'Waitlist',
+                paymentStatus: 'Pending',
+                entryFee: '₹100',
+                updated: 'Feb 14, 2026 · 06:30 PM',
+                messageTitle: 'You are on the waitlist',
+                messageText: 'All primary slots are currently filled. Your team is on the waitlist and will be promoted if any confirmed team withdraws. Keep an eye on your email.'
+            }
+        };
+
+        /* ==================================================
+           HELPERS
+           ================================================== */
+        function capitalize(s) {
+            return s.charAt(0).toUpperCase() + s.slice(1);
+        }
+
+        function showError(fieldId, show) {
+            const input = document.getElementById(fieldId);
+            const err = document.getElementById('err-' + fieldId);
+            if (input) input.classList.toggle('error', show);
+            if (err) err.classList.toggle('show', show);
+        }
+
+        function fillSample(id) {
+            document.getElementById('regId').value = id;
+            document.getElementById('email').value = 'sample@bcebakhtiyarpur.ac.in';
+            showError('regId', false);
+            showError('email', false);
+            checkStatus();
+        }
+
+        function resetForm() {
+            document.getElementById('regId').value = '';
+            document.getElementById('email').value = '';
+            showError('regId', false);
+            showError('email', false);
+            document.getElementById('resultPanel').classList.remove('show');
+            document.getElementById('notFoundPanel').classList.remove('show');
+            window.scrollTo({ top: document.querySelector('.lookup-card').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        /* ==================================================
+           MAIN CHECK
+           ================================================== */
+        function checkStatus() {
+            const regId = document.getElementById('regId').value.trim().toUpperCase();
+            const email = document.getElementById('email').value.trim();
+
+            // Validation
+            let ok = true;
+            const regIdOk = /^R-\d{4}-\d{5}$/.test(regId);
+            if (!regIdOk) { showError('regId', true); ok = false; } else showError('regId', false);
+
+            const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            if (!emailOk) { showError('email', true); ok = false; } else showError('email', false);
+
+            if (!ok) return;
+
+            // Hide old results
+            document.getElementById('notFoundPanel').classList.remove('show');
+            document.getElementById('resultPanel').classList.remove('show');
+
+            // Lookup
+            const record = SAMPLE_DATA[regId];
+
+            if (!record) {
+                // Not found
+                document.getElementById('notFoundPanel').classList.add('show');
+                document.getElementById('notFoundPanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            // Render result
+            renderResult(regId, record);
+            document.getElementById('resultPanel').classList.add('show');
+            document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        /* ==================================================
+           RENDER RESULT CARD
+           ================================================== */
+        function renderResult(regId, r) {
+            // Header
+            const header = document.getElementById('resultHeader');
+            header.className = 'result-header ' + r.status;
+
+            const pill = document.getElementById('statusPill');
+            pill.className = 'status-pill ' + r.status;
+            document.getElementById('statusText').textContent = capitalize(r.status);
+            document.getElementById('resultRegId').textContent = regId;
+
+            document.getElementById('resultTournament').textContent = r.tournament;
+
+            // Team line
+            document.getElementById('resultTeam').innerHTML =
+                `Team: <strong>${escapeHtml(r.teamName)}</strong> <span class="tag">${escapeHtml(r.teamTag)}</span>`;
+
+            // Info block
+            document.getElementById('infoTeamName').textContent = r.teamName;
+            document.getElementById('infoRosterSize').textContent = r.rosterSize;
+            document.getElementById('infoCaptain').textContent = r.captain;
+            document.getElementById('infoSubmitted').textContent = r.submitted;
+
+            // Status mini-badges
+            const regStatusMap = {
+                'approved': 'approved', 'pending': 'pending',
+                'rejected': 'rejected', 'waitlist': 'waitlist'
+            };
+            document.getElementById('infoRegStatus').innerHTML =
+                `<span class="status-badge-mini ${regStatusMap[r.status]}">${escapeHtml(r.regStatus)}</span>`;
+
+            // Payment status determines color
+            let payClass = 'pending';
+            if (r.paymentStatus === 'Verified') payClass = 'approved';
+            if (r.paymentStatus === 'Rejected') payClass = 'rejected';
+            document.getElementById('infoPaymentStatus').innerHTML =
+                `<span class="status-badge-mini ${payClass}">${escapeHtml(r.paymentStatus)}</span>`;
+
+            document.getElementById('infoEntryFee').textContent = r.entryFee;
+            document.getElementById('infoUpdated').textContent = r.updated;
+
+            // Message card
+            const msg = document.getElementById('resultMessage');
+            msg.className = 'result-message ' + r.status;
+            const iconMap = {
+                approved: '✓',
+                pending: '⏳',
+                rejected: '✕',
+                waitlist: '⏸'
+            };
+            document.getElementById('resultMessageIcon').textContent = iconMap[r.status] || 'ℹ';
+            document.getElementById('resultMessageTitle').textContent = r.messageTitle;
+            document.getElementById('resultMessageText').textContent = r.messageText;
+        }
+
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        /* ==================================================
+           AUTO-ENTRY: Format the registration ID as typed
+           ================================================== */
+        document.getElementById('regId').addEventListener('input', function() {
+            let v = this.value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+            this.value = v;
+        });
+
+        /* ==================================================
+           PRESS ENTER TO SUBMIT
+           ================================================== */
+        document.getElementById('email').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkStatus();
+        });
+        document.getElementById('regId').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkStatus();
+        });
+    </script>
+</body>
+</html>

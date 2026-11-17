@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Register your team for BCE Esports tournaments.">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Team Registration — BCE Esports</title>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23e10600'/%3E%3Ctext x='50%25' y='54%25' font-family='Arial Black,sans-serif' font-size='40' font-weight='900' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --bg-card: #171717;
+            --bg-card-hover: #1f1f1f;
+            --red: #e10600;
+            --red-bright: #ff2020;
+            --red-glow: rgba(225, 6, 0, 0.35);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #6b6b6b;
+            --border: #232323;
+            --border-bright: #333333;
+            --green: #22c55e;
+            --red-error: #ef4444;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: inherit; text-decoration: none; transition: color var(--transition); }
+        img { max-width: 100%; display: block; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        ul { list-style: none; }
+        input, select, textarea { font-family: inherit; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; position: relative; }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 0 24px var(--red-glow);
+        }
+        .btn-primary:hover {
+            background: var(--red-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px var(--red-glow), 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-bright);
+        }
+        .btn-outline:hover { border-color: var(--red); color: var(--red); }
+        .btn-sm { padding: 10px 18px; font-size: 11px; letter-spacing: 1px; }
+        .btn-block { width: 100%; }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* PREVIEW NOTICE */
+        .preview-notice {
+            background: linear-gradient(90deg, #4a0a0a, #2a0808);
+            border-bottom: 1px solid rgba(225, 6, 0, 0.3);
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffb3b3;
+            position: relative;
+            z-index: 100;
+        }
+        .preview-notice strong { color: #fff; font-weight: 700; }
+
+        /* NAV */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; transition: transform var(--transition); }
+        .logo:hover { transform: scale(1.02); }
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            background: var(--red);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            color: #fff;
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .logo-text { display: flex; flex-direction: column; line-height: 1; }
+        .logo-main {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+        .logo-sub {
+            font-family: var(--font-display);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--red);
+            margin-top: 2px;
+        }
+        .nav-links { display: flex; align-items: center; gap: 24px; }
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red);
+            transition: width var(--transition);
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid var(--border-bright);
+            color: #fff;
+        }
+        .nav-toggle:hover { border-color: var(--red); color: var(--red); }
+        .nav-toggle svg { width: 22px; height: 22px; }
+
+        /* TOURNAMENT STRIP */
+        .tournament-strip {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+        }
+        .tournament-strip-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .strip-info { display: flex; flex-direction: column; gap: 4px; }
+        .strip-label {
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red);
+        }
+        .strip-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+        .strip-meta {
+            display: flex;
+            gap: 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+        }
+        .strip-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+        .strip-meta-item svg { width: 14px; height: 14px; color: var(--red); }
+        .strip-back {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .strip-back:hover { color: var(--red); }
+
+        /* PAGE HERO */
+        .page-hero {
+            position: relative;
+            padding: 60px 24px 40px;
+            text-align: center;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(225, 6, 0, 0.15) 0%, transparent 60%),
+                var(--bg-primary);
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            pointer-events: none;
+        }
+        .page-hero-content { position: relative; z-index: 2; }
+        .page-hero-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(28px, 5vw, 44px);
+            line-height: 1.05;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .page-hero-title .accent { color: var(--red); text-shadow: 0 0 40px var(--red-glow); }
+        .page-hero-desc {
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        /* PROGRESS BAR */
+        .progress-wrap {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 0;
+            position: sticky;
+            top: 72px;
+            z-index: 40;
+        }
+        .progress {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0;
+            max-width: 720px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+        .progress-num {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border-bright);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 14px;
+            color: var(--text-muted);
+            transition: all var(--transition);
+        }
+        .progress-step.completed .progress-num {
+            background: var(--red);
+            border-color: var(--red);
+            color: #fff;
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .progress-step.current .progress-num {
+            background: var(--bg-card);
+            border-color: var(--red);
+            color: var(--red);
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .progress-label {
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: center;
+        }
+        .progress-step.completed .progress-label,
+        .progress-step.current .progress-label {
+            color: #fff;
+        }
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background: var(--border);
+            z-index: 1;
+        }
+        .progress-line-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--red);
+            width: 0;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px var(--red-glow);
+        }
+
+        /* FORM STEP CARD */
+        .step-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin-bottom: 24px;
+        }
+        .step-header { margin-bottom: 32px; }
+        .step-eyebrow {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+        .step-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(22px, 3vw, 28px);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .step-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* FORM CONTROLS */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-label {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+        .form-label .req { color: var(--red); }
+        .form-label .opt { color: var(--text-muted); font-size: 10px; margin-left: 4px; letter-spacing: 1px; }
+        .form-input {
+            width: 100%;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-bright);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            color: #fff;
+            transition: border-color var(--transition), box-shadow var(--transition);
+        }
+        .form-input::placeholder { color: var(--text-muted); }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.15);
+        }
+        .form-input.error {
+            border-color: var(--red-error);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+        }
+        .form-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.3px;
+        }
+        .form-error {
+            font-size: 12px;
+            color: var(--red-error);
+            font-weight: 600;
+            display: none;
+        }
+        .form-error.show { display: block; }
+
+        /* ROSTER SECTION */
+        .roster-section { margin-top: 32px; }
+        .roster-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .roster-title::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background: var(--red);
+            border-radius: 2px;
+        }
+        .roster-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        .roster-item {
+            display: grid;
+            grid-template-columns: auto 1fr 1fr;
+            gap: 16px;
+            align-items: end;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+            transition: border-color var(--transition);
+        }
+        .roster-item:focus-within { border-color: var(--border-bright); }
+        .roster-index {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-bright);
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 14px;
+            color: var(--red);
+        }
+
+        /* SUBSTITUTE TOGGLE */
+        .sub-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border: 1px dashed var(--border-bright);
+            border-radius: var(--radius-md);
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all var(--transition);
+            user-select: none;
+        }
+        .sub-toggle:hover { border-color: var(--red); }
+        .sub-toggle input { display: none; }
+        .sub-toggle-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            border: 2px solid var(--border-bright);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+            flex-shrink: 0;
+        }
+        .sub-toggle input:checked + .sub-toggle-check {
+            background: var(--red);
+            border-color: var(--red);
+        }
+        .sub-toggle-check svg { width: 14px; height: 14px; color: #fff; opacity: 0; transition: opacity var(--transition); }
+        .sub-toggle input:checked + .sub-toggle-check svg { opacity: 1; }
+        .sub-toggle-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .sub-toggle-text small {
+            display: block;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+        .sub-form {
+            margin-top: 12px;
+            display: none;
+        }
+        .sub-form.show { display: block; }
+
+        /* UPLOAD ZONE */
+        .upload-zone {
+            border: 2px dashed var(--border-bright);
+            border-radius: var(--radius-md);
+            padding: 40px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition);
+            background: var(--bg-secondary);
+        }
+        .upload-zone:hover {
+            border-color: var(--red);
+            background: rgba(225, 6, 0, 0.04);
+        }
+        .upload-zone.has-file {
+            border-style: solid;
+            border-color: var(--green);
+            background: rgba(34, 197, 94, 0.05);
+        }
+        .upload-zone input { display: none; }
+        .upload-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+        .upload-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .upload-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .upload-filename {
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        /* PAYMENT INFO BOX */
+        .payment-info {
+            background: linear-gradient(135deg, rgba(225, 6, 0, 0.08), rgba(0, 0, 0, 0));
+            border: 1px solid rgba(225, 6, 0, 0.3);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 24px;
+        }
+        .payment-info-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 12px;
+        }
+        .payment-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 14px;
+        }
+        .payment-info-row span:first-child { color: var(--text-secondary); }
+        .payment-info-row span:last-child { font-weight: 600; color: #fff; font-family: var(--font-display); letter-spacing: 0.5px; }
+
+        /* REVIEW */
+        .review-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .review-block-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .review-edit {
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            background: none;
+            border: 1px solid var(--border);
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all var(--transition);
+        }
+        .review-edit:hover { border-color: var(--red); color: var(--red); }
+        .review-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        .review-row:last-child { border-bottom: none; }
+        .review-row span:first-child { color: var(--text-secondary); }
+        .review-row span:last-child { color: #fff; font-weight: 600; text-align: right; }
+        .review-roster {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .review-roster-chip {
+            font-size: 12px;
+            padding: 6px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-bright);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .review-roster-chip strong { color: var(--red); font-family: var(--font-display); font-size: 10px; letter-spacing: 1px; }
+
+        .agree-box {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            cursor: pointer;
+        }
+        .agree-box input { display: none; }
+        .agree-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            border: 2px solid var(--border-bright);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: all var(--transition);
+        }
+        .agree-box input:checked + .agree-check {
+            background: var(--red);
+            border-color: var(--red);
+        }
+        .agree-check svg { width: 14px; height: 14px; color: #fff; opacity: 0; transition: opacity var(--transition); }
+        .agree-box input:checked + .agree-check svg { opacity: 1; }
+        .agree-text { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+        .agree-text strong { color: #fff; }
+
+        /* STEP NAVIGATION */
+        .step-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-top: 8px;
+        }
+        .step-nav .btn { min-width: 140px; }
+
+        /* SUCCESS SCREEN */
+        .success-panel {
+            display: none;
+            text-align: center;
+            padding: 60px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .success-panel.show { display: block; }
+        .success-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--green);
+            box-shadow: 0 0 30px var(--green);
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(34, 197, 94, 0.15);
+            border: 2px solid var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: var(--green);
+        }
+        .success-icon svg { width: 40px; height: 40px; }
+        .success-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(24px, 4vw, 34px);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .success-desc {
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 480px;
+            margin: 0 auto 32px;
+        }
+        .success-id-box {
+            display: inline-block;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-bright);
+            border-radius: var(--radius-md);
+            padding: 16px 28px;
+            margin-bottom: 32px;
+        }
+        .success-id-label {
+            font-family: var(--font-display);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .success-id-value {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: var(--red);
+        }
+        .success-notice {
+            background: rgba(225, 6, 0, 0.08);
+            border: 1px solid rgba(225, 6, 0, 0.3);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            max-width: 560px;
+            margin: 0 auto 32px;
+            font-size: 13px;
+            color: #ffb3b3;
+            text-align: left;
+        }
+        .success-notice strong { color: #fff; }
+        .success-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+        /* FOOTER */
+        .footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            padding: 64px 0 32px;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        .footer-brand .logo { margin-bottom: 20px; }
+        .footer-tagline { color: var(--text-secondary); font-size: 14px; max-width: 320px; }
+        .footer-heading {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .footer-links { display: flex; flex-direction: column; gap: 12px; }
+        .footer-link { font-size: 14px; color: var(--text-secondary); transition: color var(--transition); }
+        .footer-link:hover { color: var(--red); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy { font-size: 13px; color: var(--text-muted); }
+        .footer-copy strong { color: var(--red); font-weight: 600; }
+        .footer-note { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .section { padding: 40px 0; }
+            .step-card { padding: 28px 20px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .roster-item { grid-template-columns: auto 1fr; gap: 12px; }
+            .roster-item .form-group:nth-of-type(2) { grid-column: 2 / 3; }
+            .nav-links { display: none; }
+            .nav-toggle { display: flex; }
+            .progress-label { font-size: 9px; letter-spacing: 0.5px; }
+            .progress-num { width: 34px; height: 34px; font-size: 12px; }
+            .progress-line { top: 17px; }
+            .step-nav { flex-direction: column-reverse; gap: 10px; }
+            .step-nav .btn { width: 100%; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .tournament-strip-inner { flex-direction: column; align-items: flex-start; }
+            .success-actions { flex-direction: column; }
+            .success-actions .btn { width: 100%; }
+            .review-row { flex-direction: column; gap: 4px; align-items: flex-start; }
+            .review-row span:last-child { text-align: left; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preview-notice">
+        ⚠️ <strong>Design Preview</strong> — This form does not submit data to any server. It is a UI demo only. Backend integration comes in a future phase.
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="index.html" class="logo" aria-label="BCE Esports Home">
+                <div class="logo-mark">B</div>
+                <div class="logo-text">
+                    <span class="logo-main">BCE</span>
+                    <span class="logo-sub">ESPORTS</span>
+                </div>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="tournaments.html" class="nav-link">Tournaments</a>
+                <a href="index.html#community" class="nav-link">Contact</a>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                    <path d="M3 6h18M3 12h18M3 18h18"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- TOURNAMENT STRIP -->
+    <div class="tournament-strip">
+        <div class="container tournament-strip-inner">
+            <div class="strip-info">
+                <span class="strip-label">Registering For</span>
+                <span class="strip-title">BCE Winter Clash 2026</span>
+                <div class="strip-meta">
+                    <span class="strip-meta-item">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <path d="M16 2v4M8 2v4M3 10h18"/>
+                        </svg>
+                        Feb 20 – Feb 22
+                    </span>
+                    <span class="strip-meta-item">Squad (4v4)</span>
+                    <span class="strip-meta-item">Entry: ₹100</span>
+                </div>
+            </div>
+            <a href="tournament.html?id=T-2026-0001" class="strip-back">← Back to Tournament</a>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <h1 class="page-hero-title">Team <span class="accent">Registration</span></h1>
+            <p class="page-hero-desc">Complete all 4 steps to register your squad for the tournament.</p>
+        </div>
+    </section>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-wrap">
+        <div class="container">
+            <div class="progress">
+                <div class="progress-line">
+                    <div class="progress-line-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-step current" data-step="1">
+                    <div class="progress-num">1</div>
+                    <div class="progress-label">Captain</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="progress-num">2</div>
+                    <div class="progress-label">Team</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="progress-num">3</div>
+                    <div class="progress-label">Payment</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="progress-num">4</div>
+                    <div class="progress-label">Review</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <section class="section">
+        <div class="container">
+
+            <!-- STEP 1 -->
+            <div class="step-card" id="step1">
+                <div class="step-header">
+                    <div class="step-eyebrow">Step 1 of 4</div>
+                    <h2 class="step-title">Captain Details</h2>
+                    <p class="step-desc">The captain is the primary contact for this registration. All tournament communication will be sent here.</p>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label class="form-label" for="captainName">Full Name <span class="req">*</span></label>
+                        <input type="text" id="captainName" class="form-input" placeholder="e.g. Rohit Kumar" autocomplete="name">
+                        <div class="form-error" id="err-captainName">Please enter your full name (min 2 characters).</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="captainEmail">Email <span class="req">*</span></label>
+                        <input type="email" id="captainEmail" class="form-input" placeholder="you@bcebakhtiyarpur.ac.in" autocomplete="email">
+                        <div class="form-hint">Must be a valid @bcebakhtiyarpur.ac.in email for this tournament.</div>
+                        <div class="form-error" id="err-captainEmail">Enter a valid college email (@bcebakhtiyarpur.ac.in).</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="captainPhone">Phone <span class="req">*</span></label>
+                        <input type="tel" id="captainPhone" class="form-input" placeholder="10-digit mobile number" maxlength="10" autocomplete="tel">
+                        <div class="form-hint">10 digits only, no spaces or +91.</div>
+                        <div class="form-error" id="err-captainPhone">Enter a valid 10-digit phone number.</div>
+                    </div>
+                    <div class="form-group full">
+                        <label class="form-label" for="captainDiscord">Discord Username <span class="opt">(optional)</span></label>
+                        <input type="text" id="captainDiscord" class="form-input" placeholder="e.g. rohit#1234">
+                    </div>
+                </div>
+
+                <div class="step-nav">
+                    <a href="tournament.html?id=T-2026-0001" class="btn btn-outline">Cancel</a>
+                    <button class="btn btn-primary" onclick="goToStep(2)">Continue →</button>
+                </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="step-card" id="step2" style="display:none;">
+                <div class="step-header">
+                    <div class="step-eyebrow">Step 2 of 4</div>
+                    <h2 class="step-title">Team & Roster</h2>
+                    <p class="step-desc">Enter your team identity and the in-game names (IGNs) of your 4 main players.</p>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="teamName">Team Name <span class="req">*</span></label>
+                        <input type="text" id="teamName" class="form-input" placeholder="e.g. BCE Vipers" maxlength="30">
+                        <div class="form-error" id="err-teamName">Team name required (min 3 characters).</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="teamTag">Team Tag <span class="req">*</span></label>
+                        <input type="text" id="teamTag" class="form-input" placeholder="e.g. BCEV" maxlength="6" style="text-transform:uppercase;">
+                        <div class="form-hint">2–6 characters, used as abbreviation.</div>
+                        <div class="form-error" id="err-teamTag">Team tag must be 2–6 characters.</div>
+                    </div>
+                </div>
+
+                <!-- Roster -->
+                <div class="roster-section">
+                    <h3 class="roster-title">Main Roster (4 Players)</h3>
+                    <p class="roster-desc">All 4 main player IGNs are required. Player 1 is the captain.</p>
+
+                    <div class="roster-item">
+                        <div class="roster-index">P1</div>
+                        <div class="form-group">
+                            <label class="form-label">Player 1 IGN (Captain) <span class="req">*</span></label>
+                            <input type="text" id="roster1" class="form-input" placeholder="In-game name" maxlength="20">
+                            <div class="form-error" id="err-roster1">Required.</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Role</label>
+                            <select id="roster1role" class="form-input">
+                                <option value="IGL">IGL (In-Game Leader)</option>
+                                <option value="Assaulter">Assaulter</option>
+                                <option value="Sniper">Sniper</option>
+                                <option value="Support">Support</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="roster-item">
+                        <div class="roster-index">P2</div>
+                        <div class="form-group">
+                            <label class="form-label">Player 2 IGN <span class="req">*</span></label>
+                            <input type="text" id="roster2" class="form-input" placeholder="In-game name" maxlength="20">
+                            <div class="form-error" id="err-roster2">Required.</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Role</label>
+                            <select id="roster2role" class="form-input">
+                                <option value="Assaulter">Assaulter</option>
+                                <option value="IGL">IGL (In-Game Leader)</option>
+                                <option value="Sniper">Sniper</option>
+                                <option value="Support">Support</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="roster-item">
+                        <div class="roster-index">P3</div>
+                        <div class="form-group">
+                            <label class="form-label">Player 3 IGN <span class="req">*</span></label>
+                            <input type="text" id="roster3" class="form-input" placeholder="In-game name" maxlength="20">
+                            <div class="form-error" id="err-roster3">Required.</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Role</label>
+                            <select id="roster3role" class="form-input">
+                                <option value="Sniper">Sniper</option>
+                                <option value="IGL">IGL (In-Game Leader)</option>
+                                <option value="Assaulter">Assaulter</option>
+                                <option value="Support">Support</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="roster-item">
+                        <div class="roster-index">P4</div>
+                        <div class="form-group">
+                            <label class="form-label">Player 4 IGN <span class="req">*</span></label>
+                            <input type="text" id="roster4" class="form-input" placeholder="In-game name" maxlength="20">
+                            <div class="form-error" id="err-roster4">Required.</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Role</label>
+                            <select id="roster4role" class="form-input">
+                                <option value="Support">Support</option>
+                                <option value="IGL">IGL (In-Game Leader)</option>
+                                <option value="Assaulter">Assaulter</option>
+                                <option value="Sniper">Sniper</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Optional substitute -->
+                    <label class="sub-toggle" for="subCheckbox">
+                        <input type="checkbox" id="subCheckbox">
+                        <div class="sub-toggle-check">
+                            <svg fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="sub-toggle-text">
+                            Add a substitute player (optional)
+                            <small>You may include 1 extra player as backup. They will not play unless swapped in.</small>
+                        </div>
+                    </label>
+
+                    <div class="sub-form" id="subForm">
+                        <div class="roster-item">
+                            <div class="roster-index" style="background: rgba(225,6,0,0.1); border-color: var(--red); color: var(--red);">SUB</div>
+                            <div class="form-group">
+                                <label class="form-label">Substitute IGN</label>
+                                <input type="text" id="subIgn" class="form-input" placeholder="In-game name" maxlength="20">
+                                <div class="form-error" id="err-subIgn">Substitute IGN required.</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Role</label>
+                                <select id="subRole" class="form-input">
+                                    <option value="Sub">Substitute</option>
+                                    <option value="IGL">IGL (In-Game Leader)</option>
+                                    <option value="Assaulter">Assaulter</option>
+                                    <option value="Sniper">Sniper</option>
+                                    <option value="Support">Support</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-nav">
+                    <button class="btn btn-outline" onclick="goToStep(1)">← Back</button>
+                    <button class="btn btn-primary" onclick="goToStep(3)">Continue →</button>
+                </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="step-card" id="step3" style="display:none;">
+                <div class="step-header">
+                    <div class="step-eyebrow">Step 3 of 4</div>
+                    <h2 class="step-title">Payment Proof</h2>
+                    <p class="step-desc">Pay the entry fee via UPI and upload the payment screenshot. Your registration will be verified by an admin.</p>
+                </div>
+
+                <div class="payment-info">
+                    <div class="payment-info-title">Payment Details</div>
+                    <div class="payment-info-row">
+                        <span>Amount to pay</span>
+                        <span>₹100</span>
+                    </div>
+                    <div class="payment-info-row">
+                        <span>UPI ID</span>
+                        <span>bce.esports@upi</span>
+                    </div>
+                    <div class="payment-info-row">
+                        <span>Payee name</span>
+                        <span>BCE Esports</span>
+                    </div>
+                    <div class="payment-info-row">
+                        <span>Reference</span>
+                        <span>WINTER26-{your-team-tag}</span>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label class="form-label" for="utr">UPI Transaction Reference (UTR) <span class="req">*</span></label>
+                        <input type="text" id="utr" class="form-input" placeholder="12-digit UTR from your UPI app" maxlength="20">
+                        <div class="form-hint">Find this in your UPI app's transaction history.</div>
+                        <div class="form-error" id="err-utr">Enter a valid UTR (8–20 characters).</div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label class="form-label">Payment Screenshot <span class="req">*</span></label>
+                        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('screenshotInput').click()">
+                            <input type="file" id="screenshotInput" accept="image/png,image/jpeg,image/jpg,application/pdf">
+                            <div class="upload-icon">📸</div>
+                            <div class="upload-title" id="uploadTitle">Click to upload screenshot</div>
+                            <div class="upload-desc" id="uploadDesc">PNG, JPG, or PDF · Max 3 MB</div>
+                            <div class="upload-filename" id="uploadFilename" style="display:none;"></div>
+                        </div>
+                        <div class="form-error" id="err-screenshot">Please upload a payment screenshot.</div>
+                    </div>
+                </div>
+
+                <div class="step-nav">
+                    <button class="btn btn-outline" onclick="goToStep(2)">← Back</button>
+                    <button class="btn btn-primary" onclick="goToStep(4)">Continue →</button>
+                </div>
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="step-card" id="step4" style="display:none;">
+                <div class="step-header">
+                    <div class="step-eyebrow">Step 4 of 4</div>
+                    <h2 class="step-title">Review & Submit</h2>
+                    <p class="step-desc">Verify all details below. Click "Edit" on any section to go back and change it.</p>
+                </div>
+
+                <div class="review-block">
+                    <div class="review-block-title">
+                        Captain Details
+                        <button class="review-edit" onclick="goToStep(1)">Edit</button>
+                    </div>
+                    <div class="review-row"><span>Name</span><span id="revCaptainName">—</span></div>
+                    <div class="review-row"><span>Email</span><span id="revCaptainEmail">—</span></div>
+                    <div class="review-row"><span>Phone</span><span id="revCaptainPhone">—</span></div>
+                    <div class="review-row"><span>Discord</span><span id="revCaptainDiscord">—</span></div>
+                </div>
+
+                <div class="review-block">
+                    <div class="review-block-title">
+                        Team & Roster
+                        <button class="review-edit" onclick="goToStep(2)">Edit</button>
+                    </div>
+                    <div class="review-row"><span>Team Name</span><span id="revTeamName">—</span></div>
+                    <div class="review-row"><span>Team Tag</span><span id="revTeamTag">—</span></div>
+                    <div class="review-roster" id="revRoster"></div>
+                </div>
+
+                <div class="review-block">
+                    <div class="review-block-title">
+                        Payment
+                        <button class="review-edit" onclick="goToStep(3)">Edit</button>
+                    </div>
+                    <div class="review-row"><span>Amount</span><span>₹100</span></div>
+                    <div class="review-row"><span>UTR</span><span id="revUtr">—</span></div>
+                    <div class="review-row"><span>Screenshot</span><span id="revScreenshot">—</span></div>
+                </div>
+
+                <label class="agree-box" for="agreeCheckbox">
+                    <input type="checkbox" id="agreeCheckbox">
+                    <div class="agree-check">
+                        <svg fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    <div class="agree-text">
+                        I confirm that all information is accurate and that <strong>all players meet the eligibility criteria</strong>. I have read and agree to the <a href="index.html#community" style="color:var(--red);text-decoration:underline;">tournament rules</a>. Providing false information may result in disqualification.
+                    </div>
+                </label>
+
+                <div class="form-error" id="err-agree" style="margin-bottom:16px;">You must accept the declaration to submit.</div>
+
+                <div class="step-nav">
+                    <button class="btn btn-outline" onclick="goToStep(3)">← Back</button>
+                    <button class="btn btn-primary" onclick="submitRegistration()">Submit Registration</button>
+                </div>
+            </div>
+
+            <!-- SUCCESS -->
+            <div class="success-panel" id="successPanel">
+                <div class="success-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </div>
+                <h2 class="success-title">Registration Submitted</h2>
+                <p class="success-desc">Your team has been registered. Save your registration ID below — you'll need it (along with your captain email) to check your status.</p>
+
+                <div class="success-id-box">
+                    <div class="success-id-label">Your Registration ID</div>
+                    <div class="success-id-value" id="regIdDisplay">R-2026-00001</div>
+                </div>
+
+                <div class="success-notice">
+                    <strong>⚠️ Preview Notice:</strong> This is a frontend demo. No data has been saved to any server. In the real site, this ID will be generated by the backend and emailed to your captain address.
+                </div>
+
+                <div class="success-actions">
+                    <a href="index.html" class="btn btn-primary">Back to Home</a>
+                    <a href="tournaments.html" class="btn btn-outline">View More Tournaments</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-mark">B</div>
+                        <div class="logo-text">
+                            <span class="logo-main">BCE</span>
+                            <span class="logo-sub">ESPORTS</span>
+                        </div>
+                    </a>
+                    <p class="footer-tagline">
+                        The official competitive gaming platform of Bakhtiyarpur College of Engineering, Bihar.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Platform</h4>
+                    <div class="footer-links">
+                        <a href="about.html" class="footer-link">About Us</a>
+                        <a href="tournaments.html" class="footer-link">Tournaments</a>
+                        <a href="index.html#teams" class="footer-link">Teams</a>
+                        <a href="index.html#results" class="footer-link">Results</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Games</h4>
+                    <div class="footer-links">
+                        <a href="index.html#games" class="footer-link">Free Fire</a>
+                        <a href="index.html#games" class="footer-link">BGMI</a>
+                        <a href="index.html#games" class="footer-link">Valorant</a>
+                        <a href="index.html#games" class="footer-link">COD Mobile</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Connect</h4>
+                    <div class="footer-links">
+                        <a href="index.html#community" class="footer-link">Discord</a>
+                        <a href="index.html#community" class="footer-link">Instagram</a>
+                        <a href="index.html#community" class="footer-link">YouTube</a>
+                        <a href="index.html#announcements" class="footer-link">News</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy">© 2026 <strong>BCE Esports</strong> · All rights reserved.</p>
+                <p class="footer-note">Design Preview · Sample data</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ==================================================
+           MOBILE MENU
+           ================================================== */
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+
+        /* ==================================================
+           STATE
+           ================================================== */
+        const state = {
+            captain: { name: '', email: '', phone: '', discord: '' },
+            team: { name: '', tag: '' },
+            roster: [],
+            substitute: null,
+            payment: { utr: '', fileName: '' },
+            agreed: false
+        };
+
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        /* ==================================================
+           NAVIGATION BETWEEN STEPS
+           ================================================== */
+        function goToStep(target) {
+            // If moving forward, validate current step first
+            if (target > currentStep) {
+                if (currentStep === 1 && !validateStep1()) return;
+                if (currentStep === 2 && !validateStep2()) return;
+                if (currentStep === 3 && !validateStep3()) return;
+            }
+
+            // Capture form data from current step
+            captureCurrentStep();
+
+            // Hide all, show target
+            for (let i = 1; i <= totalSteps; i++) {
+                document.getElementById('step' + i).style.display = (i === target) ? 'block' : 'none';
+            }
+            currentStep = target;
+
+            // Update progress bar
+            updateProgress();
+
+            // Update review if showing step 4
+            if (target === 4) renderReview();
+
+            // Scroll to top of form
+            window.scrollTo({ top: document.querySelector('.progress-wrap').offsetTop - 80, behavior: 'smooth' });
+        }
+
+        function updateProgress() {
+            const steps = document.querySelectorAll('.progress-step');
+            steps.forEach((el, idx) => {
+                const stepNum = idx + 1;
+                el.classList.remove('completed', 'current');
+                if (stepNum < currentStep) el.classList.add('completed');
+                else if (stepNum === currentStep) el.classList.add('current');
+            });
+            const pct = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progressFill').style.width = pct + '%';
+        }
+
+        /* ==================================================
+           CAPTURE FORM DATA (called when leaving a step)
+           ================================================== */
+        function captureCurrentStep() {
+            if (currentStep === 1) {
+                state.captain.name = document.getElementById('captainName').value.trim();
+                state.captain.email = document.getElementById('captainEmail').value.trim();
+                state.captain.phone = document.getElementById('captainPhone').value.trim();
+                state.captain.discord = document.getElementById('captainDiscord').value.trim();
+            }
+            if (currentStep === 2) {
+                state.team.name = document.getElementById('teamName').value.trim();
+                state.team.tag = document.getElementById('teamTag').value.trim().toUpperCase();
+                state.roster = [
+                    { ign: document.getElementById('roster1').value.trim(), role: document.getElementById('roster1role').value },
+                    { ign: document.getElementById('roster2').value.trim(), role: document.getElementById('roster2role').value },
+                    { ign: document.getElementById('roster3').value.trim(), role: document.getElementById('roster3role').value },
+                    { ign: document.getElementById('roster4').value.trim(), role: document.getElementById('roster4role').value }
+                ];
+                const hasSub = document.getElementById('subCheckbox').checked;
+                state.substitute = hasSub
+                    ? { ign: document.getElementById('subIgn').value.trim(), role: document.getElementById('subRole').value }
+                    : null;
+            }
+            if (currentStep === 3) {
+                state.payment.utr = document.getElementById('utr').value.trim();
+            }
+        }
+
+        /* ==================================================
+           VALIDATION
+           ================================================== */
+        function showError(fieldId, show) {
+            const input = document.getElementById(fieldId);
+            const err = document.getElementById('err-' + fieldId);
+            if (input) input.classList.toggle('error', show);
+            if (err) err.classList.toggle('show', show);
+        }
+
+        function validateStep1() {
+            let ok = true;
+            const name = document.getElementById('captainName').value.trim();
+            const email = document.getElementById('captainEmail').value.trim();
+            const phone = document.getElementById('captainPhone').value.trim();
+
+            if (name.length < 2) { showError('captainName', true); ok = false; } else showError('captainName', false);
+
+            const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.toLowerCase().endsWith('@bcebakhtiyarpur.ac.in');
+            if (!emailOk) { showError('captainEmail', true); ok = false; } else showError('captainEmail', false);
+
+            const phoneOk = /^\d{10}$/.test(phone);
+            if (!phoneOk) { showError('captainPhone', true); ok = false; } else showError('captainPhone', false);
+
+            return ok;
+        }
+
+        function validateStep2() {
+            let ok = true;
+            const name = document.getElementById('teamName').value.trim();
+            const tag = document.getElementById('teamTag').value.trim();
+            if (name.length < 3) { showError('teamName', true); ok = false; } else showError('teamName', false);
+            if (tag.length < 2 || tag.length > 6) { showError('teamTag', true); ok = false; } else showError('teamTag', false);
+
+            for (let i = 1; i <= 4; i++) {
+                const ign = document.getElementById('roster' + i).value.trim();
+                if (ign.length < 2) { showError('roster' + i, true); ok = false; } else showError('roster' + i, false);
+            }
+
+            const hasSub = document.getElementById('subCheckbox').checked;
+            if (hasSub) {
+                const subIgn = document.getElementById('subIgn').value.trim();
+                if (subIgn.length < 2) { showError('subIgn', true); ok = false; } else showError('subIgn', false);
+            } else {
+                showError('subIgn', false);
+            }
+
+            return ok;
+        }
+
+        function validateStep3() {
+            let ok = true;
+            const utr = document.getElementById('utr').value.trim();
+            if (utr.length < 8 || utr.length > 20) { showError('utr', true); ok = false; } else showError('utr', false);
+
+            const fileErr = document.getElementById('err-screenshot');
+            if (!state.payment.fileName) {
+                fileErr.classList.add('show');
+                ok = false;
+            } else {
+                fileErr.classList.remove('show');
+            }
+            return ok;
+        }
+
+        /* ==================================================
+           SUBSTITUTE TOGGLE
+           ================================================== */
+        document.getElementById('subCheckbox').addEventListener('change', function() {
+            document.getElementById('subForm').classList.toggle('show', this.checked);
+        });
+
+        /* ==================================================
+           FILE UPLOAD
+           ================================================== */
+        document.getElementById('screenshotInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (file.size > 3 * 1024 * 1024) {
+                alert('File too large. Max 3 MB.');
+                this.value = '';
+                return;
+            }
+            state.payment.fileName = file.name;
+            document.getElementById('uploadZone').classList.add('has-file');
+            document.getElementById('uploadTitle').textContent = 'Screenshot selected';
+            document.getElementById('uploadDesc').textContent = 'Click to replace';
+            const fname = document.getElementById('uploadFilename');
+            fname.textContent = '✓ ' + file.name;
+            fname.style.display = 'block';
+            document.getElementById('err-screenshot').classList.remove('show');
+        });
+
+        /* ==================================================
+           RENDER REVIEW
+           ================================================== */
+        function renderReview() {
+            document.getElementById('revCaptainName').textContent = state.captain.name || '—';
+            document.getElementById('revCaptainEmail').textContent = state.captain.email || '—';
+            document.getElementById('revCaptainPhone').textContent = state.captain.phone || '—';
+            document.getElementById('revCaptainDiscord').textContent = state.captain.discord || '—';
+            document.getElementById('revTeamName').textContent = state.team.name || '—';
+            document.getElementById('revTeamTag').textContent = state.team.tag || '—';
+
+            const rosterEl = document.getElementById('revRoster');
+            rosterEl.innerHTML = '';
+            state.roster.forEach((p, idx) => {
+                const chip = document.createElement('span');
+                chip.className = 'review-roster-chip';
+                chip.innerHTML = `<strong>P${idx + 1}</strong> ${escapeHtml(p.ign)} · ${escapeHtml(p.role)}`;
+                rosterEl.appendChild(chip);
+            });
+            if (state.substitute) {
+                const chip = document.createElement('span');
+                chip.className = 'review-roster-chip';
+                chip.style.borderColor = 'var(--red)';
+                chip.innerHTML = `<strong>SUB</strong> ${escapeHtml(state.substitute.ign)} · ${escapeHtml(state.substitute.role)}`;
+                rosterEl.appendChild(chip);
+            }
+
+            document.getElementById('revUtr').textContent = state.payment.utr || '—';
+            document.getElementById('revScreenshot').textContent = state.payment.fileName || '—';
+        }
+
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        /* ==================================================
+           SUBMIT
+           ================================================== */
+        function submitRegistration() {
+            const agreeErr = document.getElementById('err-agree');
+            if (!document.getElementById('agreeCheckbox').checked) {
+                agreeErr.classList.add('show');
+                return;
+            }
+            agreeErr.classList.remove('show');
+
+            // Hide all steps, show success
+            for (let i = 1; i <= totalSteps; i++) {
+                document.getElementById('step' + i).style.display = 'none';
+            }
+            // Hide progress bar too — registration is done
+            document.querySelector('.progress-wrap').style.display = 'none';
+
+            // Fake but realistic-looking registration ID
+            const rand = Math.floor(10000 + Math.random() * 89999);
+            document.getElementById('regIdDisplay').textContent = 'R-2026-' + rand;
+
+            document.getElementById('successPanel').classList.add('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* ==================================================
+           LIVE SEARCH: filter step 2 tag to uppercase
+           ================================================== */
+        document.getElementById('teamTag').addEventListener('input', function() {
+            this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        });
+    </script>
+</body>
+</html>

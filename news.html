@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BCE Esports News & Announcements — latest updates, tournament news, and important notices.">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>News & Announcements — BCE Esports</title>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23e10600'/%3E%3Ctext x='50%25' y='54%25' font-family='Arial Black,sans-serif' font-size='40' font-weight='900' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --bg-card: #171717;
+            --bg-card-hover: #1f1f1f;
+            --red: #e10600;
+            --red-bright: #ff2020;
+            --red-glow: rgba(225, 6, 0, 0.35);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #6b6b6b;
+            --border: #232323;
+            --border-bright: #333333;
+            --blue: #3b82f6;
+            --amber: #f59e0b;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        body.modal-open { overflow: hidden; }
+        a { color: inherit; text-decoration: none; transition: color var(--transition); }
+        img { max-width: 100%; display: block; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        ul, ol { list-style: none; }
+        input, select { font-family: inherit; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; position: relative; }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 0 24px var(--red-glow);
+        }
+        .btn-primary:hover {
+            background: var(--red-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px var(--red-glow), 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-bright);
+        }
+        .btn-outline:hover { border-color: var(--red); color: var(--red); }
+        .btn-sm { padding: 10px 18px; font-size: 11px; letter-spacing: 1px; }
+
+        /* PREVIEW NOTICE */
+        .preview-notice {
+            background: linear-gradient(90deg, #4a0a0a, #2a0808);
+            border-bottom: 1px solid rgba(225, 6, 0, 0.3);
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffb3b3;
+            position: relative;
+            z-index: 100;
+        }
+        .preview-notice strong { color: #fff; font-weight: 700; }
+
+        /* NAV */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; transition: transform var(--transition); }
+        .logo:hover { transform: scale(1.02); }
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            background: var(--red);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            color: #fff;
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .logo-text { display: flex; flex-direction: column; line-height: 1; }
+        .logo-main {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+        .logo-sub {
+            font-family: var(--font-display);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--red);
+            margin-top: 2px;
+        }
+        .nav-links { display: flex; align-items: center; gap: 24px; }
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red);
+            transition: width var(--transition);
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #fff; }
+        .nav-link.active::after { width: 100%; }
+        .nav-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid var(--border-bright);
+            color: #fff;
+        }
+        .nav-toggle:hover { border-color: var(--red); color: var(--red); }
+        .nav-toggle svg { width: 22px; height: 22px; }
+
+        /* PAGE HERO */
+        .page-hero {
+            position: relative;
+            padding: 100px 24px 80px;
+            text-align: center;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(225, 6, 0, 0.18) 0%, transparent 60%),
+                var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            pointer-events: none;
+        }
+        .page-hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+        .page-hero-label {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 20px;
+        }
+        .page-hero-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(36px, 7vw, 68px);
+            line-height: 1;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .page-hero-title .accent {
+            color: var(--red);
+            text-shadow: 0 0 40px var(--red-glow);
+        }
+        .page-hero-desc {
+            color: var(--text-secondary);
+            font-size: 17px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* FILTER BAR */
+        .filter-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 0;
+            position: sticky;
+            top: 72px;
+            z-index: 50;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .filter-inner {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+        .filter-tabs {
+            display: flex;
+            gap: 6px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 4px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .filter-tabs::-webkit-scrollbar { display: none; }
+        .filter-tab {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            padding: 10px 16px;
+            border-radius: 4px;
+            transition: all var(--transition);
+            white-space: nowrap;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-tab:hover { color: #fff; }
+        .filter-tab.active {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 0 16px var(--red-glow);
+        }
+        .filter-tab .count {
+            display: inline-block;
+            font-size: 9px;
+            background: rgba(255,255,255,0.15);
+            padding: 2px 6px;
+            border-radius: 3px;
+            letter-spacing: 0.5px;
+        }
+        .filter-tab.active .count { background: rgba(255,255,255,0.25); }
+
+        .filter-search {
+            position: relative;
+            max-width: 340px;
+            width: 100%;
+            justify-self: end;
+        }
+        .filter-search input {
+            width: 100%;
+            font-size: 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px 12px 44px;
+            color: #fff;
+            transition: border-color var(--transition);
+        }
+        .filter-search input::placeholder { color: var(--text-muted); }
+        .filter-search input:focus { outline: none; border-color: var(--red); }
+        .filter-search svg {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        /* COUNT BAR */
+        .count-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .count-text {
+            font-family: var(--font-display);
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .count-text strong { color: var(--red); }
+        .count-reset {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 4px;
+            transition: all var(--transition);
+        }
+        .count-reset:hover { border-color: var(--red); color: var(--red); }
+        .count-reset.hidden { display: none; }
+
+        /* FEATURED ARTICLE */
+        .featured-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 48px;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        .featured-card:hover {
+            border-color: var(--red);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 48px rgba(0,0,0,0.5);
+        }
+        .featured-visual {
+            background: var(--featured-bg, linear-gradient(135deg, #e10600, #2a0808));
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .featured-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 24px);
+        }
+        .featured-visual::after {
+            content: 'FEATURED';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #fff;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 4px;
+            z-index: 2;
+        }
+        .featured-big-label {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(36px, 5vw, 64px);
+            letter-spacing: 4px;
+            color: rgba(255,255,255,0.28);
+            text-align: center;
+            line-height: 1.1;
+            padding: 40px;
+            z-index: 1;
+        }
+        .featured-big-label small {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 8px;
+            margin-top: 12px;
+            color: rgba(255,255,255,0.15);
+        }
+        .featured-content {
+            padding: 48px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .featured-meta {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .category-badge {
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 4px;
+        }
+        .category-badge.news { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+        .category-badge.announcement { background: rgba(225, 6, 0, 0.12); color: var(--red); border: 1px solid rgba(225, 6, 0, 0.3); }
+        .category-badge.update { background: rgba(245, 158, 11, 0.15); color: var(--amber); border: 1px solid rgba(245, 158, 11, 0.4); }
+        .meta-date {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+        .meta-dot { color: var(--text-muted); }
+        .meta-read {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+        .featured-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(22px, 3vw, 30px);
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        .featured-excerpt {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+        .featured-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+        .featured-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .author-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 12px;
+            color: #fff;
+            background: var(--red);
+            flex-shrink: 0;
+        }
+        .author-info { font-size: 13px; }
+        .author-name { color: #fff; font-weight: 600; }
+        .author-role { color: var(--text-muted); font-size: 11px; letter-spacing: 0.5px; }
+        .read-more-link {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--red);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap var(--transition);
+        }
+        .featured-card:hover .read-more-link { gap: 12px; }
+
+        /* ARTICLES GRID */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .article-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .article-card:hover {
+            border-color: var(--red);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .article-visual {
+            height: 180px;
+            position: relative;
+            background: var(--article-bg, linear-gradient(135deg, #333, #111));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .article-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(-45deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 20px);
+        }
+        .article-visual::after {
+            content: 'SAMPLE';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-family: var(--font-display);
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            background: rgba(0,0,0,0.6);
+            padding: 3px 7px;
+            border-radius: 3px;
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 2;
+        }
+        .article-visual-label {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.3);
+            text-align: center;
+            padding: 20px;
+            z-index: 1;
+        }
+        .article-visual-label small {
+            display: block;
+            font-size: 8px;
+            letter-spacing: 4px;
+            margin-top: 6px;
+            color: rgba(255,255,255,0.15);
+        }
+        .article-body {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .article-meta {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .article-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 17px;
+            letter-spacing: 0.3px;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+        .article-excerpt {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+        .article-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .article-author-mini {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .author-avatar-mini {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 9px;
+            color: #fff;
+            background: var(--red);
+            flex-shrink: 0;
+        }
+        .article-read-link {
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--red);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--bg-card);
+            border: 1px dashed var(--border-bright);
+            border-radius: var(--radius-lg);
+        }
+        .empty-state-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
+        .empty-state-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .empty-state-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* ============================================
+           ARTICLE MODAL
+           ============================================ */
+        .article-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 40px 20px;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        .article-modal-backdrop.show { display: flex; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .article-modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-bright);
+            border-radius: var(--radius-lg);
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: auto 0;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid var(--border-bright);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all var(--transition);
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+        .modal-close:hover {
+            background: var(--red);
+            border-color: var(--red);
+            transform: rotate(90deg);
+        }
+        .modal-close svg { width: 18px; height: 18px; }
+
+        .modal-cover {
+            height: 240px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            position: relative;
+            overflow: hidden;
+            background: var(--modal-bg, linear-gradient(135deg, #333, #111));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-cover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 24px);
+        }
+        .modal-cover-label {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(28px, 4vw, 42px);
+            letter-spacing: 4px;
+            color: rgba(255,255,255,0.25);
+            text-align: center;
+            padding: 20px;
+            z-index: 1;
+        }
+        .modal-cover-label small {
+            display: block;
+            font-size: 10px;
+            letter-spacing: 6px;
+            margin-top: 8px;
+            color: rgba(255,255,255,0.15);
+        }
+
+        .modal-body { padding: 40px; }
+
+        .modal-meta {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .modal-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(22px, 3.5vw, 32px);
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        .modal-author-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .modal-author-info { font-size: 14px; }
+        .modal-author-name { color: #fff; font-weight: 700; }
+        .modal-author-role { color: var(--text-muted); font-size: 12px; }
+
+        .modal-content {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        .modal-content p { margin-bottom: 18px; }
+        .modal-content p:last-child { margin-bottom: 0; }
+        .modal-content h3 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            color: #fff;
+            margin: 28px 0 14px;
+            padding-left: 14px;
+            border-left: 3px solid var(--red);
+        }
+        .modal-content ul,
+        .modal-content ol {
+            padding-left: 24px;
+            margin: 14px 0;
+        }
+        .modal-content ul { list-style: disc; }
+        .modal-content ol { list-style: decimal; }
+        .modal-content li { margin-bottom: 10px; }
+        .modal-content strong { color: #fff; font-weight: 700; }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding-top: 32px;
+            margin-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* FOOTER */
+        .footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            padding: 64px 0 32px;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        .footer-brand .logo { margin-bottom: 20px; }
+        .footer-tagline { color: var(--text-secondary); font-size: 14px; max-width: 320px; }
+        .footer-heading {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .footer-links { display: flex; flex-direction: column; gap: 12px; }
+        .footer-link { font-size: 14px; color: var(--text-secondary); transition: color var(--transition); }
+        .footer-link:hover { color: var(--red); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy { font-size: 13px; color: var(--text-muted); }
+        .footer-copy strong { color: var(--red); font-weight: 600; }
+        .footer-note { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .featured-card { grid-template-columns: 1fr; }
+            .featured-visual { min-height: 240px; }
+            .featured-content { padding: 32px; }
+            .articles-grid { grid-template-columns: repeat(2, 1fr); }
+            .filter-inner { grid-template-columns: 1fr; gap: 12px; }
+            .filter-search { max-width: 100%; justify-self: stretch; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 40px 0; }
+            .page-hero { padding: 70px 20px 60px; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: var(--bg-secondary);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 16px;
+            }
+            .nav-links.active { display: flex; }
+            .nav-link { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+            .nav-link::after { display: none; }
+            .nav-toggle { display: flex; }
+            .articles-grid { grid-template-columns: 1fr; }
+            .featured-visual { min-height: 200px; }
+            .featured-content { padding: 24px 20px; }
+            .article-modal-backdrop { padding: 0; }
+            .article-modal { border-radius: 0; min-height: 100vh; max-width: 100%; }
+            .modal-cover { border-radius: 0; height: 200px; }
+            .modal-body { padding: 24px 20px; }
+            .modal-actions { flex-direction: column; }
+            .modal-actions .btn { width: 100%; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .featured-title { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preview-notice">
+        ⚠️ <strong>Design Preview</strong> — All articles shown are sample content. Real news will load from the backend once connected.
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="index.html" class="logo" aria-label="BCE Esports Home">
+                <div class="logo-mark">B</div>
+                <div class="logo-text">
+                    <span class="logo-main">BCE</span>
+                    <span class="logo-sub">ESPORTS</span>
+                </div>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="tournaments.html" class="nav-link">Tournaments</a>
+                <a href="teams.html" class="nav-link">Teams</a>
+                <a href="gallery.html" class="nav-link">Gallery</a>
+                <a href="news.html" class="nav-link active">News</a>
+                <a href="index.html#community" class="nav-link">Contact</a>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                    <path d="M3 6h18M3 12h18M3 18h18"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <span class="page-hero-label">Latest Updates</span>
+            <h1 class="page-hero-title">News & <span class="accent">Announcements</span></h1>
+            <p class="page-hero-desc">
+                Stay up to date with everything happening at BCE Esports — tournament news, important notices, and platform updates.
+            </p>
+        </div>
+    </section>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+        <div class="container filter-inner">
+            <div class="filter-tabs" id="filterTabs">
+                <button class="filter-tab active" data-cat="all">
+                    All <span class="count" id="countAll">0</span>
+                </button>
+                <button class="filter-tab" data-cat="news">
+                    News <span class="count" id="countNews">0</span>
+                </button>
+                <button class="filter-tab" data-cat="announcement">
+                    Announcements <span class="count" id="countAnnouncements">0</span>
+                </button>
+                <button class="filter-tab" data-cat="update">
+                    Updates <span class="count" id="countUpdates">0</span>
+                </button>
+            </div>
+
+            <div class="filter-search">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search articles...">
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <section class="section">
+        <div class="container">
+            <div class="count-bar">
+                <div class="count-text">
+                    Showing <strong id="visibleCount">0</strong> of <strong id="totalCount">0</strong> articles
+                </div>
+                <button class="count-reset hidden" id="resetFilters">Clear Filters</button>
+            </div>
+
+            <!-- Featured card -->
+            <div id="featuredContainer"></div>
+
+            <!-- Articles grid -->
+            <div class="articles-grid" id="articlesGrid"></div>
+        </div>
+    </section>
+
+    <!-- ARTICLE MODAL -->
+    <div class="article-modal-backdrop" id="articleModal">
+        <div class="article-modal">
+            <button class="modal-close" id="modalClose" aria-label="Close">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+            <div class="modal-cover" id="modalCover">
+                <div class="modal-cover-label" id="modalCoverLabel">SAMPLE</div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-meta" id="modalMeta"></div>
+                <h1 class="modal-title" id="modalTitle">—</h1>
+                <div class="modal-author-row" id="modalAuthorRow"></div>
+                <div class="modal-content" id="modalContent"></div>
+                <div class="modal-actions">
+                    <a href="index.html#community" class="btn btn-outline btn-sm">Contact Team</a>
+                    <button class="btn btn-primary btn-sm" onclick="closeArticle()">Close Article</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-mark">B</div>
+                        <div class="logo-text">
+                            <span class="logo-main">BCE</span>
+                            <span class="logo-sub">ESPORTS</span>
+                        </div>
+                    </a>
+                    <p class="footer-tagline">
+                        The official competitive gaming platform of Bakhtiyarpur College of Engineering, Bihar.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Platform</h4>
+                    <div class="footer-links">
+                        <a href="about.html" class="footer-link">About Us</a>
+                        <a href="tournaments.html" class="footer-link">Tournaments</a>
+                        <a href="teams.html" class="footer-link">Teams</a>
+                        <a href="news.html" class="footer-link">News</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Games</h4>
+                    <div class="footer-links">
+                        <a href="index.html#games" class="footer-link">Free Fire</a>
+                        <a href="index.html#games" class="footer-link">BGMI</a>
+                        <a href="index.html#games" class="footer-link">Valorant</a>
+                        <a href="index.html#games" class="footer-link">COD Mobile</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Connect</h4>
+                    <div class="footer-links">
+                        <a href="index.html#community" class="footer-link">Discord</a>
+                        <a href="index.html#community" class="footer-link">Instagram</a>
+                        <a href="index.html#community" class="footer-link">YouTube</a>
+                        <a href="news.html" class="footer-link">News</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy">© 2026 <strong>BCE Esports</strong> · All rights reserved.</p>
+                <p class="footer-note">Design Preview · Sample data</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ==================================================
+           MOBILE MENU
+           ================================================== */
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+
+        /* ==================================================
+           SAMPLE NEWS DATA
+           ================================================== */
+        const articles = [
+            {
+                id: 'N-0001',
+                category: 'update',
+                featured: true,
+                title: 'BCE Winter Clash 2026 Brackets Announced — All 32 Teams Ready',
+                excerpt: 'The official group-stage brackets for BCE Winter Clash 2026 have been released. Group A and Group B are both fully seeded, with 16 teams each battling through the group stage for a spot in the semifinals.',
+                date: 'Feb 10, 2026',
+                readTime: '4 min read',
+                author: { name: 'BCE Esports Team', role: 'Official Announcement', initials: 'BE' },
+                coverBg: 'linear-gradient(135deg, #e10600, #2a0808)',
+                coverLabel: 'WINTER<br>CLASH<br><small>BRACKETS REVEALED</small>',
+                content: `
+                    <p>The wait is finally over. BCE Esports is thrilled to announce the complete group-stage brackets for <strong>BCE Winter Clash 2026</strong>, our flagship BGMI tournament of the season. All 32 registered teams have been seeded into two groups of 16.</p>
+
+                    <h3>Group A Teams</h3>
+                    <p>Group A is led by defending champions <strong>BCE Vipers</strong>, alongside strong contenders like Phantom Squad, Team Zenith, and Avalanche. The group is stacked with experienced rosters, making it one of the most competitive lineups we've seen in BCE tournament history.</p>
+
+                    <h3>Group B Teams</h3>
+                    <p>Group B features <strong>Storm Elite</strong>, Red X, Iron Guardians, and Shadow Kings, plus 12 other qualified teams. This group is notable for the debut of several newer squads hungry to prove themselves on the big stage.</p>
+
+                    <h3>Match Schedule</h3>
+                    <ul>
+                        <li><strong>Day 1 (Feb 20):</strong> Group A matches 1 & 2, Group B match 1</li>
+                        <li><strong>Day 2 (Feb 21):</strong> Semifinals — Top 8 from each group</li>
+                        <li><strong>Day 3 (Feb 22):</strong> Grand Final — 3 matches, cumulative points</li>
+                    </ul>
+
+                    <p>All matches will be streamed live on our official YouTube channel. Teams must join lobbies 10 minutes before start time. Any team late by 10+ minutes will forfeit their slot in that match.</p>
+
+                    <p>We wish every team the very best. Play fair, play hard, and may the best squad win. 🔥</p>
+                `
+            },
+            {
+                id: 'N-0002',
+                category: 'announcement',
+                title: 'Registration for BCE Valorant Open Closes on Feb 12',
+                excerpt: 'Only a few slots remain for the upcoming BCE Valorant Open. Registration closes on Feb 12 at 11:59 PM IST — no exceptions.',
+                date: 'Feb 5, 2026',
+                readTime: '2 min read',
+                author: { name: 'Operations Team', role: 'BCE Esports', initials: 'OT' },
+                coverBg: 'linear-gradient(135deg, #ff4655, #0f1923)',
+                coverLabel: 'VALORANT<br><small>REGISTRATION</small>',
+                content: `
+                    <p>This is a final call for all Valorant squads — registration for the <strong>BCE Valorant Open</strong> closes on <strong>Feb 12, 2026 at 11:59 PM IST</strong>. After this deadline, no new registrations will be accepted, even if slots remain open.</p>
+
+                    <h3>Current Slot Status</h3>
+                    <p>As of today, 14 of 16 slots are filled. Two remaining slots will be awarded on a first-come, first-served basis. If more than two teams register in the remaining time, all extras will be added to the waitlist.</p>
+
+                    <h3>How to Register</h3>
+                    <ol>
+                        <li>Visit the Tournaments page and click on "BCE Valorant Open"</li>
+                        <li>Fill in your captain and roster details</li>
+                        <li>Pay the ₹200 entry fee via UPI</li>
+                        <li>Upload a payment screenshot</li>
+                        <li>You're in — wait for admin approval</li>
+                    </ol>
+
+                    <p>Got questions? Reach out to us on Discord or email esports@bcebakhtiyarpur.ac.in. Don't miss out — this tournament has a ₹25,000 prize pool and some seriously stacked competition.</p>
+                `
+            },
+            {
+                id: 'N-0003',
+                category: 'news',
+                title: 'Chess Blitz Championship Announced for March 2026',
+                excerpt: 'BCE Esports is expanding into strategy titles. The first-ever Chess Blitz Championship will launch in March with a ₹5,000 prize pool.',
+                date: 'Feb 3, 2026',
+                readTime: '3 min read',
+                author: { name: 'Content Team', role: 'BCE Esports', initials: 'CT' },
+                coverBg: 'linear-gradient(135deg, #a855f7, #4c1d95)',
+                coverLabel: 'CHESS<br>BLITZ<br><small>MARCH 2026</small>',
+                content: `
+                    <p>Competitive gaming at BCE is not just about shooters. In March 2026, we're proud to introduce our newest esports vertical: <strong>BCE Chess Blitz Championship</strong>.</p>
+
+                    <h3>Why Chess?</h3>
+                    <p>Chess is one of the oldest competitive games in the world — and one of the fastest-growing spectator sports in India. With Grandmasters like R Praggnanandhaa making global headlines, we believe BCE students deserve a platform to showcase their strategic chops.</p>
+
+                    <h3>Tournament Format</h3>
+                    <ul>
+                        <li><strong>Format:</strong> Solo, single elimination bracket (up to 64 players)</li>
+                        <li><strong>Time Control:</strong> Blitz — 5 minutes per player + 3-second increment</li>
+                        <li><strong>Platform:</strong> Online (link shared after registration)</li>
+                        <li><strong>Eligibility:</strong> BCE students only (Intra-College category)</li>
+                        <li><strong>Prize Pool:</strong> ₹5,000 (₹3,000 / ₹1,500 / ₹500 split)</li>
+                    </ul>
+
+                    <h3>Registration</h3>
+                    <p>Registration opens on <strong>Feb 20, 2026</strong> and closes on <strong>Mar 10</strong>. Entry is free — all BCE students are welcome. Full rules will be published alongside registration.</p>
+
+                    <p>We're excited to see how this new game grows within our community. See you on the board. ♛</p>
+                `
+            },
+            {
+                id: 'N-0004',
+                category: 'announcement',
+                title: 'BCE Fall Invitational 2025 Winners Felicitated by College',
+                excerpt: 'Phantom Squad, winners of BCE Fall Invitational 2025, were honoured by the college administration in a formal ceremony last week.',
+                date: 'Jan 28, 2026',
+                readTime: '3 min read',
+                author: { name: 'Admin Team', role: 'BCE Esports', initials: 'AT' },
+                coverBg: 'linear-gradient(135deg, #ffd700, #b8860b)',
+                coverLabel: 'CHAMPIONS<br><small>FELICITATION</small>',
+                content: `
+                    <p><strong>Phantom Squad</strong>, the winners of BCE Fall Invitational 2025, were formally felicitated by the college administration at a ceremony held last week. The event recognised the squad's outstanding performance in the tournament, which concluded in November 2025.</p>
+
+                    <h3>A Proud Moment for BCE</h3>
+                    <p>The ceremony was attended by the Principal, faculty members, and a large crowd of students. In his address, the Principal noted that esports is now recognised as a legitimate competitive discipline, and BCE is committed to supporting it with the same energy as traditional sports.</p>
+
+                    <h3>Team Recognition</h3>
+                    <p>Each member of Phantom Squad was presented with a certificate, trophy, and their share of the ₹20,000 prize pool. The team's captain, <strong>PhantomKing</strong>, spoke about the journey and thanked the BCE Esports organisers for the platform.</p>
+
+                    <p>Congratulations once again to Phantom Squad — this is just the beginning. 🏆</p>
+                `
+            },
+            {
+                id: 'N-0005',
+                category: 'news',
+                title: 'How We\u2019re Building the BCE Esports Platform — Behind the Scenes',
+                excerpt: 'A look at the technology and design thinking behind the new BCE Esports website, built entirely on free, accessible tools.',
+                date: 'Jan 22, 2026',
+                readTime: '5 min read',
+                author: { name: 'Tech Team', role: 'BCE Esports', initials: 'TT' },
+                coverBg: 'linear-gradient(135deg, #2563eb, #1e293b)',
+                coverLabel: 'PLATFORM<br><small>BEHIND THE SCENES</small>',
+                content: `
+                    <p>For years, BCE Esports ran tournaments using a mix of Google Forms, WhatsApp groups, and manual spreadsheets. It worked — but barely. As our community grew, we knew we needed something more professional.</p>
+
+                    <h3>The Vision</h3>
+                    <p>We wanted a website that looked like an established esports organisation, not a college club. Dark theme, red accents, real tournament cards, leaderboards, match results — a platform that felt like a real competitive home for our players.</p>
+
+                    <h3>Our Constraints</h3>
+                    <ul>
+                        <li><strong>Zero budget:</strong> No paid hosting, no paid services.</li>
+                        <li><strong>No developers on the team:</strong> Everyone involved is learning as they go.</li>
+                        <li><strong>Small team:</strong> A handful of students building this between classes.</li>
+                    </ul>
+
+                    <h3>The Stack</h3>
+                    <p>We chose HTML, CSS, and vanilla JavaScript for the frontend — no frameworks, no complexity. GitHub Pages hosts everything for free. Google Sheets is our database, and Google Apps Script powers the API. Everything is free, reliable, and easy to maintain.</p>
+
+                    <h3>What's Next</h3>
+                    <p>In the next phase, we're connecting the real backend so tournaments, teams, and results come from a live database. Registration will generate real IDs, admins will manage everything through a dashboard, and every match will update in real time.</p>
+
+                    <p>If you're a developer or designer interested in helping, reach out on Discord. We're building this in public and would love more hands.</p>
+                `
+            },
+            {
+                id: 'N-0006',
+                category: 'update',
+                title: 'New Website Feature: Registration Status Lookup',
+                excerpt: 'You can now check your tournament registration status instantly using your Registration ID and captain email — no more waiting for admin replies.',
+                date: 'Jan 18, 2026',
+                readTime: '2 min read',
+                author: { name: 'Tech Team', role: 'BCE Esports', initials: 'TT' },
+                coverBg: 'linear-gradient(135deg, #22c55e, #064e3b)',
+                coverLabel: 'NEW<br>FEATURE<br><small>STATUS LOOKUP</small>',
+                content: `
+                    <p>One of the most common questions we received during our last tournament was: <em>"Has my registration been approved?"</em> Teams were emailing us and waiting hours — sometimes days — for a reply.</p>
+
+                    <p>We've now solved this with a new <strong>Registration Status</strong> page. Simply enter your Registration ID (format: R-YYYY-NNNNN) and the captain email used during registration, and you'll see your current status instantly.</p>
+
+                    <h3>What You Can Check</h3>
+                    <ul>
+                        <li><strong>Registration status:</strong> Pending, Approved, Rejected, or Waitlist</li>
+                        <li><strong>Payment status:</strong> Pending verification, Verified, or Rejected</li>
+                        <li><strong>Tournament details:</strong> Dates, prize pool, and event name</li>
+                        <li><strong>Admin message:</strong> If your registration needs attention, you'll see a note from us</li>
+                    </ul>
+
+                    <h3>Privacy & Security</h3>
+                    <p>You need both your Registration ID and the captain email to view a status. This prevents anyone from guessing IDs and viewing other teams' information. Don't share your Registration ID publicly.</p>
+
+                    <p>Try it out next time you register. This is just the first of many upgrades we're rolling out this season.</p>
+                `
+            },
+            {
+                id: 'N-0007',
+                category: 'news',
+                title: 'BCE Esports Crosses 120+ Registered Players Across All Tournaments',
+                excerpt: 'A milestone moment for our community: BCE Esports has now welcomed over 120 unique players across our tournaments since launch.',
+                date: 'Jan 12, 2026',
+                readTime: '3 min read',
+                author: { name: 'Community Team', role: 'BCE Esports', initials: 'CM' },
+                coverBg: 'linear-gradient(135deg, #f97316, #7c2d12)',
+                coverLabel: '120+<br><small>PLAYERS STRONG</small>',
+                content: `
+                    <p>When we started BCE Esports in 2024, we had no idea how fast the community would grow. This week, we crossed a milestone — <strong>120+ registered players</strong> across all our tournaments.</p>
+
+                    <h3>By the Numbers</h3>
+                    <ul>
+                        <li>120+ unique players registered</li>
+                        <li>28 teams formed across 5 different games</li>
+                        <li>12 tournaments organised</li>
+                        <li>₹50,000+ in total prize money distributed</li>
+                        <li>300+ hours of competitive matches played</li>
+                    </ul>
+
+                    <h3>What This Means</h3>
+                    <p>These numbers matter not because they're impressive in the grand scheme of Indian esports — they're not, yet — but because they represent real students who took competitive gaming seriously. Every player who signed up, showed up, and competed is part of what makes BCE Esports special.</p>
+
+                    <h3>Looking Ahead</h3>
+                    <p>Our goal for 2026 is to double this community and to produce at least one team that competes meaningfully at the inter-college or state level. We're also planning to introduce tournaments for more games and to make the platform more useful for players year-round.</p>
+
+                    <p>Thank you to every player, team, and supporter. This is only the beginning. 🚀</p>
+                `
+            },
+            {
+                id: 'N-0008',
+                category: 'announcement',
+                title: 'Important: Changes to Match Check-In Rules',
+                excerpt: 'Starting from February 2026, all teams must check in 10 minutes before their scheduled match. Late teams will face stricter penalties.',
+                date: 'Jan 8, 2026',
+                readTime: '2 min read',
+                author: { name: 'Operations Team', role: 'BCE Esports', initials: 'OT' },
+                coverBg: 'linear-gradient(135deg, #ef4444, #7f1d1d)',
+                coverLabel: 'RULE<br>UPDATE<br><small>CHECK-IN TIMES</small>',
+                content: `
+                    <p>After reviewing feedback from recent tournaments, we are updating the match check-in rules for all BCE Esports tournaments starting from <strong>February 2026</strong>.</p>
+
+                    <h3>New Check-In Rules</h3>
+                    <ul>
+                        <li><strong>10 minutes early:</strong> Teams must join the match lobby at least 10 minutes before scheduled start.</li>
+                        <li><strong>5+ minutes late:</strong> Warning issued via email and Discord.</li>
+                        <li><strong>10+ minutes late:</strong> Match walkover awarded to the opposing team.</li>
+                        <li><strong>15+ minutes late:</strong> Disqualification from the tournament.</li>
+                    </ul>
+
+                    <h3>Why This Change?</h3>
+                    <p>Over the past few tournaments, we've noticed that late arrivals delayed entire brackets, sometimes by 45+ minutes. This wasn't fair to teams who showed up on time, and it created unnecessary pressure on our volunteers.</p>
+
+                    <p>By enforcing strict check-in times, we can keep tournaments running smoothly and give every team the professional experience they deserve.</p>
+
+                    <p>Please update your calendars and set reminders. We appreciate your cooperation.</p>
+                `
+            },
+            {
+                id: 'N-0009',
+                category: 'update',
+                title: 'Live Stream Schedule for BCE Winter Clash 2026',
+                excerpt: 'All BCE Winter Clash 2026 matches will be live-streamed on our YouTube channel. Here is the complete stream schedule.',
+                date: 'Feb 12, 2026',
+                readTime: '2 min read',
+                author: { name: 'Broadcast Team', role: 'BCE Esports', initials: 'BT' },
+                coverBg: 'linear-gradient(135deg, #e10600, #0a0a0a)',
+                coverLabel: 'LIVE<br>STREAM<br><small>SCHEDULE</small>',
+                content: `
+                    <p>Every match of BCE Winter Clash 2026 will be broadcast live on our official YouTube channel, with commentary from our casters and real-time leaderboard updates.</p>
+
+                    <h3>Stream Schedule (All IST)</h3>
+                    <ul>
+                        <li><strong>Day 1 — Feb 20:</strong> Stream starts at 9:45 AM, covers Group A matches 1 & 2 and Group B match 1</li>
+                        <li><strong>Day 2 — Feb 21:</strong> Stream starts at 10:45 AM, covers both semifinals back-to-back</li>
+                        <li><strong>Day 3 — Feb 22:</strong> Stream starts at 1:45 PM, covers the entire grand final (3 matches)</li>
+                    </ul>
+
+                    <h3>What to Expect</h3>
+                    <p>Our broadcast includes:</p>
+                    <ul>
+                        <li>Live game footage with caster commentary</li>
+                        <li>Real-time standings overlay</li>
+                        <li>Player interviews after each match day</li>
+                        <li>Highlight reels during breaks</li>
+                    </ul>
+
+                    <p>Subscribe to our YouTube channel and turn on notifications so you don't miss a single match. Let's make BCE Winter Clash the most-watched college esports event in Bihar.</p>
+                `
+            },
+            {
+                id: 'N-0010',
+                category: 'news',
+                title: 'Player Spotlight: The Rise of ViperOP, BCE\u2019s Top IGL',
+                excerpt: 'Meet Rohit "ViperOP" Kumar, the captain of BCE Vipers and one of the most respected in-game leaders in our community.',
+                date: 'Feb 8, 2026',
+                readTime: '6 min read',
+                author: { name: 'Content Team', role: 'BCE Esports', initials: 'CT' },
+                coverBg: 'linear-gradient(135deg, #e10600, #7a0400)',
+                coverLabel: 'PLAYER<br>SPOTLIGHT<br><small>VIPEROP</small>',
+                content: `
+                    <p>In esports, every team needs a leader — someone who calls the rotations, makes the tough decisions, and keeps morale high when things go wrong. For BCE Vipers, that person is <strong>Rohit "ViperOP" Kumar</strong>.</p>
+
+                    <h3>From Casual Mobile Player to Tournament Captain</h3>
+                    <p>Rohit started playing BGMI casually in 2021, like millions of other Indian students. He was good, but not exceptional. What separated him wasn't mechanical skill — it was his ability to read the game.</p>
+                    <p>"I was never the best shooter," Rohit says, laughing. "But I could tell when a rotation was coming, or when a team was about to push. That instinct is what makes a good IGL."</p>
+
+                    <h3>The Vipers Origin Story</h3>
+                    <p>BCE Vipers was formed in mid-2024, originally as a casual squad of hostel friends. But under Rohit's leadership, they started taking scrims seriously, reviewing VODs after every match, and gradually climbing the BCE tournament rankings.</p>
+
+                    <h3>Biggest Win</h3>
+                    <p>Ask Rohit about his proudest moment, and he points to the semifinal of BCE Fall Invitational 2025, when the Vipers came back from a 7-point deficit to qualify for the grand final. "That match taught us what we were capable of," he says.</p>
+
+                    <h3>Advice for New Players</h3>
+                    <p>For students who are just getting into competitive BGMI, Rohit has simple advice:</p>
+                    <ul>
+                        <li>Play with the same squad consistently — chemistry beats individual skill.</li>
+                        <li>Review your matches, especially the losses.</li>
+                        <li>Respect the rules. Cheating or teaming will end your career before it starts.</li>
+                        <li>Balance academics and gaming — this isn't a replacement for your studies.</li>
+                    </ul>
+
+                    <h3>What's Next</h3>
+                    <p>Rohit is leading BCE Vipers into the Winter Clash 2026 as defending champions. Whatever the result, he's already earned the respect of every team in the circuit — and set a standard for the next generation of BCE players.</p>
+                `
+            }
+        ];
+
+        /* ==================================================
+           STATE
+           ================================================== */
+        let activeCategory = 'all';
+        let searchTerm = '';
+
+        /* ==================================================
+           DOM REFS
+           ================================================== */
+        const featuredContainer = document.getElementById('featuredContainer');
+        const grid = document.getElementById('articlesGrid');
+        const visibleCountEl = document.getElementById('visibleCount');
+        const totalCountEl = document.getElementById('totalCount');
+        const countAllEl = document.getElementById('countAll');
+        const countNewsEl = document.getElementById('countNews');
+        const countAnnouncementsEl = document.getElementById('countAnnouncements');
+        const countUpdatesEl = document.getElementById('countUpdates');
+        const searchInput = document.getElementById('searchInput');
+        const resetBtn = document.getElementById('resetFilters');
+        const filterTabs = document.querySelectorAll('.filter-tab');
+
+        /* ==================================================
+           HELPERS
+           ================================================== */
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function categoryLabel(cat) {
+            return cat === 'news' ? 'News' : cat === 'announcement' ? 'Announcement' : 'Update';
+        }
+
+        function initials(str) {
+            return String(str).split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        }
+
+        /* ==================================================
+           BUILD FEATURED
+           ================================================== */
+        function buildFeatured(article) {
+            return `
+                <article class="featured-card" data-id="${article.id}">
+                    <div class="featured-visual" style="--featured-bg: ${article.coverBg};">
+                        <div class="featured-big-label">${article.coverLabel}</div>
+                    </div>
+                    <div class="featured-content">
+                        <div class="featured-meta">
+                            <span class="category-badge ${article.category}">${categoryLabel(article.category)}</span>
+                            <span class="meta-date">${escapeHtml(article.date)}</span>
+                            <span class="meta-dot">•</span>
+                            <span class="meta-read">${escapeHtml(article.readTime)}</span>
+                        </div>
+                        <h2 class="featured-title">${escapeHtml(article.title)}</h2>
+                        <p class="featured-excerpt">${escapeHtml(article.excerpt)}</p>
+                        <div class="featured-footer">
+                            <div class="featured-author">
+                                <div class="author-avatar">${escapeHtml(article.author.initials)}</div>
+                                <div class="author-info">
+                                    <div class="author-name">${escapeHtml(article.author.name)}</div>
+                                    <div class="author-role">${escapeHtml(article.author.role)}</div>
+                                </div>
+                            </div>
+                            <span class="read-more-link">Read Article →</span>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        /* ==================================================
+           BUILD ARTICLE CARD
+           ================================================== */
+        function buildCard(article) {
+            return `
+                <article class="article-card" data-id="${article.id}">
+                    <div class="article-visual" style="--article-bg: ${article.coverBg};">
+                        <div class="article-visual-label">${article.coverLabel}</div>
+                    </div>
+                    <div class="article-body">
+                        <div class="article-meta">
+                            <span class="category-badge ${article.category}">${categoryLabel(article.category)}</span>
+                            <span class="meta-date">${escapeHtml(article.date)}</span>
+                        </div>
+                        <h3 class="article-title">${escapeHtml(article.title)}</h3>
+                        <p class="article-excerpt">${escapeHtml(article.excerpt)}</p>
+                        <div class="article-footer">
+                            <div class="article-author-mini">
+                                <div class="author-avatar-mini">${escapeHtml(article.author.initials)}</div>
+                                <span>${escapeHtml(article.author.name)}</span>
+                            </div>
+                            <span class="article-read-link">Read →</span>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        /* ==================================================
+           RENDER
+           ================================================== */
+        function render() {
+            const filtered = articles.filter(a => {
+                const matchCat = activeCategory === 'all' || a.category === activeCategory;
+                const term = searchTerm.toLowerCase();
+                const matchSearch = searchTerm === '' ||
+                    a.title.toLowerCase().includes(term) ||
+                    a.excerpt.toLowerCase().includes(term) ||
+                    a.author.name.toLowerCase().includes(term);
+                return matchCat && matchSearch;
+            });
+
+            // Featured: only show if the featured article passes filters AND we're on "all" without search
+            const featuredArticle = filtered.find(a => a.featured && activeCategory === 'all' && searchTerm === '');
+            const otherArticles = featuredArticle
+                ? filtered.filter(a => a.id !== featuredArticle.id)
+                : filtered;
+
+            // Render featured
+            if (featuredArticle) {
+                featuredContainer.innerHTML = buildFeatured(featuredArticle);
+                featuredContainer.querySelector('.featured-card').addEventListener('click', () => openArticle(featuredArticle.id));
+            } else {
+                featuredContainer.innerHTML = '';
+            }
+
+            // Render grid
+            if (otherArticles.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📰</div>
+                        <div class="empty-state-title">No articles found</div>
+                        <div class="empty-state-desc">Try changing your filters or search term.</div>
+                        <button class="btn btn-primary btn-sm" onclick="clearFilters()">Clear Filters</button>
+                    </div>
+                `;
+            } else {
+                grid.innerHTML = otherArticles.map(buildCard).join('');
+                grid.querySelectorAll('.article-card').forEach(card => {
+                    card.addEventListener('click', () => openArticle(card.dataset.id));
+                });
+            }
+
+            visibleCountEl.textContent = filtered.length;
+            totalCountEl.textContent = articles.length;
+
+            const hasFilters = activeCategory !== 'all' || searchTerm !== '';
+            resetBtn.classList.toggle('hidden', !hasFilters);
+        }
+
+        /* ==================================================
+           COUNTS
+           ================================================== */
+        function updateCounts() {
+            countAllEl.textContent = articles.length;
+            countNewsEl.textContent = articles.filter(a => a.category === 'news').length;
+            countAnnouncementsEl.textContent = articles.filter(a => a.category === 'announcement').length;
+            countUpdatesEl.textContent = articles.filter(a => a.category === 'update').length;
+        }
+
+        /* ==================================================
+           FILTERS
+           ================================================== */
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                filterTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                activeCategory = tab.dataset.cat;
+                render();
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            render();
+        });
+
+        function clearFilters() {
+            activeCategory = 'all';
+            searchTerm = '';
+            filterTabs.forEach(t => t.classList.toggle('active', t.dataset.cat === 'all'));
+            searchInput.value = '';
+            render();
+        }
+
+        resetBtn.addEventListener('click', clearFilters);
+
+        /* ==================================================
+           ARTICLE MODAL
+           ================================================== */
+        const articleModal = document.getElementById('articleModal');
+        const modalCover = document.getElementById('modalCover');
+        const modalCoverLabel = document.getElementById('modalCoverLabel');
+        const modalMeta = document.getElementById('modalMeta');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalAuthorRow = document.getElementById('modalAuthorRow');
+        const modalContent = document.getElementById('modalContent');
+
+        function openArticle(id) {
+            const a = articles.find(x => x.id === id);
+            if (!a) return;
+
+            modalCover.style.background = a.coverBg;
+            modalCoverLabel.innerHTML = a.coverLabel;
+
+            modalMeta.innerHTML = `
+                <span class="category-badge ${a.category}">${categoryLabel(a.category)}</span>
+                <span class="meta-date">${escapeHtml(a.date)}</span>
+                <span class="meta-dot">•</span>
+                <span class="meta-read">${escapeHtml(a.readTime)}</span>
+            `;
+
+            modalTitle.textContent = a.title;
+
+            modalAuthorRow.innerHTML = `
+                <div class="author-avatar">${escapeHtml(a.author.initials)}</div>
+                <div class="modal-author-info">
+                    <div class="modal-author-name">${escapeHtml(a.author.name)}</div>
+                    <div class="modal-author-role">${escapeHtml(a.author.role)}</div>
+                </div>
+            `;
+
+            modalContent.innerHTML = a.content;
+
+            articleModal.classList.add('show');
+            document.body.classList.add('modal-open');
+            articleModal.scrollTop = 0;
+        }
+
+        function closeArticle() {
+            articleModal.classList.remove('show');
+            document.body.classList.remove('modal-open');
+        }
+
+        document.getElementById('modalClose').addEventListener('click', closeArticle);
+        articleModal.addEventListener('click', (e) => {
+            if (e.target === articleModal) closeArticle();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && articleModal.classList.contains('show')) closeArticle();
+        });
+
+        /* ==================================================
+           INIT
+           ================================================== */
+        updateCounts();
+        render();
+    </script>
+</body>
+</html>

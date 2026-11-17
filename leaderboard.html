@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BCE Esports tournament standings and leaderboards — view live points, wins, and rankings.">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Leaderboard — BCE Esports</title>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23e10600'/%3E%3Ctext x='50%25' y='54%25' font-family='Arial Black,sans-serif' font-size='40' font-weight='900' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --bg-card: #171717;
+            --bg-card-hover: #1f1f1f;
+            --red: #e10600;
+            --red-bright: #ff2020;
+            --red-glow: rgba(225, 6, 0, 0.35);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #6b6b6b;
+            --border: #232323;
+            --border-bright: #333333;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: inherit; text-decoration: none; transition: color var(--transition); }
+        img { max-width: 100%; display: block; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        ul { list-style: none; }
+        input, select { font-family: inherit; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; position: relative; }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 0 24px var(--red-glow);
+        }
+        .btn-primary:hover {
+            background: var(--red-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px var(--red-glow), 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-bright);
+        }
+        .btn-outline:hover { border-color: var(--red); color: var(--red); }
+        .btn-sm { padding: 10px 18px; font-size: 11px; letter-spacing: 1px; }
+
+        /* PREVIEW NOTICE */
+        .preview-notice {
+            background: linear-gradient(90deg, #4a0a0a, #2a0808);
+            border-bottom: 1px solid rgba(225, 6, 0, 0.3);
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffb3b3;
+            position: relative;
+            z-index: 100;
+        }
+        .preview-notice strong { color: #fff; font-weight: 700; }
+
+        /* NAV */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; transition: transform var(--transition); }
+        .logo:hover { transform: scale(1.02); }
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            background: var(--red);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            color: #fff;
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .logo-text { display: flex; flex-direction: column; line-height: 1; }
+        .logo-main {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+        .logo-sub {
+            font-family: var(--font-display);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--red);
+            margin-top: 2px;
+        }
+        .nav-links { display: flex; align-items: center; gap: 28px; }
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red);
+            transition: width var(--transition);
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #fff; }
+        .nav-link.active::after { width: 100%; }
+        .nav-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid var(--border-bright);
+            color: #fff;
+        }
+        .nav-toggle:hover { border-color: var(--red); color: var(--red); }
+        .nav-toggle svg { width: 22px; height: 22px; }
+
+        /* PAGE HERO */
+        .page-hero {
+            position: relative;
+            padding: 100px 24px 80px;
+            text-align: center;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(225, 6, 0, 0.18) 0%, transparent 60%),
+                var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            pointer-events: none;
+        }
+        .page-hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+        .page-hero-label {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 20px;
+        }
+        .page-hero-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(36px, 7vw, 68px);
+            line-height: 1;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .page-hero-title .accent {
+            color: var(--red);
+            text-shadow: 0 0 40px var(--red-glow);
+        }
+        .page-hero-desc {
+            color: var(--text-secondary);
+            font-size: 17px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* SELECTOR BAR */
+        .selector-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 0;
+            position: sticky;
+            top: 72px;
+            z-index: 50;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .selector-inner {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 16px;
+            align-items: center;
+        }
+        .selector-label {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .selector-label svg { width: 16px; height: 16px; color: var(--red); }
+        .selector-select {
+            font-size: 15px;
+            font-weight: 600;
+            background: var(--bg-card);
+            border: 1px solid var(--border-bright);
+            border-radius: var(--radius-sm);
+            padding: 12px 40px 12px 16px;
+            color: #fff;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            transition: border-color var(--transition);
+            width: 100%;
+        }
+        .selector-select:focus { outline: none; border-color: var(--red); }
+        .selector-status {
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+        .selector-status.live { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); }
+        .selector-status.upcoming { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+        .selector-status.completed { background: rgba(107, 107, 107, 0.2); color: var(--text-muted); border: 1px solid var(--border-bright); }
+
+        /* TOURNAMENT INFO */
+        .tournament-info {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px 32px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .tournament-info-left { display: flex; flex-direction: column; gap: 6px; }
+        .tournament-info-name {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 0.5px;
+        }
+        .tournament-info-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+        }
+        .tournament-info-meta span { display: inline-flex; align-items: center; gap: 6px; }
+        .tournament-info-meta strong { color: var(--red); font-family: var(--font-display); letter-spacing: 0.5px; }
+
+        /* PODIUM */
+        .podium {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 48px;
+            align-items: end;
+        }
+        .podium-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 20px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all var(--transition);
+        }
+        .podium-card:hover { transform: translateY(-4px); }
+        .podium-card.first {
+            border-color: rgba(255, 215, 0, 0.4);
+            background: linear-gradient(180deg, rgba(255, 215, 0, 0.08), var(--bg-card) 60%);
+            padding-top: 44px;
+            padding-bottom: 36px;
+        }
+        .podium-card.second { border-color: rgba(192, 192, 192, 0.3); }
+        .podium-card.third { border-color: rgba(205, 127, 50, 0.3); }
+
+        .podium-rank-badge {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 11px;
+            letter-spacing: 2px;
+            padding: 6px 18px;
+            border-radius: 0 0 8px 8px;
+            text-transform: uppercase;
+        }
+        .podium-card.first .podium-rank-badge {
+            background: linear-gradient(135deg, var(--gold), #b8860b);
+            color: #000;
+        }
+        .podium-card.second .podium-rank-badge {
+            background: linear-gradient(135deg, var(--silver), #808080);
+            color: #000;
+        }
+        .podium-card.third .podium-rank-badge {
+            background: linear-gradient(135deg, var(--bronze), #8b4513);
+            color: #fff;
+        }
+
+        .podium-logo {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            color: #fff;
+            margin: 0 auto 16px;
+            background: var(--team-gradient, linear-gradient(135deg, #333, #111));
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            border: 3px solid var(--bg-card);
+            letter-spacing: 1px;
+        }
+        .podium-card.first .podium-logo {
+            width: 104px;
+            height: 104px;
+            font-size: 34px;
+            box-shadow: 0 0 0 3px var(--gold), 0 12px 32px rgba(255, 215, 0, 0.3);
+        }
+        .podium-card.second .podium-logo {
+            box-shadow: 0 0 0 2px var(--silver), 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .podium-card.third .podium-logo {
+            box-shadow: 0 0 0 2px var(--bronze), 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .podium-team-name {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .podium-card.first .podium-team-name { font-size: 18px; }
+        .podium-team-tag {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .podium-points {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            color: var(--red);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .podium-card.first .podium-points { font-size: 34px; color: var(--gold); }
+        .podium-points-label {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* STANDINGS TABLE */
+        .standings-section-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .standings-section-title::before {
+            content: '';
+            width: 4px;
+            height: 22px;
+            background: var(--red);
+            border-radius: 2px;
+        }
+
+        .standings-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .standings-table thead { background: var(--bg-secondary); }
+        .standings-table th {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .standings-table th.num { text-align: center; }
+        .standings-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        .standings-table td.num {
+            text-align: center;
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+        .standings-table tbody tr { transition: background var(--transition); }
+        .standings-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+        .standings-table tbody tr:last-child td { border-bottom: none; }
+        .standings-table tr.top-1 { background: linear-gradient(90deg, rgba(255, 215, 0, 0.05), transparent 40%); }
+        .standings-table tr.top-2 { background: linear-gradient(90deg, rgba(192, 192, 192, 0.04), transparent 40%); }
+        .standings-table tr.top-3 { background: linear-gradient(90deg, rgba(205, 127, 50, 0.05), transparent 40%); }
+        .standings-table tr.qualify td:first-child {
+            box-shadow: inset 3px 0 0 var(--red);
+        }
+
+        .rank-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .rank-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 12px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-bright);
+            flex-shrink: 0;
+        }
+        .rank-badge.top-1 {
+            background: linear-gradient(135deg, var(--gold), #b8860b);
+            color: #000;
+            border-color: var(--gold);
+            box-shadow: 0 0 16px rgba(255, 215, 0, 0.3);
+        }
+        .rank-badge.top-2 {
+            background: linear-gradient(135deg, var(--silver), #808080);
+            color: #000;
+            border-color: var(--silver);
+        }
+        .rank-badge.top-3 {
+            background: linear-gradient(135deg, var(--bronze), #8b4513);
+            color: #fff;
+            border-color: var(--bronze);
+        }
+        .rank-team {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .team-mini-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 11px;
+            color: #fff;
+            background: var(--team-gradient, linear-gradient(135deg, #333, #111));
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+        }
+        .rank-team-name { font-weight: 700; letter-spacing: 0.3px; }
+        .rank-team-name small {
+            display: block;
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        .points-cell {
+            font-family: var(--font-display);
+            font-weight: 900;
+            color: var(--red);
+            font-size: 16px;
+        }
+        .form-cell {
+            display: inline-flex;
+            gap: 4px;
+        }
+        .form-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 9px;
+            font-weight: 900;
+        }
+        .form-dot.W { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .form-dot.L { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .form-dot.D { background: rgba(107, 107, 107, 0.2); color: var(--text-muted); }
+
+        /* POINTS LEGEND */
+        .legend-wrap {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+        }
+        .legend-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .legend-title::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: var(--red);
+            border-radius: 2px;
+        }
+        .legend-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        .legend-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+        }
+        .legend-item-label {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .legend-item-value {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .legend-item-value strong { color: #fff; }
+        .legend-item-value .accent { color: var(--red); font-weight: 700; }
+
+        /* QUALIFY NOTICE */
+        .qualify-notice {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            background: rgba(225, 6, 0, 0.08);
+            border: 1px solid rgba(225, 6, 0, 0.25);
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .qualify-notice .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--red);
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 10px var(--red);
+        }
+        .qualify-notice strong { color: #fff; }
+
+        /* FOOTER */
+        .footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            padding: 64px 0 32px;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        .footer-brand .logo { margin-bottom: 20px; }
+        .footer-tagline { color: var(--text-secondary); font-size: 14px; max-width: 320px; }
+        .footer-heading {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .footer-links { display: flex; flex-direction: column; gap: 12px; }
+        .footer-link { font-size: 14px; color: var(--text-secondary); transition: color var(--transition); }
+        .footer-link:hover { color: var(--red); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy { font-size: 13px; color: var(--text-muted); }
+        .footer-copy strong { color: var(--red); font-weight: 600; }
+        .footer-note { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .legend-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 40px 0; }
+            .page-hero { padding: 70px 20px 60px; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: var(--bg-secondary);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 16px;
+            }
+            .nav-links.active { display: flex; }
+            .nav-link { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+            .nav-link::after { display: none; }
+            .nav-toggle { display: flex; }
+            .selector-inner { grid-template-columns: 1fr; gap: 10px; }
+            .selector-label { display: none; }
+            .selector-status { align-self: flex-start; }
+            .tournament-info { padding: 20px 16px; }
+            .tournament-info-name { font-size: 16px; }
+            .podium {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .podium-card.first { order: -1; padding-top: 44px; padding-bottom: 24px; }
+            .podium-logo { width: 72px; height: 72px; font-size: 22px; }
+            .podium-card.first .podium-logo { width: 80px; height: 80px; font-size: 26px; }
+            .podium-points { font-size: 22px; }
+            .podium-card.first .podium-points { font-size: 26px; }
+            .standings-table th, .standings-table td { padding: 12px 8px; font-size: 12px; }
+            .standings-table th:nth-child(5),
+            .standings-table td:nth-child(5),
+            .standings-table th:nth-child(7),
+            .standings-table td:nth-child(7) { display: none; }
+            .team-mini-logo { width: 26px; height: 26px; font-size: 9px; }
+            .rank-team-name { font-size: 12px; }
+            .rank-team-name small { font-size: 9px; }
+            .legend-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .rank-badge { width: 26px; height: 26px; font-size: 10px; }
+            .team-mini-logo { width: 22px; height: 22px; font-size: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preview-notice">
+        ⚠️ <strong>Design Preview</strong> — All standings below are sample data. Real standings will load from the backend once connected.
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="index.html" class="logo" aria-label="BCE Esports Home">
+                <div class="logo-mark">B</div>
+                <div class="logo-text">
+                    <span class="logo-main">BCE</span>
+                    <span class="logo-sub">ESPORTS</span>
+                </div>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="tournaments.html" class="nav-link">Tournaments</a>
+                <a href="teams.html" class="nav-link">Teams</a>
+                <a href="players.html" class="nav-link">Players</a>
+                <a href="leaderboard.html" class="nav-link active">Leaderboard</a>
+                <a href="index.html#community" class="nav-link">Contact</a>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                    <path d="M3 6h18M3 12h18M3 18h18"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <span class="page-hero-label">Standings</span>
+            <h1 class="page-hero-title">Tournament <span class="accent">Leaderboard</span></h1>
+            <p class="page-hero-desc">
+                Live standings from BCE Esports tournaments. Ranked by total points earned through match placements and eliminations.
+            </p>
+        </div>
+    </section>
+
+    <!-- SELECTOR -->
+    <div class="selector-bar">
+        <div class="container selector-inner">
+            <div class="selector-label">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 2l3 7h7l-5.5 4.5 2 7-6.5-4.5-6.5 4.5 2-7L2 9h7z"/>
+                </svg>
+                Tournament
+            </div>
+            <select class="selector-select" id="tournamentSelect">
+                <!-- Options injected by JavaScript -->
+            </select>
+            <span class="selector-status live" id="statusBadge">Live</span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <section class="section">
+        <div class="container">
+
+            <!-- TOURNAMENT INFO -->
+            <div class="tournament-info">
+                <div class="tournament-info-left">
+                    <div class="tournament-info-name" id="infoName">—</div>
+                    <div class="tournament-info-meta">
+                        <span>Game: <strong id="infoGame">—</strong></span>
+                        <span>Format: <strong id="infoFormat">—</strong></span>
+                        <span>Prize Pool: <strong id="infoPrize">—</strong></span>
+                    </div>
+                </div>
+                <a href="tournament.html" class="btn btn-outline btn-sm">View Tournament →</a>
+            </div>
+
+            <!-- PODIUM -->
+            <div class="podium" id="podium">
+                <!-- Injected -->
+            </div>
+
+            <!-- STANDINGS TABLE -->
+            <h2 class="standings-section-title">Full Standings</h2>
+            <div class="qualify-notice">
+                <span class="dot"></span>
+                <span>Top <strong>4 teams</strong> qualify for the next stage. Teams are ranked by total points, then by wins.</span>
+            </div>
+
+            <div class="standings-wrap">
+                <table class="standings-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Team</th>
+                            <th class="num">MP</th>
+                            <th class="num">W</th>
+                            <th class="num">L</th>
+                            <th class="num">Kills</th>
+                            <th class="num">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="standingsBody">
+                        <!-- Injected -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- POINTS LEGEND -->
+            <div class="legend-wrap">
+                <h3 class="legend-title">How Points Are Calculated</h3>
+                <p class="legend-desc">Points are earned per match based on final placement and total eliminations.</p>
+                <div class="legend-grid">
+                    <div class="legend-item">
+                        <div class="legend-item-label">Placement Points</div>
+                        <div class="legend-item-value">
+                            1st → <span class="accent">10 pts</span> · 2nd → <span class="accent">6 pts</span> · 3rd → <span class="accent">5 pts</span> · 4th → <span class="accent">4 pts</span> · 5th → <span class="accent">3 pts</span>
+                        </div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-item-label">Kill Points</div>
+                        <div class="legend-item-value">
+                            <strong>+1 point</strong> per elimination, added to your placement points.
+                        </div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-item-label">Total Score</div>
+                        <div class="legend-item-value">
+                            <strong>Total Points</strong> = Placement + Kills across all matches played.
+                        </div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-item-label">Tiebreaker</div>
+                        <div class="legend-item-value">
+                            In case of equal points, the team with <strong>more wins</strong> ranks higher.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-mark">B</div>
+                        <div class="logo-text">
+                            <span class="logo-main">BCE</span>
+                            <span class="logo-sub">ESPORTS</span>
+                        </div>
+                    </a>
+                    <p class="footer-tagline">
+                        The official competitive gaming platform of Bakhtiyarpur College of Engineering, Bihar.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Platform</h4>
+                    <div class="footer-links">
+                        <a href="about.html" class="footer-link">About Us</a>
+                        <a href="tournaments.html" class="footer-link">Tournaments</a>
+                        <a href="teams.html" class="footer-link">Teams</a>
+                        <a href="leaderboard.html" class="footer-link">Leaderboard</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Games</h4>
+                    <div class="footer-links">
+                        <a href="index.html#games" class="footer-link">Free Fire</a>
+                        <a href="index.html#games" class="footer-link">BGMI</a>
+                        <a href="index.html#games" class="footer-link">Valorant</a>
+                        <a href="index.html#games" class="footer-link">COD Mobile</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Connect</h4>
+                    <div class="footer-links">
+                        <a href="index.html#community" class="footer-link">Discord</a>
+                        <a href="index.html#community" class="footer-link">Instagram</a>
+                        <a href="index.html#community" class="footer-link">YouTube</a>
+                        <a href="index.html#announcements" class="footer-link">News</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy">© 2026 <strong>BCE Esports</strong> · All rights reserved.</p>
+                <p class="footer-note">Design Preview · Sample data</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ==================================================
+           MOBILE MENU
+           ================================================== */
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+
+        /* ==================================================
+           SAMPLE TOURNAMENTS DATA
+           ================================================== */
+        const tournaments = {
+            'T-2026-0001': {
+                name: 'BCE Winter Clash 2026',
+                game: 'BGMI',
+                format: 'Squad · Group Stage',
+                prize: '₹20,000',
+                status: 'live',
+                standings: [
+                    { rank: 1, team: 'BCE Vipers', tag: 'BCEV', gradient: 'linear-gradient(135deg, #e10600, #7a0400)', mp: 8, w: 6, l: 2, kills: 42, points: 78 },
+                    { rank: 2, team: 'Phantom Squad', tag: 'PHNT', gradient: 'linear-gradient(135deg, #f59e0b, #7a0400)', mp: 8, w: 5, l: 3, kills: 38, points: 71 },
+                    { rank: 3, team: 'Team Zenith', tag: 'TZN', gradient: 'linear-gradient(135deg, #8b5cf6, #1e1b4b)', mp: 8, w: 4, l: 4, kills: 35, points: 64 },
+                    { rank: 4, team: 'Red X', tag: 'RDX', gradient: 'linear-gradient(135deg, #2563eb, #1e293b)', mp: 8, w: 3, l: 5, kills: 30, points: 57 },
+                    { rank: 5, team: 'Storm Elite', tag: 'STEL', gradient: 'linear-gradient(135deg, #10b981, #064e3b)', mp: 8, w: 2, l: 6, kills: 24, points: 48 },
+                    { rank: 6, team: 'Iron Guardians', tag: 'IRGD', gradient: 'linear-gradient(135deg, #ef4444, #7f1d1d)', mp: 8, w: 2, l: 6, kills: 21, points: 42 },
+                    { rank: 7, team: 'Shadow Kings', tag: 'SHDK', gradient: 'linear-gradient(135deg, #06b6d4, #164e63)', mp: 8, w: 1, l: 7, kills: 18, points: 36 },
+                    { rank: 8, team: 'Avalanche', tag: 'AVLN', gradient: 'linear-gradient(135deg, #facc15, #713f12)', mp: 8, w: 1, l: 7, kills: 15, points: 30 }
+                ]
+            },
+            'T-2026-0003': {
+                name: 'BCE Valorant Open',
+                game: 'Valorant',
+                format: '5v5 · Quarterfinals',
+                prize: '₹25,000',
+                status: 'live',
+                standings: [
+                    { rank: 1, team: 'Phantom Squad', tag: 'PHNT', gradient: 'linear-gradient(135deg, #f59e0b, #7a0400)', mp: 6, w: 5, l: 1, kills: 84, points: 15 },
+                    { rank: 2, team: 'Team Legacy', tag: 'TMLG', gradient: 'linear-gradient(135deg, #84cc16, #365314)', mp: 6, w: 4, l: 2, kills: 78, points: 12 },
+                    { rank: 3, team: 'Iron Guardians', tag: 'IRGD', gradient: 'linear-gradient(135deg, #ef4444, #7f1d1d)', mp: 6, w: 3, l: 3, kills: 71, points: 9 },
+                    { rank: 4, team: 'Team Zenith', tag: 'TZN', gradient: 'linear-gradient(135deg, #8b5cf6, #1e1b4b)', mp: 6, w: 2, l: 4, kills: 65, points: 6 },
+                    { rank: 5, team: 'BCE Vipers', tag: 'BCEV', gradient: 'linear-gradient(135deg, #e10600, #7a0400)', mp: 6, w: 2, l: 4, kills: 58, points: 6 },
+                    { rank: 6, team: 'Storm Elite', tag: 'STEL', gradient: 'linear-gradient(135deg, #10b981, #064e3b)', mp: 6, w: 1, l: 5, kills: 42, points: 3 }
+                ]
+            },
+            'T-2025-0008': {
+                name: 'BCE Fall Invitational 2025',
+                game: 'BGMI',
+                format: 'Squad · Grand Final',
+                prize: '₹20,000',
+                status: 'completed',
+                standings: [
+                    { rank: 1, team: 'Phantom Squad', tag: 'PHNT', gradient: 'linear-gradient(135deg, #f59e0b, #7a0400)', mp: 12, w: 8, l: 4, kills: 64, points: 112 },
+                    { rank: 2, team: 'BCE Vipers', tag: 'BCEV', gradient: 'linear-gradient(135deg, #e10600, #7a0400)', mp: 12, w: 7, l: 5, kills: 58, points: 105 },
+                    { rank: 3, team: 'Storm Elite', tag: 'STEL', gradient: 'linear-gradient(135deg, #10b981, #064e3b)', mp: 12, w: 6, l: 6, kills: 52, points: 94 },
+                    { rank: 4, team: 'Red X', tag: 'RDX', gradient: 'linear-gradient(135deg, #2563eb, #1e293b)', mp: 12, w: 5, l: 7, kills: 48, points: 86 },
+                    { rank: 5, team: 'Team Zenith', tag: 'TZN', gradient: 'linear-gradient(135deg, #8b5cf6, #1e1b4b)', mp: 12, w: 4, l: 8, kills: 41, points: 78 },
+                    { rank: 6, team: 'Iron Guardians', tag: 'IRGD', gradient: 'linear-gradient(135deg, #ef4444, #7f1d1d)', mp: 12, w: 4, l: 8, kills: 38, points: 72 },
+                    { rank: 7, team: 'Shadow Kings', tag: 'SHDK', gradient: 'linear-gradient(135deg, #06b6d4, #164e63)', mp: 12, w: 3, l: 9, kills: 32, points: 64 },
+                    { rank: 8, team: 'Avalanche', tag: 'AVLN', gradient: 'linear-gradient(135deg, #facc15, #713f12)', mp: 12, w: 2, l: 10, kills: 28, points: 56 }
+                ]
+            }
+        };
+
+        /* ==================================================
+           STATE
+           ================================================== */
+        let activeTournamentId = 'T-2026-0001';
+
+        /* ==================================================
+           HELPERS
+           ================================================== */
+        function initials(name) {
+            return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        }
+
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function statusLabel(s) {
+            return s.charAt(0).toUpperCase() + s.slice(1);
+        }
+
+        /* ==================================================
+           POPULATE SELECTOR
+           ================================================== */
+        function populateSelector() {
+            const sel = document.getElementById('tournamentSelect');
+            sel.innerHTML = '';
+            Object.entries(tournaments).forEach(([id, t]) => {
+                const opt = document.createElement('option');
+                opt.value = id;
+                opt.textContent = `${t.name} (${t.game})`;
+                sel.appendChild(opt);
+            });
+            sel.value = activeTournamentId;
+        }
+
+        /* ==================================================
+           RENDER PODIUM
+           ================================================== */
+        function renderPodium(standings) {
+            const podium = document.getElementById('podium');
+            const byRank = {};
+            standings.forEach(s => byRank[s.rank] = s);
+
+            const order = [
+                { rank: 2, cls: 'second' },
+                { rank: 1, cls: 'first' },
+                { rank: 3, cls: 'third' }
+            ];
+
+            podium.innerHTML = order.map(({ rank, cls }) => {
+                const t = byRank[rank];
+                if (!t) return '';
+                const label = rank === 1 ? 'Champion' : rank === 2 ? 'Runner-up' : '3rd Place';
+                return `
+                    <div class="podium-card ${cls}">
+                        <div class="podium-rank-badge">${label}</div>
+                        <div class="podium-logo" style="--team-gradient: ${t.gradient};">${escapeHtml(initials(t.team))}</div>
+                        <div class="podium-team-name">${escapeHtml(t.team)}</div>
+                        <div class="podium-team-tag">${escapeHtml(t.tag)}</div>
+                        <div class="podium-points">${t.points}</div>
+                        <div class="podium-points-label">Points</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /* ==================================================
+           RENDER STANDINGS TABLE
+           ================================================== */
+        function renderStandings(standings) {
+            const tbody = document.getElementById('standingsBody');
+            tbody.innerHTML = standings.map(t => {
+                const rankClass = t.rank <= 3 ? 'top-' + t.rank : '';
+                const qualifyClass = t.rank <= 4 ? 'qualify' : '';
+                return `
+                    <tr class="${rankClass} ${qualifyClass}">
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-badge ${rankClass}">${t.rank}</span>
+                                <div class="rank-team">
+                                    <div class="team-mini-logo" style="--team-gradient: ${t.gradient};">${escapeHtml(initials(t.team))}</div>
+                                    <div class="rank-team-name">
+                                        ${escapeHtml(t.team)}
+                                        <small>${escapeHtml(t.tag)}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${escapeHtml(t.team)}</td>
+                        <td class="num">${t.mp}</td>
+                        <td class="num">${t.w}</td>
+                        <td class="num">${t.l}</td>
+                        <td class="num">${t.kills}</td>
+                        <td class="num points-cell">${t.points}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        /* ==================================================
+           RENDER TOURNAMENT INFO
+           ================================================== */
+        function renderInfo(t) {
+            document.getElementById('infoName').textContent = t.name;
+            document.getElementById('infoGame').textContent = t.game;
+            document.getElementById('infoFormat').textContent = t.format;
+            document.getElementById('infoPrize').textContent = t.prize;
+
+            const statusEl = document.getElementById('statusBadge');
+            statusEl.className = 'selector-status ' + t.status;
+            statusEl.textContent = statusLabel(t.status);
+        }
+
+        /* ==================================================
+           RENDER ALL
+           ================================================== */
+        function render() {
+            const t = tournaments[activeTournamentId];
+            if (!t) return;
+            renderInfo(t);
+            renderPodium(t.standings);
+            renderStandings(t.standings);
+        }
+
+        /* ==================================================
+           EVENT HANDLERS
+           ================================================== */
+        document.getElementById('tournamentSelect').addEventListener('change', (e) => {
+            activeTournamentId = e.target.value;
+            render();
+        });
+
+        /* ==================================================
+           INIT
+           ================================================== */
+        populateSelector();
+        render();
+    </script>
+</body>
+</html>

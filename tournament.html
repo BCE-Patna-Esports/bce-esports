@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tournament details — BCE Esports. View overview, schedule, standings, teams, and results for this tournament.">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Tournament Details — BCE Esports</title>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23e10600'/%3E%3Ctext x='50%25' y='54%25' font-family='Arial Black,sans-serif' font-size='40' font-weight='900' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================================================
+           1. DESIGN TOKENS (identical system)
+           ================================================== */
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --bg-card: #171717;
+            --bg-card-hover: #1f1f1f;
+            --red: #e10600;
+            --red-bright: #ff2020;
+            --red-glow: rgba(225, 6, 0, 0.35);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #6b6b6b;
+            --border: #232323;
+            --border-bright: #333333;
+            --green: #22c55e;
+            --blue: #3b82f6;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==================================================
+           2. RESET
+           ================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: inherit; text-decoration: none; transition: color var(--transition); }
+        img { max-width: 100%; display: block; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ==================================================
+           3. LAYOUT
+           ================================================== */
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; position: relative; }
+
+        /* ==================================================
+           4. BUTTONS
+           ================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 0 24px var(--red-glow);
+        }
+        .btn-primary:hover {
+            background: var(--red-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px var(--red-glow), 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-bright);
+        }
+        .btn-outline:hover { border-color: var(--red); color: var(--red); transform: translateY(-2px); }
+        .btn-sm { padding: 10px 18px; font-size: 11px; letter-spacing: 1px; }
+        .btn-block { width: 100%; }
+        .btn-disabled {
+            background: var(--bg-card);
+            color: var(--text-muted);
+            border: 2px solid var(--border);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .btn-disabled:hover {
+            transform: none;
+            background: var(--bg-card);
+            color: var(--text-muted);
+        }
+
+        /* ==================================================
+           5. PREVIEW NOTICE
+           ================================================== */
+        .preview-notice {
+            background: linear-gradient(90deg, #4a0a0a, #2a0808);
+            border-bottom: 1px solid rgba(225, 6, 0, 0.3);
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffb3b3;
+            position: relative;
+            z-index: 100;
+        }
+        .preview-notice strong { color: #fff; font-weight: 700; }
+
+        /* ==================================================
+           6. NAVIGATION
+           ================================================== */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; transition: transform var(--transition); }
+        .logo:hover { transform: scale(1.02); }
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            background: var(--red);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            color: #fff;
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .logo-text { display: flex; flex-direction: column; line-height: 1; }
+        .logo-main {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+        .logo-sub {
+            font-family: var(--font-display);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--red);
+            margin-top: 2px;
+        }
+        .nav-links { display: flex; align-items: center; gap: 28px; }
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red);
+            transition: width var(--transition);
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #fff; }
+        .nav-link.active::after { width: 100%; }
+        .nav-cta { margin-left: 8px; }
+        .nav-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid var(--border-bright);
+            color: #fff;
+        }
+        .nav-toggle:hover { border-color: var(--red); color: var(--red); }
+        .nav-toggle svg { width: 22px; height: 22px; }
+
+        /* ==================================================
+           7. TOURNAMENT HERO
+           ================================================== */
+        .tournament-hero {
+            position: relative;
+            padding: 60px 0 0;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 20% 0%, rgba(225, 6, 0, 0.22) 0%, transparent 60%),
+                var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+        }
+        .tournament-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at top, black 20%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at top, black 20%, transparent 70%);
+            pointer-events: none;
+        }
+        .tournament-hero-inner {
+            position: relative;
+            z-index: 2;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .breadcrumb a { color: var(--text-secondary); transition: color var(--transition); }
+        .breadcrumb a:hover { color: var(--red); }
+        .breadcrumb .sep { color: var(--text-muted); }
+        .breadcrumb .current { color: #fff; }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 40px;
+            align-items: end;
+            padding-bottom: 40px;
+        }
+        .hero-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .badge {
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .badge-status-upcoming { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+        .badge-status-live { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); }
+        .badge-status-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .badge-game {
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: 1px solid var(--border-bright);
+        }
+        .badge-category {
+            background: rgba(225, 6, 0, 0.12);
+            color: var(--red);
+            border: 1px solid rgba(225, 6, 0, 0.3);
+        }
+
+        .tournament-hero-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(32px, 6vw, 56px);
+            line-height: 1.05;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+        .tournament-hero-title .accent { color: var(--red); }
+        .tournament-hero-meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .tournament-hero-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tournament-hero-meta svg { width: 16px; height: 16px; color: var(--red); flex-shrink: 0; }
+
+        .hero-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 240px;
+        }
+        .hero-register-note {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* ==================================================
+           8. QUICK STATS STRIP
+           ================================================== */
+        .quick-stats {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+        }
+        .quick-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .quick-stat {
+            text-align: center;
+            padding: 8px 0;
+            border-right: 1px solid var(--border);
+        }
+        .quick-stat:last-child { border-right: none; }
+        .quick-stat-label {
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .quick-stat-value {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            color: #fff;
+        }
+        .quick-stat-value .accent { color: var(--red); }
+
+        /* ==================================================
+           9. TABS
+           ================================================== */
+        .tabs-wrap {
+            position: sticky;
+            top: 72px;
+            z-index: 50;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+        }
+        .tabs {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 8px 0;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
+        .tab {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            padding: 12px 20px;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tab:hover { color: #fff; background: var(--bg-card); }
+        .tab.active {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 0 16px var(--red-glow);
+        }
+        .tab-count {
+            display: inline-block;
+            font-size: 10px;
+            background: rgba(255,255,255,0.15);
+            padding: 2px 7px;
+            border-radius: 3px;
+        }
+        .tab.active .tab-count { background: rgba(255,255,255,0.25); }
+
+        /* ==================================================
+           10. TAB PANELS
+           ================================================== */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ==================================================
+           11. OVERVIEW — Content layout
+           ================================================== */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 32px;
+            align-items: start;
+        }
+        .content-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .content-card:last-child { margin-bottom: 0; }
+        .content-card-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .content-card-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--red);
+            border-radius: 2px;
+        }
+        .content-text { color: var(--text-secondary); font-size: 15px; line-height: 1.75; }
+        .content-text p { margin-bottom: 14px; }
+        .content-text p:last-child { margin-bottom: 0; }
+        .content-text ul { padding-left: 20px; margin: 12px 0; list-style: disc; }
+        .content-text li { margin-bottom: 8px; color: var(--text-secondary); }
+
+        /* Prize distribution list */
+        .prize-list { display: flex; flex-direction: column; gap: 12px; }
+        .prize-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+        }
+        .prize-row:hover { border-color: var(--border-bright); }
+        .prize-place {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+        .prize-medal {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 13px;
+        }
+        .prize-medal.gold { background: linear-gradient(135deg, #ffd700, #b8860b); color: #000; }
+        .prize-medal.silver { background: linear-gradient(135deg, #e0e0e0, #808080); color: #000; }
+        .prize-medal.bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); color: #fff; }
+        .prize-medal.other { background: var(--bg-primary); color: var(--text-secondary); border: 1px solid var(--border-bright); }
+        .prize-amount {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 18px;
+            color: var(--red);
+        }
+
+        /* Sidebar info list */
+        .info-list { display: flex; flex-direction: column; gap: 16px; }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .info-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .info-value {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            text-align: right;
+        }
+        .info-value.accent { color: var(--red); }
+
+        /* ==================================================
+           12. SCHEDULE
+           ================================================== */
+        .schedule-day { margin-bottom: 32px; }
+        .schedule-day:last-child { margin-bottom: 0; }
+        .schedule-day-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .schedule-day-label {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .schedule-day-date {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .schedule-list { display: flex; flex-direction: column; gap: 12px; }
+        .match-row {
+            display: grid;
+            grid-template-columns: 100px 1fr auto;
+            gap: 20px;
+            align-items: center;
+            padding: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: all var(--transition);
+        }
+        .match-row:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
+        .match-time {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--red);
+            letter-spacing: 0.5px;
+        }
+        .match-info { display: flex; flex-direction: column; gap: 4px; }
+        .match-teams {
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+        .match-round {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .match-status {
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+        .match-status.scheduled { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+        .match-status.live { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); }
+        .match-status.completed { background: rgba(107, 107, 107, 0.2); color: var(--text-muted); border: 1px solid var(--border-bright); }
+
+        /* ==================================================
+           13. STANDINGS
+           ================================================== */
+        .standings-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        .standings-table { width: 100%; border-collapse: collapse; }
+        .standings-table thead { background: var(--bg-secondary); }
+        .standings-table th {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .standings-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        .standings-table tbody tr { transition: background var(--transition); }
+        .standings-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+        .standings-table tbody tr:last-child td { border-bottom: none; }
+        .rank-cell { display: flex; align-items: center; gap: 12px; }
+        .rank-badge {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 12px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-bright);
+            flex-shrink: 0;
+        }
+        .rank-badge.top-1 { background: linear-gradient(135deg, #ffd700, #b8860b); color: #000; border-color: #ffd700; }
+        .rank-badge.top-2 { background: linear-gradient(135deg, #e0e0e0, #808080); color: #000; border-color: #c0c0c0; }
+        .rank-badge.top-3 { background: linear-gradient(135deg, #cd7f32, #8b4513); color: #fff; border-color: #cd7f32; }
+        .rank-team-name { font-weight: 700; letter-spacing: 0.5px; }
+        .rank-team-name small { display: block; font-size: 11px; color: var(--text-muted); font-weight: 400; letter-spacing: 1px; }
+        .points-cell { font-family: var(--font-display); font-weight: 900; color: var(--red); font-size: 15px; }
+
+        /* ==================================================
+           14. TEAMS GRID
+           ================================================== */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .team-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+            text-align: center;
+            transition: all var(--transition);
+        }
+        .team-card:hover {
+            border-color: var(--border-bright);
+            transform: translateY(-4px);
+            background: var(--bg-card-hover);
+        }
+        .team-logo {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            color: #fff;
+            background: var(--team-gradient, linear-gradient(135deg, #e10600, #7a0400));
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .team-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .team-tag {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--red);
+            background: rgba(225, 6, 0, 0.1);
+            padding: 3px 10px;
+            border-radius: 4px;
+        }
+
+        /* ==================================================
+           15. RESULTS
+           ================================================== */
+        .results-list { display: flex; flex-direction: column; gap: 16px; }
+        .result-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            transition: all var(--transition);
+        }
+        .result-item:hover { border-color: var(--border-bright); }
+        .result-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .result-round {
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--red);
+        }
+        .result-date { font-size: 12px; color: var(--text-muted); }
+        .result-match {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 20px;
+        }
+        .result-team { text-align: center; }
+        .result-logo {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 18px;
+            color: #fff;
+            background: var(--logo-bg, linear-gradient(135deg, #333, #111));
+        }
+        .result-team.winner .result-logo {
+            box-shadow: 0 0 0 2px var(--red), 0 0 20px var(--red-glow);
+        }
+        .result-name { font-size: 14px; font-weight: 600; letter-spacing: 0.5px; }
+        .result-team.winner .result-name { color: var(--red); }
+        .winner-tag {
+            display: block;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-top: 4px;
+        }
+        .result-score {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 2px;
+            color: #fff;
+            text-align: center;
+        }
+        .result-score .sep { color: var(--text-muted); font-size: 22px; margin: 0 4px; }
+
+        /* ==================================================
+           16. FOOTER
+           ================================================== */
+        .footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            padding: 64px 0 32px;
+            margin-top: 40px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        .footer-brand .logo { margin-bottom: 20px; }
+        .footer-tagline {
+            color: var(--text-secondary);
+            font-size: 14px;
+            max-width: 320px;
+            margin-bottom: 24px;
+        }
+        .footer-heading {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .footer-links { display: flex; flex-direction: column; gap: 12px; }
+        .footer-link { font-size: 14px; color: var(--text-secondary); transition: color var(--transition); }
+        .footer-link:hover { color: var(--red); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy { font-size: 13px; color: var(--text-muted); }
+        .footer-copy strong { color: var(--red); font-weight: 600; }
+        .footer-note { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+        /* ==================================================
+           17. RESPONSIVE
+           ================================================== */
+        @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr; align-items: start; }
+            .hero-actions { min-width: 0; flex-direction: row; flex-wrap: wrap; }
+            .overview-grid { grid-template-columns: 1fr; }
+            .teams-grid { grid-template-columns: repeat(3, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 40px 0; }
+            .tournament-hero { padding: 40px 0 0; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: var(--bg-secondary);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 16px;
+            }
+            .nav-links.active { display: flex; }
+            .nav-link { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+            .nav-link::after { display: none; }
+            .nav-cta { margin-left: 0; margin-top: 8px; }
+            .nav-cta .btn { width: 100%; }
+            .nav-toggle { display: flex; }
+            .quick-stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .quick-stat:nth-child(2) { border-right: none; }
+            .quick-stat:nth-child(1), .quick-stat:nth-child(2) { border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+            .quick-stat:nth-child(3), .quick-stat:nth-child(4) { padding-top: 16px; }
+            .match-row { grid-template-columns: 1fr; gap: 12px; padding: 16px; }
+            .match-time { font-size: 13px; }
+            .teams-grid { grid-template-columns: repeat(2, 1fr); }
+            .result-match { gap: 10px; }
+            .result-score { font-size: 22px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .content-card { padding: 24px 20px; }
+            .standings-table th, .standings-table td { padding: 12px 10px; font-size: 13px; }
+            .standings-table th:nth-child(4), .standings-table td:nth-child(4) { display: none; }
+            .tab { padding: 10px 14px; font-size: 11px; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .teams-grid { grid-template-columns: 1fr; }
+            .hero-actions { flex-direction: column; }
+            .hero-actions .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preview-notice">
+        ⚠️ <strong>Design Preview</strong> — Tournament data shown below is sample data. This page will load real data from the backend once connected.
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="index.html" class="logo" aria-label="BCE Esports Home">
+                <div class="logo-mark">B</div>
+                <div class="logo-text">
+                    <span class="logo-main">BCE</span>
+                    <span class="logo-sub">ESPORTS</span>
+                </div>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="tournaments.html" class="nav-link active">Tournaments</a>
+                <a href="index.html#teams" class="nav-link">Teams</a>
+                <a href="index.html#results" class="nav-link">Results</a>
+                <a href="index.html#announcements" class="nav-link">News</a>
+                <a href="index.html#community" class="nav-link">Contact</a>
+                <a href="tournaments.html" class="nav-cta btn btn-primary btn-sm">Register</a>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                    <path d="M3 6h18M3 12h18M3 18h18"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- TOURNAMENT HERO -->
+    <section class="tournament-hero">
+        <div class="container">
+            <div class="tournament-hero-inner">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span class="sep">/</span>
+                    <a href="tournaments.html">Tournaments</a>
+                    <span class="sep">/</span>
+                    <span class="current">BCE Winter Clash 2026</span>
+                </div>
+
+                <div class="hero-grid">
+                    <div>
+                        <div class="hero-badges">
+                            <span class="badge badge-status-upcoming">Upcoming</span>
+                            <span class="badge badge-game">BGMI</span>
+                            <span class="badge badge-category">Intra-College</span>
+                        </div>
+                        <h1 class="tournament-hero-title">
+                            BCE Winter <span class="accent">Clash 2026</span>
+                        </h1>
+                        <div class="tournament-hero-meta">
+                            <span>
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                    <path d="M16 2v4M8 2v4M3 10h18"/>
+                                </svg>
+                                Feb 20 – Feb 22, 2026
+                            </span>
+                            <span>
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                                Squad (4v4 + 1 sub)
+                            </span>
+                            <span>
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                </svg>
+                                Registration closes Feb 15
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="hero-actions">
+                        <a href="register.html?tid=T-2026-0001" class="btn btn-primary">Register Team</a>
+                        <a href="#schedule-tab" class="btn btn-outline" id="jumpSchedule">View Schedule</a>
+                        <div class="hero-register-note">Registration open · Limited slots</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK STATS -->
+    <div class="quick-stats">
+        <div class="container">
+            <div class="quick-stats-grid">
+                <div class="quick-stat">
+                    <div class="quick-stat-label">Prize Pool</div>
+                    <div class="quick-stat-value"><span class="accent">₹20,000</span></div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-label">Teams</div>
+                    <div class="quick-stat-value">18 / 32</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-label">Entry Fee</div>
+                    <div class="quick-stat-value">₹100</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-label">Format</div>
+                    <div class="quick-stat-value">Squad</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs-wrap">
+        <div class="container">
+            <div class="tabs" role="tablist">
+                <button class="tab active" data-tab="overview" role="tab">Overview</button>
+                <button class="tab" data-tab="schedule" role="tab">Schedule <span class="tab-count">8</span></button>
+                <button class="tab" data-tab="standings" role="tab">Standings <span class="tab-count">5</span></button>
+                <button class="tab" data-tab="teams" role="tab">Teams <span class="tab-count">18</span></button>
+                <button class="tab" data-tab="results" role="tab">Results <span class="tab-count">0</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB CONTENT -->
+    <section class="section">
+        <div class="container">
+
+            <!-- ============================================================
+                 TAB: OVERVIEW
+                 ============================================================ -->
+            <div class="tab-panel active" data-panel="overview" id="overview-tab">
+                <div class="overview-grid">
+                    <div>
+                        <div class="content-card">
+                            <h3 class="content-card-title">About This Tournament</h3>
+                            <div class="content-text">
+                                <p>
+                                    BCE Winter Clash 2026 is the flagship BGMI tournament of BCE Esports, open to all currently enrolled students of Bakhtiyarpur College of Engineering. Teams will battle across multiple rounds in the classic battle royale format, competing for the championship title and a share of the ₹20,000 prize pool.
+                                </p>
+                                <p>
+                                    The tournament runs across three days with group stages followed by semifinals and a grand final. Each match awards placement points and kill points, with the top teams from each group advancing to the next round.
+                                </p>
+                                <p>
+                                    All matches will be streamed live on our official YouTube channel. Teams must complete their registration before the closing date and ensure their roster meets all eligibility criteria.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h3 class="content-card-title">Prize Distribution</h3>
+                            <div class="prize-list">
+                                <div class="prize-row">
+                                    <div class="prize-place">
+                                        <span class="prize-medal gold">1</span>
+                                        <span>Champion</span>
+                                    </div>
+                                    <div class="prize-amount">₹12,000</div>
+                                </div>
+                                <div class="prize-row">
+                                    <div class="prize-place">
+                                        <span class="prize-medal silver">2</span>
+                                        <span>Runner-up</span>
+                                    </div>
+                                    <div class="prize-amount">₹5,000</div>
+                                </div>
+                                <div class="prize-row">
+                                    <div class="prize-place">
+                                        <span class="prize-medal bronze">3</span>
+                                        <span>Third Place</span>
+                                    </div>
+                                    <div class="prize-amount">₹3,000</div>
+                                </div>
+                                <div class="prize-row">
+                                    <div class="prize-place">
+                                        <span class="prize-medal other">★</span>
+                                        <span>MVP Award</span>
+                                    </div>
+                                    <div class="prize-amount">₹1,000</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h3 class="content-card-title">Eligibility & Rules</h3>
+                            <div class="content-text">
+                                <ul>
+                                    <li><strong>Eligibility:</strong> All players must be currently enrolled BCE students with a valid college ID.</li>
+                                    <li><strong>Email verification:</strong> Captain must register with a valid <code>@bcebakhtiyarpur.ac.in</code> email.</li>
+                                    <li><strong>Roster:</strong> Exactly 4 main players + 1 optional substitute. Substitutes must also meet eligibility.</li>
+                                    <li><strong>Team limit:</strong> A player may not be part of two teams in this tournament.</li>
+                                    <li><strong>Fair play:</strong> Any use of hacks, scripts, emulators, or teaming is an immediate disqualification.</li>
+                                    <li><strong>Reporting:</strong> Players must join the match lobby at least 10 minutes before the scheduled start time.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <aside>
+                        <div class="content-card">
+                            <h3 class="content-card-title">Key Info</h3>
+                            <div class="info-list">
+                                <div class="info-row">
+                                    <span class="info-label">Game</span>
+                                    <span class="info-value">BGMI</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Format</span>
+                                    <span class="info-value">Squad (4v4)</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Category</span>
+                                    <span class="info-value">Intra-College</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Max Teams</span>
+                                    <span class="info-value">32</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Entry Fee</span>
+                                    <span class="info-value accent">₹100</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Prize Pool</span>
+                                    <span class="info-value accent">₹20,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h3 class="content-card-title">Timeline</h3>
+                            <div class="info-list">
+                                <div class="info-row">
+                                    <span class="info-label">Registration Opens</span>
+                                    <span class="info-value">Feb 1, 2026</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Registration Closes</span>
+                                    <span class="info-value accent">Feb 15, 2026</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Tournament Starts</span>
+                                    <span class="info-value">Feb 20, 2026</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Grand Final</span>
+                                    <span class="info-value">Feb 22, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h3 class="content-card-title">Organiser</h3>
+                            <div class="info-list">
+                                <div class="info-row">
+                                    <span class="info-label">Organised By</span>
+                                    <span class="info-value">BCE Esports</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Contact</span>
+                                    <span class="info-value">esports@bce…</span>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 TAB: SCHEDULE
+                 ============================================================ -->
+            <div class="tab-panel" data-panel="schedule" id="schedule-tab">
+                <div class="schedule-day">
+                    <div class="schedule-day-header">
+                        <div class="schedule-day-label">Day 1</div>
+                        <div class="schedule-day-date">Feb 20, 2026 · Group Stage</div>
+                    </div>
+                    <div class="schedule-list">
+                        <div class="match-row">
+                            <div class="match-time">10:00 AM</div>
+                            <div class="match-info">
+                                <div class="match-teams">Group A · Match 1</div>
+                                <div class="match-round">Erangel · 16 teams</div>
+                            </div>
+                            <div class="match-status scheduled">Scheduled</div>
+                        </div>
+                        <div class="match-row">
+                            <div class="match-time">12:00 PM</div>
+                            <div class="match-info">
+                                <div class="match-teams">Group A · Match 2</div>
+                                <div class="match-round">Miramar · 16 teams</div>
+                            </div>
+                            <div class="match-status scheduled">Scheduled</div>
+                        </div>
+                        <div class="match-row">
+                            <div class="match-time">03:00 PM</div>
+                            <div class="match-info">
+                                <div class="match-teams">Group B · Match 1</div>
+                                <div class="match-round">Erangel · 16 teams</div>
+                            </div>
+                            <div class="match-status scheduled">Scheduled</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-day">
+                    <div class="schedule-day-header">
+                        <div class="schedule-day-label">Day 2</div>
+                        <div class="schedule-day-date">Feb 21, 2026 · Semifinals</div>
+                    </div>
+                    <div class="schedule-list">
+                        <div class="match-row">
+                            <div class="match-time">11:00 AM</div>
+                            <div class="match-info">
+                                <div class="match-teams">Semifinal 1</div>
+                                <div class="match-round">Erangel · Top 16</div>
+                            </div>
+                            <div class="match-status scheduled">Scheduled</div>
+                        </div>
+                        <div class="match-row">
+                            <div class="match-time">02:00 PM</div>
+                            <div class="match-info">
+                                <div class="match-teams">Semifinal 2</div>
+                                <div class="match-round">Miramar · Top 16</div>
+                            </div>
+                            <div class="match-status scheduled">Scheduled</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-day">
+                    <div class="schedule-day-header">
+                        <div class="schedule-day-label">Day 3</div>
+                        <div class="schedule-day-date">Feb 22, 2026 · Grand Final</div>
+                    </div>
+                    <div class="schedule-list">
+                        <div class="match-row">
+                            <div class="match-time">02:00 PM</div>
+                            <div class="match-info">
+                                <div class="match-teams">Grand Final · Match 1</div>
+                                <div class="match-round">Erangel · Top 16</div>
+                            </div>
+                            <div class="match-status scheduled">Scheduled</div>
+                        </div>
+                        <div class="match-row">
+                            <div class="match-time">04:00 PM</div>
+                            <div class="match-info">
+                                <div class="match-teams">Grand Final · Match 2</div>
+                                <div class="match-round">Miramar · Top 16</div>
+                            </div>
+                            <div class="match-status scheduled">Scheduled</div>
+                        </div>
+                        <div class="match-row">
+                            <div class="match-time">06:00 PM</div>
+                            <div class="match-info">
+                                <div class="match-teams">Grand Final · Match 3</div>
+                                <div class="match-round">Sanhok · Top 16</div>
+                            </div>
+                            <div class="match-status scheduled">Scheduled</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 TAB: STANDINGS
+                 ============================================================ -->
+            <div class="tab-panel" data-panel="standings" id="standings-tab">
+                <div class="standings-wrap">
+                    <table class="standings-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Team</th>
+                                <th>MP</th>
+                                <th>Wins</th>
+                                <th>Kills</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="rank-cell">
+                                        <span class="rank-badge top-1">1</span>
+                                        <span class="rank-team-name">BCE Vipers <small>BCEV</small></span>
+                                    </div>
+                                </td>
+                                <td>BCE Vipers</td>
+                                <td>4</td>
+                                <td>3</td>
+                                <td>22</td>
+                                <td class="points-cell">40</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="rank-cell">
+                                        <span class="rank-badge top-2">2</span>
+                                        <span class="rank-team-name">Phantom Squad <small>PHNT</small></span>
+                                    </div>
+                                </td>
+                                <td>Phantom Squad</td>
+                                <td>4</td>
+                                <td>2</td>
+                                <td>20</td>
+                                <td class="points-cell">35</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="rank-cell">
+                                        <span class="rank-badge top-3">3</span>
+                                        <span class="rank-team-name">Team Zenith <small>TZN</small></span>
+                                    </div>
+                                </td>
+                                <td>Team Zenith</td>
+                                <td>4</td>
+                                <td>2</td>
+                                <td>18</td>
+                                <td class="points-cell">31</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="rank-cell">
+                                        <span class="rank-badge">4</span>
+                                        <span class="rank-team-name">Red X <small>RDX</small></span>
+                                    </div>
+                                </td>
+                                <td>Red X</td>
+                                <td>4</td>
+                                <td>1</td>
+                                <td>15</td>
+                                <td class="points-cell">24</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="rank-cell">
+                                        <span class="rank-badge">5</span>
+                                        <span class="rank-team-name">Storm Elite <small>STEL</small></span>
+                                    </div>
+                                </td>
+                                <td>Storm Elite</td>
+                                <td>4</td>
+                                <td>1</td>
+                                <td>12</td>
+                                <td class="points-cell">21</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 TAB: TEAMS
+                 ============================================================ -->
+            <div class="tab-panel" data-panel="teams" id="teams-tab">
+                <div class="teams-grid">
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #e10600, #7a0400);">VP</div>
+                        <div class="team-name">BCE Vipers</div>
+                        <span class="team-tag">BCEV</span>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #f59e0b, #7a0400);">PH</div>
+                        <div class="team-name">Phantom Squad</div>
+                        <span class="team-tag">PHNT</span>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #2563eb, #1e293b);">RX</div>
+                        <div class="team-name">Red X</div>
+                        <span class="team-tag">RDX</span>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #8b5cf6, #1e1b4b);">TZ</div>
+                        <div class="team-name">Team Zenith</div>
+                        <span class="team-tag">TZN</span>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #10b981, #064e3b);">ST</div>
+                        <div class="team-name">Storm Elite</div>
+                        <span class="team-tag">STEL</span>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #ef4444, #7f1d1d);">IG</div>
+                        <div class="team-name">Iron Guardians</div>
+                        <span class="team-tag">IRGD</span>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #06b6d4, #164e63);">SK</div>
+                        <div class="team-name">Shadow Kings</div>
+                        <span class="team-tag">SHDK</span>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #facc15, #713f12);">AV</div>
+                        <div class="team-name">Avalanche</div>
+                        <span class="team-tag">AVLN</span>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #ec4899, #500724);">NK</div>
+                        <div class="team-name">Night Kings</div>
+                        <span class="team-tag">NGTK</span>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #84cc16, #365314);">TL</div>
+                        <div class="team-name">Team Legacy</div>
+                        <span class="team-tag">TMLG</span>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #a855f7, #4c1d95);">RE</div>
+                        <div class="team-name">Rogue Elite</div>
+                        <span class="team-tag">RGEL</span>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-logo" style="--team-gradient: linear-gradient(135deg, #f97316, #7c2d12);">SR</div>
+                        <div class="team-name">Solar Ravens</div>
+                        <span class="team-tag">SLRV</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 TAB: RESULTS
+                 ============================================================ -->
+            <div class="tab-panel" data-panel="results" id="results-tab">
+                <div class="results-list">
+                    <div class="result-item">
+                        <div class="result-head">
+                            <span class="result-round">Group Stage · Match 1</span>
+                            <span class="result-date">Feb 20, 2026 · 10:00 AM</span>
+                        </div>
+                        <div class="result-match">
+                            <div class="result-team winner">
+                                <div class="result-logo" style="--logo-bg: linear-gradient(135deg, #e10600, #7a0400);">VP</div>
+                                <div class="result-name">BCE Vipers</div>
+                                <span class="winner-tag">Winner</span>
+                            </div>
+                            <div class="result-score">18<span class="sep">:</span>12</div>
+                            <div class="result-team">
+                                <div class="result-logo" style="--logo-bg: linear-gradient(135deg, #333, #111);">RX</div>
+                                <div class="result-name">Red X</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <div class="result-head">
+                            <span class="result-round">Group Stage · Match 2</span>
+                            <span class="result-date">Feb 20, 2026 · 12:00 PM</span>
+                        </div>
+                        <div class="result-match">
+                            <div class="result-team">
+                                <div class="result-logo" style="--logo-bg: linear-gradient(135deg, #f59e0b, #7a0400);">PH</div>
+                                <div class="result-name">Phantom Squad</div>
+                            </div>
+                            <div class="result-score">14<span class="sep">:</span>16</div>
+                            <div class="result-team winner">
+                                <div class="result-logo" style="--logo-bg: linear-gradient(135deg, #8b5cf6, #1e1b4b);">TZ</div>
+                                <div class="result-name">Team Zenith</div>
+                                <span class="winner-tag">Winner</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <div class="result-head">
+                            <span class="result-round">Group Stage · Match 3</span>
+                            <span class="result-date">Feb 20, 2026 · 03:00 PM</span>
+                        </div>
+                        <div class="result-match">
+                            <div class="result-team winner">
+                                <div class="result-logo" style="--logo-bg: linear-gradient(135deg, #10b981, #064e3b);">ST</div>
+                                <div class="result-name">Storm Elite</div>
+                                <span class="winner-tag">Winner</span>
+                            </div>
+                            <div class="result-score">20<span class="sep">:</span>11</div>
+                            <div class="result-team">
+                                <div class="result-logo" style="--logo-bg: linear-gradient(135deg, #06b6d4, #164e63);">SK</div>
+                                <div class="result-name">Shadow Kings</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-mark">B</div>
+                        <div class="logo-text">
+                            <span class="logo-main">BCE</span>
+                            <span class="logo-sub">ESPORTS</span>
+                        </div>
+                    </a>
+                    <p class="footer-tagline">
+                        The official competitive gaming platform of Bakhtiyarpur College of Engineering, Bihar.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Platform</h4>
+                    <div class="footer-links">
+                        <a href="about.html" class="footer-link">About Us</a>
+                        <a href="tournaments.html" class="footer-link">Tournaments</a>
+                        <a href="index.html#teams" class="footer-link">Teams</a>
+                        <a href="index.html#results" class="footer-link">Results</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Games</h4>
+                    <div class="footer-links">
+                        <a href="index.html#games" class="footer-link">Free Fire</a>
+                        <a href="index.html#games" class="footer-link">BGMI</a>
+                        <a href="index.html#games" class="footer-link">Valorant</a>
+                        <a href="index.html#games" class="footer-link">COD Mobile</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Connect</h4>
+                    <div class="footer-links">
+                        <a href="index.html#community" class="footer-link">Discord</a>
+                        <a href="index.html#community" class="footer-link">Instagram</a>
+                        <a href="index.html#community" class="footer-link">YouTube</a>
+                        <a href="index.html#announcements" class="footer-link">News</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy">© 2026 <strong>BCE Esports</strong> · All rights reserved.</p>
+                <p class="footer-note">Design Preview · Sample data</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ==================================================
+           MOBILE MENU
+           ================================================== */
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => navLinks.classList.remove('active'));
+            });
+        }
+
+        /* ==================================================
+           TABS
+           ================================================== */
+        const tabs = document.querySelectorAll('.tab');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        function activateTab(tabName) {
+            tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
+            panels.forEach(p => p.classList.toggle('active', p.dataset.panel === tabName));
+
+            // Update URL hash without jumping
+            if (history.replaceState) {
+                history.replaceState(null, '', '#' + tabName);
+            }
+
+            // Scroll to top of tabs (nice UX when switching)
+            const tabsWrap = document.querySelector('.tabs-wrap');
+            if (tabsWrap) {
+                const top = tabsWrap.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => activateTab(tab.dataset.tab));
+        });
+
+        // Handle "View Schedule" button in hero → jump to schedule tab
+        const jumpSchedule = document.getElementById('jumpSchedule');
+        if (jumpSchedule) {
+            jumpSchedule.addEventListener('click', (e) => {
+                e.preventDefault();
+                activateTab('schedule');
+            });
+        }
+
+        // On page load, check URL hash to open the right tab
+        const hash = window.location.hash.replace('#', '');
+        const validTabs = ['overview', 'schedule', 'standings', 'teams', 'results'];
+        if (hash && validTabs.includes(hash)) {
+            activateTab(hash);
+        }
+    </script>
+</body>
+</html>

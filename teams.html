@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse all BCE Esports teams — filter by game, search by name, and view full rosters.">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Teams — BCE Esports</title>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23e10600'/%3E%3Ctext x='50%25' y='54%25' font-family='Arial Black,sans-serif' font-size='40' font-weight='900' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --bg-card: #171717;
+            --bg-card-hover: #1f1f1f;
+            --red: #e10600;
+            --red-bright: #ff2020;
+            --red-glow: rgba(225, 6, 0, 0.35);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #6b6b6b;
+            --border: #232323;
+            --border-bright: #333333;
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        body.modal-open { overflow: hidden; }
+        a { color: inherit; text-decoration: none; transition: color var(--transition); }
+        img { max-width: 100%; display: block; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        ul { list-style: none; }
+        input, select { font-family: inherit; }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; position: relative; }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 0 24px var(--red-glow);
+        }
+        .btn-primary:hover {
+            background: var(--red-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px var(--red-glow), 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-bright);
+        }
+        .btn-outline:hover { border-color: var(--red); color: var(--red); }
+        .btn-sm { padding: 10px 18px; font-size: 11px; letter-spacing: 1px; }
+        .btn-block { width: 100%; }
+
+        /* PREVIEW NOTICE */
+        .preview-notice {
+            background: linear-gradient(90deg, #4a0a0a, #2a0808);
+            border-bottom: 1px solid rgba(225, 6, 0, 0.3);
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #ffb3b3;
+            position: relative;
+            z-index: 100;
+        }
+        .preview-notice strong { color: #fff; font-weight: 700; }
+
+        /* NAV */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; transition: transform var(--transition); }
+        .logo:hover { transform: scale(1.02); }
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            background: var(--red);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            color: #fff;
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .logo-text { display: flex; flex-direction: column; line-height: 1; }
+        .logo-main {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+        .logo-sub {
+            font-family: var(--font-display);
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--red);
+            margin-top: 2px;
+        }
+        .nav-links { display: flex; align-items: center; gap: 28px; }
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--red);
+            transition: width var(--transition);
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #fff; }
+        .nav-link.active::after { width: 100%; }
+        .nav-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid var(--border-bright);
+            color: #fff;
+        }
+        .nav-toggle:hover { border-color: var(--red); color: var(--red); }
+        .nav-toggle svg { width: 22px; height: 22px; }
+
+        /* PAGE HERO */
+        .page-hero {
+            position: relative;
+            padding: 100px 24px 80px;
+            text-align: center;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(225, 6, 0, 0.18) 0%, transparent 60%),
+                var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            pointer-events: none;
+        }
+        .page-hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+        .page-hero-label {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 20px;
+        }
+        .page-hero-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(36px, 7vw, 68px);
+            line-height: 1;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .page-hero-title .accent {
+            color: var(--red);
+            text-shadow: 0 0 40px var(--red-glow);
+        }
+        .page-hero-desc {
+            color: var(--text-secondary);
+            font-size: 17px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* FILTER BAR */
+        .filter-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 0;
+            position: sticky;
+            top: 72px;
+            z-index: 50;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .filter-inner {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+        .filter-search {
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+        }
+        .filter-search input {
+            width: 100%;
+            font-size: 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px 12px 44px;
+            color: #fff;
+            transition: border-color var(--transition);
+        }
+        .filter-search input::placeholder { color: var(--text-muted); }
+        .filter-search input:focus { outline: none; border-color: var(--red); }
+        .filter-search svg {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+        .filter-select {
+            font-size: 14px;
+            font-weight: 600;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 40px 12px 16px;
+            color: #fff;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            transition: border-color var(--transition);
+            min-width: 180px;
+        }
+        .filter-select:focus { outline: none; border-color: var(--red); }
+
+        /* COUNT BAR */
+        .count-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .count-text {
+            font-family: var(--font-display);
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .count-text strong { color: var(--red); }
+
+        /* TEAMS GRID */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .team-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 20px 24px;
+            text-align: center;
+            transition: all var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--team-gradient, var(--red));
+            opacity: 0;
+            transition: opacity var(--transition);
+        }
+        .team-card:hover {
+            border-color: var(--border-bright);
+            transform: translateY(-6px);
+            background: var(--bg-card-hover);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .team-card:hover::before { opacity: 1; }
+
+        .team-logo {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            color: #fff;
+            background: var(--team-gradient, linear-gradient(135deg, #e10600, #7a0400));
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            border: 3px solid var(--bg-primary);
+            transition: transform var(--transition);
+        }
+        .team-card:hover .team-logo { transform: scale(1.05); }
+
+        .team-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        .team-tag {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--red);
+            background: rgba(225, 6, 0, 0.1);
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+        .team-meta-row {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-muted);
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+        .team-meta-row span {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .team-meta-row strong { color: #fff; font-weight: 600; }
+
+        /* EMPTY STATE */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--bg-card);
+            border: 1px dashed var(--border-bright);
+            border-radius: var(--radius-lg);
+        }
+        .empty-state-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
+        .empty-state-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .empty-state-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* MODAL */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-backdrop.show { display: flex; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-bright);
+            border-radius: var(--radius-lg);
+            max-width: 640px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--border-bright);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all var(--transition);
+            z-index: 3;
+        }
+        .modal-close:hover {
+            background: var(--red);
+            border-color: var(--red);
+            transform: rotate(90deg);
+        }
+        .modal-close svg { width: 18px; height: 18px; }
+
+        .modal-hero {
+            padding: 40px 32px 32px;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at top, var(--team-gradient, rgba(225, 6, 0, 0.3)), transparent 70%),
+                var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .modal-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0 1px, transparent 1px 20px);
+            pointer-events: none;
+        }
+        .modal-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 34px;
+            color: #fff;
+            background: var(--team-gradient, linear-gradient(135deg, #e10600, #7a0400));
+            box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+            margin: 0 auto 20px;
+            border: 4px solid var(--bg-card);
+            position: relative;
+            z-index: 2;
+            letter-spacing: 1px;
+        }
+        .modal-team-name {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(22px, 4vw, 28px);
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+        }
+        .modal-team-tag {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--red);
+            background: rgba(225, 6, 0, 0.15);
+            padding: 5px 14px;
+            border-radius: 4px;
+            position: relative;
+            z-index: 2;
+        }
+        .modal-game-badge {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--border-bright);
+            color: var(--text-secondary);
+            padding: 5px 12px;
+            border-radius: 4px;
+            margin-left: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .modal-body { padding: 32px; }
+
+        .modal-section-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal-section-title::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background: var(--red);
+            border-radius: 2px;
+        }
+
+        .roster-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+        .roster-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: border-color var(--transition);
+        }
+        .roster-item:hover { border-color: var(--border-bright); }
+        .roster-item.substitute { border-style: dashed; opacity: 0.85; }
+        .roster-item.captain { border-color: rgba(225, 6, 0, 0.4); }
+
+        .roster-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 14px;
+            color: #fff;
+            background: var(--team-gradient, linear-gradient(135deg, #e10600, #7a0400));
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+        }
+        .roster-item.captain .roster-avatar {
+            box-shadow: 0 0 0 2px var(--red);
+        }
+        .roster-info { flex: 1; min-width: 0; }
+        .roster-ign {
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .roster-captain-badge {
+            font-family: var(--font-display);
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: rgba(225, 6, 0, 0.15);
+            color: var(--red);
+            padding: 2px 6px;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+        .roster-role {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+        .roster-slot {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            background: var(--bg-card);
+            border: 1px solid var(--border-bright);
+            padding: 4px 8px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        .roster-item.substitute .roster-slot {
+            color: var(--red);
+            border-color: rgba(225, 6, 0, 0.4);
+        }
+
+        .modal-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+        }
+        .modal-stat { text-align: center; }
+        .modal-stat-value {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22px;
+            color: var(--red);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .modal-stat-label {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .modal-actions .btn { flex: 1; min-width: 0; }
+
+        /* FOOTER */
+        .footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            padding: 64px 0 32px;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        .footer-brand .logo { margin-bottom: 20px; }
+        .footer-tagline { color: var(--text-secondary); font-size: 14px; max-width: 320px; }
+        .footer-heading {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .footer-links { display: flex; flex-direction: column; gap: 12px; }
+        .footer-link { font-size: 14px; color: var(--text-secondary); transition: color var(--transition); }
+        .footer-link:hover { color: var(--red); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy { font-size: 13px; color: var(--text-muted); }
+        .footer-copy strong { color: var(--red); font-weight: 600; }
+        .footer-note { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .teams-grid { grid-template-columns: repeat(3, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 40px 0; }
+            .page-hero { padding: 70px 20px 60px; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: var(--bg-secondary);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 16px;
+            }
+            .nav-links.active { display: flex; }
+            .nav-link { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+            .nav-link::after { display: none; }
+            .nav-toggle { display: flex; }
+            .teams-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .team-card { padding: 24px 16px 20px; }
+            .team-logo { width: 64px; height: 64px; font-size: 22px; margin-bottom: 14px; }
+            .team-name { font-size: 14px; }
+            .filter-inner { grid-template-columns: 1fr; }
+            .filter-select { width: 100%; }
+            .modal { max-height: 95vh; border-radius: var(--radius-md); }
+            .modal-hero { padding: 32px 20px 24px; }
+            .modal-logo { width: 80px; height: 80px; font-size: 26px; }
+            .modal-body { padding: 24px 20px; }
+            .modal-actions { flex-direction: column; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .teams-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preview-notice">
+        ⚠️ <strong>Design Preview</strong> — All teams shown are sample data for demonstration. Real teams will appear here once the backend is connected.
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="index.html" class="logo" aria-label="BCE Esports Home">
+                <div class="logo-mark">B</div>
+                <div class="logo-text">
+                    <span class="logo-main">BCE</span>
+                    <span class="logo-sub">ESPORTS</span>
+                </div>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="tournaments.html" class="nav-link">Tournaments</a>
+                <a href="teams.html" class="nav-link active">Teams</a>
+                <a href="index.html#announcements" class="nav-link">News</a>
+                <a href="index.html#community" class="nav-link">Contact</a>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                    <path d="M3 6h18M3 12h18M3 18h18"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <span class="page-hero-label">The Squads</span>
+            <h1 class="page-hero-title">Meet the <span class="accent">Teams</span></h1>
+            <p class="page-hero-desc">
+                Every squad representing BCE Esports across multiple games and tournaments. Click any team to view their full roster.
+            </p>
+        </div>
+    </section>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+        <div class="container filter-inner">
+            <div class="filter-search">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search team name or tag...">
+            </div>
+            <select class="filter-select" id="gameSelect">
+                <option value="all">All Games</option>
+                <option value="bgmi">BGMI</option>
+                <option value="freefire">Free Fire</option>
+                <option value="valorant">Valorant</option>
+                <option value="codm">COD Mobile</option>
+                <option value="chess">Chess</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- TEAMS LISTING -->
+    <section class="section">
+        <div class="container">
+            <div class="count-bar">
+                <div class="count-text">
+                    Showing <strong id="visibleCount">0</strong> of <strong id="totalCount">0</strong> teams
+                </div>
+            </div>
+
+            <div class="teams-grid" id="teamsGrid">
+                <!-- Cards injected by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL -->
+    <div class="modal-backdrop" id="modalBackdrop">
+        <div class="modal" id="teamModal">
+            <button class="modal-close" id="modalClose" aria-label="Close">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <div class="modal-hero" id="modalHero">
+                <div class="modal-logo" id="modalLogo">—</div>
+                <h2 class="modal-team-name" id="modalTeamName">—</h2>
+                <div>
+                    <span class="modal-team-tag" id="modalTeamTag">—</span>
+                    <span class="modal-game-badge" id="modalGameBadge">—</span>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-stats">
+                    <div class="modal-stat">
+                        <div class="modal-stat-value" id="modalStatMatches">—</div>
+                        <div class="modal-stat-label">Matches</div>
+                    </div>
+                    <div class="modal-stat">
+                        <div class="modal-stat-value" id="modalStatWins">—</div>
+                        <div class="modal-stat-label">Wins</div>
+                    </div>
+                    <div class="modal-stat">
+                        <div class="modal-stat-value" id="modalStatWinRate">—</div>
+                        <div class="modal-stat-label">Win Rate</div>
+                    </div>
+                </div>
+
+                <h3 class="modal-section-title">Roster</h3>
+                <div class="roster-list" id="modalRoster">
+                    <!-- Roster injected -->
+                </div>
+
+                <div class="modal-actions">
+                    <a href="tournaments.html" class="btn btn-primary btn-sm">View Tournaments</a>
+                    <button class="btn btn-outline btn-sm" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-mark">B</div>
+                        <div class="logo-text">
+                            <span class="logo-main">BCE</span>
+                            <span class="logo-sub">ESPORTS</span>
+                        </div>
+                    </a>
+                    <p class="footer-tagline">
+                        The official competitive gaming platform of Bakhtiyarpur College of Engineering, Bihar.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Platform</h4>
+                    <div class="footer-links">
+                        <a href="about.html" class="footer-link">About Us</a>
+                        <a href="tournaments.html" class="footer-link">Tournaments</a>
+                        <a href="teams.html" class="footer-link">Teams</a>
+                        <a href="index.html#results" class="footer-link">Results</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Games</h4>
+                    <div class="footer-links">
+                        <a href="index.html#games" class="footer-link">Free Fire</a>
+                        <a href="index.html#games" class="footer-link">BGMI</a>
+                        <a href="index.html#games" class="footer-link">Valorant</a>
+                        <a href="index.html#games" class="footer-link">COD Mobile</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Connect</h4>
+                    <div class="footer-links">
+                        <a href="index.html#community" class="footer-link">Discord</a>
+                        <a href="index.html#community" class="footer-link">Instagram</a>
+                        <a href="index.html#community" class="footer-link">YouTube</a>
+                        <a href="index.html#announcements" class="footer-link">News</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy">© 2026 <strong>BCE Esports</strong> · All rights reserved.</p>
+                <p class="footer-note">Design Preview · Sample data</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ==================================================
+           MOBILE MENU
+           ================================================== */
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+
+        /* ==================================================
+           SAMPLE TEAMS DATA
+           ================================================== */
+        const teams = [
+            {
+                id: 'TM-00001',
+                name: 'BCE Vipers',
+                tag: 'BCEV',
+                game: 'bgmi',
+                gameName: 'BGMI',
+                gradient: 'linear-gradient(135deg, #e10600, #7a0400)',
+                matches: 24, wins: 18,
+                roster: [
+                    { ign: 'ViperOP', role: 'IGL', captain: true },
+                    { ign: 'SniperX', role: 'Sniper' },
+                    { ign: 'Tank', role: 'Assaulter' },
+                    { ign: 'Ghost', role: 'Support' },
+                    { ign: 'Falcon', role: 'Sub', sub: true }
+                ]
+            },
+            {
+                id: 'TM-00002',
+                name: 'Phantom Squad',
+                tag: 'PHNT',
+                game: 'valorant',
+                gameName: 'Valorant',
+                gradient: 'linear-gradient(135deg, #f59e0b, #7a0400)',
+                matches: 18, wins: 13,
+                roster: [
+                    { ign: 'PhantomKing', role: 'IGL', captain: true },
+                    { ign: 'AceShot', role: 'Duelist' },
+                    { ign: 'Smoke', role: 'Controller' },
+                    { ign: 'Warden', role: 'Sentinel' },
+                    { ign: 'Scout', role: 'Initiator' }
+                ]
+            },
+            {
+                id: 'TM-00003',
+                name: 'Red X',
+                tag: 'RDX',
+                game: 'freefire',
+                gameName: 'Free Fire',
+                gradient: 'linear-gradient(135deg, #2563eb, #1e293b)',
+                matches: 20, wins: 14,
+                roster: [
+                    { ign: 'RedLeader', role: 'IGL', captain: true },
+                    { ign: 'FireX', role: 'Assaulter' },
+                    { ign: 'BloodEye', role: 'Sniper' },
+                    { ign: 'Blaze', role: 'Support' }
+                ]
+            },
+            {
+                id: 'TM-00004',
+                name: 'Team Zenith',
+                tag: 'TZN',
+                game: 'codm',
+                gameName: 'COD Mobile',
+                gradient: 'linear-gradient(135deg, #8b5cf6, #1e1b4b)',
+                matches: 15, wins: 10,
+                roster: [
+                    { ign: 'ZenMaster', role: 'IGL', captain: true },
+                    { ign: 'Reaper', role: 'Assaulter' },
+                    { ign: 'Cipher', role: 'Sniper' },
+                    { ign: 'Nova', role: 'Support' },
+                    { ign: 'Echo', role: 'Sub', sub: true }
+                ]
+            },
+            {
+                id: 'TM-00005',
+                name: 'Storm Elite',
+                tag: 'STEL',
+                game: 'bgmi',
+                gameName: 'BGMI',
+                gradient: 'linear-gradient(135deg, #10b981, #064e3b)',
+                matches: 22, wins: 15,
+                roster: [
+                    { ign: 'StormEye', role: 'IGL', captain: true },
+                    { ign: 'Thunder', role: 'Assaulter' },
+                    { ign: 'Bolt', role: 'Sniper' },
+                    { ign: 'Hail', role: 'Support' }
+                ]
+            },
+            {
+                id: 'TM-00006',
+                name: 'Iron Guardians',
+                tag: 'IRGD',
+                game: 'valorant',
+                gameName: 'Valorant',
+                gradient: 'linear-gradient(135deg, #ef4444, #7f1d1d)',
+                matches: 14, wins: 9,
+                roster: [
+                    { ign: 'GuardianX', role: 'IGL', captain: true },
+                    { ign: 'IronFist', role: 'Duelist' },
+                    { ign: 'Shield', role: 'Sentinel' },
+                    { ign: 'Flash', role: 'Initiator' },
+                    { ign: 'Watch', role: 'Controller' }
+                ]
+            },
+            {
+                id: 'TM-00007',
+                name: 'Shadow Kings',
+                tag: 'SHDK',
+                game: 'freefire',
+                gameName: 'Free Fire',
+                gradient: 'linear-gradient(135deg, #06b6d4, #164e63)',
+                matches: 16, wins: 8,
+                roster: [
+                    { ign: 'ShadowKing', role: 'IGL', captain: true },
+                    { ign: 'Raven', role: 'Assaulter' },
+                    { ign: 'Noctis', role: 'Sniper' },
+                    { ign: 'Dusk', role: 'Support' }
+                ]
+            },
+            {
+                id: 'TM-00008',
+                name: 'Avalanche',
+                tag: 'AVLN',
+                game: 'bgmi',
+                gameName: 'BGMI',
+                gradient: 'linear-gradient(135deg, #facc15, #713f12)',
+                matches: 19, wins: 11,
+                roster: [
+                    { ign: 'AvalancheX', role: 'IGL', captain: true },
+                    { ign: 'Frost', role: 'Assaulter' },
+                    { ign: 'Glacier', role: 'Sniper' },
+                    { ign: 'Ice', role: 'Support' }
+                ]
+            },
+            {
+                id: 'TM-00009',
+                name: 'Night Kings',
+                tag: 'NGTK',
+                game: 'codm',
+                gameName: 'COD Mobile',
+                gradient: 'linear-gradient(135deg, #ec4899, #500724)',
+                matches: 12, wins: 7,
+                roster: [
+                    { ign: 'NightKing', role: 'IGL', captain: true },
+                    { ign: 'Moon', role: 'Assaulter' },
+                    { ign: 'Star', role: 'Sniper' },
+                    { ign: 'Void', role: 'Support' }
+                ]
+            },
+            {
+                id: 'TM-00010',
+                name: 'Team Legacy',
+                tag: 'TMLG',
+                game: 'valorant',
+                gameName: 'Valorant',
+                gradient: 'linear-gradient(135deg, #84cc16, #365314)',
+                matches: 17, wins: 12,
+                roster: [
+                    { ign: 'LegacyLead', role: 'IGL', captain: true },
+                    { ign: 'Prophecy', role: 'Duelist' },
+                    { ign: 'Oracle', role: 'Controller' },
+                    { ign: 'Keeper', role: 'Sentinel' },
+                    { ign: 'Spark', role: 'Initiator' }
+                ]
+            },
+            {
+                id: 'TM-00011',
+                name: 'Grandmasters',
+                tag: 'GRND',
+                game: 'chess',
+                gameName: 'Chess',
+                gradient: 'linear-gradient(135deg, #a855f7, #4c1d95)',
+                matches: 30, wins: 24,
+                roster: [
+                    { ign: 'CheckmateKing', role: 'Player 1', captain: true }
+                ]
+            },
+            {
+                id: 'TM-00012',
+                name: 'Solar Ravens',
+                tag: 'SLRV',
+                game: 'freefire',
+                gameName: 'Free Fire',
+                gradient: 'linear-gradient(135deg, #f97316, #7c2d12)',
+                matches: 13, wins: 8,
+                roster: [
+                    { ign: 'SolarFlare', role: 'IGL', captain: true },
+                    { ign: 'Raven', role: 'Assaulter' },
+                    { ign: 'Ember', role: 'Sniper' },
+                    { ign: 'Sunfire', role: 'Support' }
+                ]
+            }
+        ];
+
+        /* ==================================================
+           STATE
+           ================================================== */
+        let activeGame = 'all';
+        let searchTerm = '';
+
+        /* ==================================================
+           DOM REFS
+           ================================================== */
+        const grid = document.getElementById('teamsGrid');
+        const visibleCountEl = document.getElementById('visibleCount');
+        const totalCountEl = document.getElementById('totalCount');
+        const searchInput = document.getElementById('searchInput');
+        const gameSelect = document.getElementById('gameSelect');
+
+        /* ==================================================
+           HELPERS
+           ================================================== */
+        function initials(name) {
+            return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        }
+
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        /* ==================================================
+           RENDER CARDS
+           ================================================== */
+        function buildCard(t) {
+            const logoText = initials(t.name);
+            return `
+                <div class="team-card" data-id="${t.id}" style="--team-gradient: ${t.gradient};">
+                    <div class="team-logo">${escapeHtml(logoText)}</div>
+                    <div class="team-name">${escapeHtml(t.name)}</div>
+                    <span class="team-tag">${escapeHtml(t.tag)}</span>
+                    <div class="team-meta-row">
+                        <span><strong>${t.roster.length}</strong> Players</span>
+                        <span>${escapeHtml(t.gameName)}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function render() {
+            const filtered = teams.filter(t => {
+                const matchGame = activeGame === 'all' || t.game === activeGame;
+                const matchSearch = searchTerm === '' ||
+                    t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    t.tag.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchGame && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <div class="empty-state-title">No teams found</div>
+                        <div class="empty-state-desc">Try changing your filters or search term.</div>
+                        <button class="btn btn-primary btn-sm" onclick="clearFilters()">Clear Filters</button>
+                    </div>
+                `;
+            } else {
+                grid.innerHTML = filtered.map(buildCard).join('');
+                // Attach click handlers
+                grid.querySelectorAll('.team-card').forEach(card => {
+                    card.addEventListener('click', () => openModal(card.dataset.id));
+                });
+            }
+
+            visibleCountEl.textContent = filtered.length;
+            totalCountEl.textContent = teams.length;
+        }
+
+        function clearFilters() {
+            activeGame = 'all';
+            searchTerm = '';
+            searchInput.value = '';
+            gameSelect.value = 'all';
+            render();
+        }
+
+        /* ==================================================
+           MODAL
+           ================================================== */
+        const modalBackdrop = document.getElementById('modalBackdrop');
+
+        function openModal(teamId) {
+            const team = teams.find(t => t.id === teamId);
+            if (!team) return;
+
+            // Hero
+            document.getElementById('modalHero').style.setProperty('--team-gradient', team.gradient);
+            document.getElementById('modalLogo').textContent = initials(team.name);
+            document.getElementById('modalLogo').style.background = team.gradient;
+            document.getElementById('modalTeamName').textContent = team.name;
+            document.getElementById('modalTeamTag').textContent = team.tag;
+            document.getElementById('modalGameBadge').textContent = team.gameName;
+
+            // Stats
+            document.getElementById('modalStatMatches').textContent = team.matches;
+            document.getElementById('modalStatWins').textContent = team.wins;
+            const rate = team.matches > 0 ? Math.round((team.wins / team.matches) * 100) : 0;
+            document.getElementById('modalStatWinRate').textContent = rate + '%';
+
+            // Roster
+            const rosterEl = document.getElementById('modalRoster');
+            rosterEl.innerHTML = '';
+            team.roster.forEach((p, idx) => {
+                const slotLabel = p.sub ? 'SUB' : 'P' + (idx + 1);
+                const classes = ['roster-item'];
+                if (p.captain) classes.push('captain');
+                if (p.sub) classes.push('substitute');
+
+                const div = document.createElement('div');
+                div.className = classes.join(' ');
+                div.innerHTML = `
+                    <div class="roster-avatar" style="background: ${team.gradient};">${escapeHtml(p.ign.slice(0, 2).toUpperCase())}</div>
+                    <div class="roster-info">
+                        <div class="roster-ign">
+                            ${escapeHtml(p.ign)}
+                            ${p.captain ? '<span class="roster-captain-badge">Captain</span>' : ''}
+                        </div>
+                        <div class="roster-role">${escapeHtml(p.role)}</div>
+                    </div>
+                    <span class="roster-slot">${slotLabel}</span>
+                `;
+                rosterEl.appendChild(div);
+            });
+
+            // Show
+            modalBackdrop.classList.add('show');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal() {
+            modalBackdrop.classList.remove('show');
+            document.body.classList.remove('modal-open');
+        }
+
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+
+        // Close when clicking backdrop
+        modalBackdrop.addEventListener('click', (e) => {
+            if (e.target === modalBackdrop) closeModal();
+        });
+
+        // Close on ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalBackdrop.classList.contains('show')) {
+                closeModal();
+            }
+        });
+
+        /* ==================================================
+           FILTER HANDLERS
+           ================================================== */
+        searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            render();
+        });
+
+        gameSelect.addEventListener('change', (e) => {
+            activeGame = e.target.value;
+            render();
+        });
+
+        /* ==================================================
+           INIT
+           ================================================== */
+        render();
+    </script>
+</body>
+</html>
