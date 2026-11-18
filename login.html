@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — BCE ESPORTS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body class="login-page">
+<main class="login-container">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-mark large">B</div>
+      <h1>BCE <span class="accent">ADMIN</span></h1>
+      <p>Sign in to manage the platform</p>
+    </div>
+    <form id="loginForm" class="login-form" autocomplete="on">
+      <label>
+        <span>Email</span>
+        <input type="email" id="email" required autocomplete="username" placeholder="admin@bce-esports.local">
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="password" id="password" required autocomplete="current-password" placeholder="••••••••">
+      </label>
+      <button type="submit" id="loginBtn" class="btn btn-primary btn-block">Sign In</button>
+      <div id="loginError" class="login-error" hidden></div>
+    </form>
+    <p class="login-foot">Authorized personnel only · BCE ESPORTS</p>
+  </div>
+</main>
+<script src="assets/js/admin-api.js"></script>
+<script>
+(async () => {
+  if (ADMIN_API.getToken()) {
+    const r = await ADMIN_API.get('admin.getSession');
+    if (r.success) { window.location.href = 'index.html'; return; }
+    ADMIN_API.clearToken();
+  }
+  const form = document.getElementById('loginForm');
+  const btn = document.getElementById('loginBtn');
+  const err = document.getElementById('loginError');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    err.hidden = true;
+    btn.disabled = true;
+    btn.textContent = 'Signing in...';
+    try {
+      const res = await ADMIN_API.login(
+        document.getElementById('email').value.trim(),
+        document.getElementById('password').value
+      );
+      if (!res.success) {
+        err.textContent = res.message || 'Login failed';
+        err.hidden = false;
+      } else {
+        ADMIN_API.setToken(res.data.token);
+        ADMIN_API.setAdmin(res.data.admin);
+        window.location.href = 'index.html';
+      }
+    } catch (ex) {
+      err.textContent = 'Network error. Try again.';
+      err.hidden = false;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Sign In';
+    }
+  });
+})();
+</script>
+</body>
+</html>
